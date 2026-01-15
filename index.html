@@ -7,201 +7,93 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; }
-        .hero { background: #2e7d32; color: white; padding: 1.5rem 1rem; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; }
-        .card-menu { border: none; border-radius: 15px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card-menu:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        #adminPanel { display: none; }
-        .santri-list { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; }
-        .btn-group-absen .btn { font-size: 0.65rem; font-weight: bold; padding: 8px 2px; opacity: 0.4; }
-        .btn-group-absen .btn.active { opacity: 1; transform: scale(1.08); border: 2px solid #000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .rekap-container { background: #fff; border-radius: 15px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .table-rekap { font-size: 0.85rem; }
+        :root { --primary: #1b5e20; --accent: #ffd700; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #fdfdfd; overflow: hidden; }
+
+        /* 1. INTRO VIDEO (SPLASH SCREEN) */
+        #intro-screen {
+            position: fixed; inset: 0; background: white; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #intro-video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 2. LAMAN UTAMA */
+        #main-page { display: none; height: 100vh; flex-direction: column; padding: 20px; }
+
+        /* Atas: Logo & Jam */
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: auto; }
+        .logo-small { width: 50px; height: 50px; background: #eee; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+        #jam-wib { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+
+        /* Tengah: Judul & Sub-judul */
+        .brand-section { text-align: center; margin-bottom: 50px; }
+        .brand-title { color: var(--primary); font-weight: 800; font-size: 1.8rem; margin-bottom: 5px; }
+        .brand-sub { color: #666; font-style: italic; font-size: 0.95rem; }
+
+        /* Bawah: Kotak Pilihan Role */
+        .role-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px; }
+        .role-card {
+            border: 2px solid #eee; border-radius: 20px; padding: 25px 15px;
+            text-align: center; cursor: pointer; transition: 0.3s; background: white;
+        }
+        .role-card:active { transform: scale(0.95); border-color: var(--primary); background: #e8f5e9; }
+        .role-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+        .role-name { font-weight: 700; color: #333; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-<div id="loader" class="loading-overlay"><div class="spinner-border text-success"></div></div>
-
-<div id="mainDashboard">
-    <div class="hero text-center mb-4">
-        <h2 class="fw-bold">Madin Digital</h2>
-        <p>Manajemen Santri & Laporan</p>
+    <div id="intro-screen">
+        <video id="intro-video" autoplay muted playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-white-ink-spreading-in-water-background-animation-316-large.mp4" type="video/mp4">
+        </video>
     </div>
-    <div class="container">
-        <div class="row g-3">
-            <div class="col-6" onclick="bukaLogin('Absensi')"><div class="card card-menu text-center p-4"><h3>📝</h3><h6>Absensi</h6></div></div>
-            <div class="col-6" onclick="bukaLogin('Hafalan')"><div class="card card-menu text-center p-4"><h3>📖</h3><h6>Hafalan</h6></div></div>
-            <div class="col-12" onclick="bukaLogin('Data Santri')"><div class="card card-menu text-center p-4"><h3>👥</h3><h6>Kelola Data Santri</h6></div></div>
+
+    <div id="main-page">
+        <div class="header-top">
+            <div class="logo-small">LOGO</div>
+            <div id="jam-wib">00:00:00</div>
+        </div>
+
+        <div class="brand-section">
+            <h1 class="brand-title">Madrasah Diniyah<br>Nurul Yusuf</h1>
+            <p class="brand-sub">"Mencetak generasi pecinta Al-Qur'an"</p>
+        </div>
+
+        <div class="role-container">
+            <div class="role-card" onclick="pilihRole('Ustadz')">
+                <span class="role-icon">👳‍♂️</span>
+                <span class="role-name">Ustadz /<br>Ustadzah</span>
+            </div>
+            <div class="role-card" onclick="pilihRole('Wali')">
+                <span class="role-icon">👨‍👩-👧</span>
+                <span class="role-name">Wali<br>Santri</span>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="adminPanel" class="container mt-3 pb-5">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <button class="btn btn-secondary btn-sm" onclick="location.reload()"><i class="bi bi-arrow-left"></i></button>
-        <h5 id="panelTitle" class="m-0 fw-bold text-success text-uppercase">PANEL</h5>
-        <div id="calendarIcon" style="display:none">
-            <input type="date" id="tglFilter" class="form-control form-control-sm" onchange="loadSantri()">
-        </div>
-    </div>
-    
-    <div class="santri-list">
-        <div id="tambahSantriSection" class="d-flex mb-3" style="display:none">
-            <input type="text" id="namaSantriBaru" class="form-control me-2" placeholder="Nama Santri Baru...">
-            <button class="btn btn-success" onclick="tambahSantri()">Tambah</button>
-        </div>
-        <div id="daftarSantri" class="list-group"></div>
-    </div>
+    <script>
+        // Logika Video Intro Selesai
+        const v = document.getElementById('intro-video');
+        v.onended = function() {
+            document.getElementById('intro-screen').style.display = 'none';
+            document.getElementById('main-page').style.display = 'flex';
+            document.body.style.overflow = 'auto';
+        };
 
-    <div id="sectionRekapOtomatis" class="rekap-container" style="display: none;">
-        <h6 class="fw-bold text-success mb-3"><i class="bi bi-graph-up"></i> REKAP TOTAL KEHADIRAN</h6>
-        <div id="tabelRekapContainer" class="table-responsive"></div>
-    </div>
-</div>
+        // Fungsi Jam WIB Otomatis
+        function updateJam() {
+            const now = new Date();
+            const jam = now.toLocaleTimeString('id-ID', { hour12: false });
+            document.getElementById('jam-wib').innerText = jam + " WIB";
+        }
+        setInterval(updateJam, 1000);
+        updateJam();
 
-<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered"><div class="modal-content border-0 shadow"><div class="modal-body p-4 text-center">
-        <h6 class="mb-3 fw-bold">Login Guru</h6>
-        <input type="password" id="passInput" class="form-control mb-3 text-center form-control-lg" placeholder="Masukkan Password">
-        <button class="btn btn-success w-100 btn-lg" onclick="cekLogin()">Masuk</button>
-    </div></div></div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    
-    const API_URL = "https://script.google.com/macros/s/AKfycbyHeSApcUFm6j0bCc_68QWI3PuogjeU3TnnVhbF9nV-X1AfQ65TBm_86qjBTEjg4Kpm/exec"; 
-    let currentMenu = "";
-    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-
-    document.getElementById('tglFilter').valueAsDate = new Date();
-
-    function bukaLogin(menu) { currentMenu = menu; loginModal.show(); }
-
-    async function cekLogin() {
-        const pass = document.getElementById('passInput').value;
-        if(!pass) return;
-        showLoading(true);
-        try {
-            const res = await fetch(`${API_URL}?action=login&pass=${encodeURIComponent(pass)}`);
-            const result = await res.text();
-            if (result.trim() === "SUCCESS") {
-                loginModal.hide();
-                document.getElementById('mainDashboard').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('panelTitle').innerText = currentMenu;
-                document.getElementById('calendarIcon').style.display = (currentMenu === 'Absensi') ? 'block' : 'none';
-                document.getElementById('tambahSantriSection').style.display = (currentMenu === 'Data Santri') ? 'flex' : 'none';
-                
-                if(currentMenu === 'Absensi') {
-                    document.getElementById('sectionRekapOtomatis').style.display = 'block';
-                    loadRekap();
-                } else {
-                    document.getElementById('sectionRekapOtomatis').style.display = 'none';
-                }
-                loadSantri();
-            } else { alert("Password Salah!"); }
-        } catch (e) { alert("Gagal menyambung ke server."); } finally { showLoading(false); }
-    }
-
-    async function loadSantri() {
-        const container = document.getElementById('daftarSantri');
-        const tglDoc = new Date(document.getElementById('tglFilter').value).toLocaleDateString('id-ID');
-        container.innerHTML = "<p class='text-center text-muted p-3'>Memuat data...</p>";
-        
-        try {
-            // Menjalankan dua request sekaligus agar lebih cepat
-            const [resData, resCheck] = await Promise.all([
-                fetch(`${API_URL}?action=read`).then(r => r.json()),
-                fetch(`${API_URL}?action=checkToday&tanggal=${tglDoc}`).then(r => r.json())
-            ]);
-
-            container.innerHTML = "";
-            resData.forEach(item => {
-                const nama = item[1];
-                const statusSkrg = resCheck[nama] || "";
-                
-                let actionHtml = "";
-                if(currentMenu === 'Absensi') {
-                    actionHtml = `
-                        <div class="d-flex justify-content-between gap-1 mt-2 btn-group-absen">
-                            <button class="btn btn-success flex-fill ${statusSkrg==='HADIR'?'active':''}" onclick="kirimAbsen('${nama}','HADIR')">HADIR</button>
-                            <button class="btn btn-warning flex-fill ${statusSkrg==='IZIN'?'active':''}" onclick="kirimAbsen('${nama}','IZIN')">IZIN</button>
-                            <button class="btn btn-danger flex-fill ${statusSkrg==='SAKIT'?'active':''}" onclick="kirimAbsen('${nama}','SAKIT')">SAKIT</button>
-                            <button class="btn btn-secondary flex-fill ${statusSkrg==='ALPHA'?'active':''}" onclick="kirimAbsen('${nama}','ALPHA')">ALPHA</button>
-                        </div>`;
-                } else if(currentMenu === 'Data Santri') {
-                    actionHtml = `<button class="btn btn-sm btn-outline-danger mt-2 w-100" onclick="hapusSantri('${nama}')"><i class="bi bi-trash"></i> Hapus Santri</button>`;
-                }
-
-                container.innerHTML += `
-                    <div class="list-group-item mb-2 border-0 shadow-sm p-3" style="border-radius:12px;">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <strong style="color: #2e7d32;">${nama}</strong>
-                            ${statusSkrg ? `<span class="badge bg-success" style="font-size:10px">Sudah Absen: ${statusSkrg}</span>` : ''}
-                        </div>
-                        ${actionHtml}
-                    </div>`;
-            });
-        } catch(e) { container.innerHTML = "<p class='text-center text-danger'>Gagal memuat data.</p>"; }
-    }
-
-    async function kirimAbsen(nama, status) {
-        const tglDoc = new Date(document.getElementById('tglFilter').value).toLocaleDateString('id-ID');
-        showLoading(true);
-        try {
-          const res = await fetch(`${API_URL}?action=absen&nama=${encodeURIComponent(nama)}&status=${status}&tanggal=${tglDoc}`);
-          const result = await res.text();
-          // Jika sukses, langsung update UI tanpa perlu refresh halaman manual
-          await loadSantri(); 
-          await loadRekap(); 
-        } catch (e) { alert("Gagal mengirim absensi."); } finally { showLoading(false); }
-    }
-
-    async function tambahSantri() {
-        const nama = document.getElementById('namaSantriBaru').value;
-        if(!nama) return alert("Isi nama santri!");
-        showLoading(true);
-        try {
-            await fetch(`${API_URL}?action=add&nama=${encodeURIComponent(nama)}&kelas=Madin`);
-            document.getElementById('namaSantriBaru').value = "";
-            loadSantri();
-        } catch (e) { alert("Gagal menambah santri."); } finally { showLoading(false); }
-    }
-
-    async function hapusSantri(nama) {
-        if(!confirm(`Hapus ${nama} dari data?`)) return;
-        showLoading(true);
-        try {
-            await fetch(`${API_URL}?action=deleteSantri&nama=${encodeURIComponent(nama)}`);
-            loadSantri();
-        } catch (e) { alert("Gagal menghapus."); } finally { showLoading(false); }
-    }
-
-    async function loadRekap() {
-        const container = document.getElementById('tabelRekapContainer');
-        try {
-            const res = await fetch(`${API_URL}?action=readRekap`);
-            const data = await res.json();
-            let html = `<table class="table table-sm text-center table-bordered table-rekap mt-2">
-                <thead class="table-dark"><tr><th>Nama</th><th>H</th><th>I</th><th>S</th><th>A</th></tr></thead><tbody>`;
-            data.forEach(item => {
-                if(!item[0]) return;
-                html += `<tr>
-                    <td class="text-start fw-bold">${item[0]}</td>
-                    <td class="text-success fw-bold">${item[1] || 0}</td>
-                    <td class="text-warning fw-bold">${item[2] || 0}</td>
-                    <td class="text-danger fw-bold">${item[3] || 0}</td>
-                    <td class="text-secondary fw-bold">${item[4] || 0}</td>
-                </tr>`;
-            });
-            container.innerHTML = html + "</tbody></table>";
-        } catch(e) { container.innerHTML = "<p class='text-center text-muted'>Gagal memuat rekap.</p>"; }
-    }
-
-    function showLoading(val) { document.getElementById('loader').style.display = val ? 'flex' : 'none'; }
-</script>
+        // Fungsi Klik Role
+        function pilihRole(role) {
+            alert("Role terpilih: " + role + "\n(Halaman berikutnya belum dibuat)");
+        }
+    </script>
 </body>
 </html>
