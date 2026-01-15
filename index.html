@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madin Digital - Yusuf</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .hero { background: #2e7d32; color: white; padding: 2rem 1rem; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; }
+        .card-menu { border: none; border-radius: 15px; transition: 0.3s; cursor: pointer; }
+        .card-menu:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+<div class="hero text-center mb-4">
+    <h2>Madin Digital</h2>
+    <p>Manajemen Absensi & Hafalan Santri</p>
+</div>
+
+<div class="container">
+    <div id="app" class="row g-3">
+        <div class="col-6">
+            <div class="card card-menu text-center p-4 bg-white" onclick="alert('Menu Absensi')">
+                <div class="display-4">📝</div>
+                <h6 class="mt-2">Absensi</h6>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card card-menu text-center p-4 bg-white" onclick="alert('Menu Hafalan')">
+                <div class="display-4">📖</div>
+                <h6 class="mt-2">Hafalan</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // URL Web App dari Google Apps Script Anda tadi
+    const API_URL = "PASTE_URL_APPS_SCRIPT_ANDA_DISINI";
+    
+    console.log("Aplikasi Siap. Menghubungkan ke: " + API_URL);
+</script>
+
+</body>
+</html>
