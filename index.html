@@ -3,84 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Madin Digital - Gen Z Islamic</title>
+    <title>Madin Digital</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         :root { 
             --primary-green: #1b5e20; 
             --light-green: #e8f5e9;
             --accent-gold: #c5a059;
+            --glass: rgba(255, 255, 255, 0.9);
         }
         
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%;
-            font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: #fdfdfd;
-            /* Pattern Islami Halus */
-            background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
-            overflow: hidden;
+            /* Pattern Islami Super Lembut */
+            background-image: linear-gradient(rgba(253,253,253,0.97), rgba(253,253,253,0.97)), url('https://www.transparenttextures.com/patterns/arabesque.png');
         }
 
         /* INTRO VIDEO */
-        #intro-screen {
-            position: fixed; inset: 0; background: white; z-index: 10000;
-            display: flex; align-items: center; justify-content: center;
-        }
+        #intro-screen { position: fixed; inset: 0; background: white; z-index: 10000; display: flex; align-items: center; justify-content: center; }
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* MAIN PAGE */
-        #main-page { 
-            display: none; height: 100%; width: 100%;
-            flex-direction: column; justify-content: space-between;
-            padding: 40px 25px; box-sizing: border-box;
+        /* HEADER DASHBOARD (Laman 2) */
+        .header-dashboard { 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 15px 20px; background: white; border-bottom: 1px solid #eee;
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .logo-box { width: 40px; height: 40px; background: var(--light-green); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--primary-green); font-size: 0.6rem; }
+        .header-title { font-weight: 800; color: var(--primary-green); font-size: 0.9rem; line-height: 1.1; margin: 0; }
+        #jam-v2 { font-weight: 800; color: var(--primary-green); font-size: 0.8rem; }
+
+        /* TOP NAVIGATION TABS */
+        .top-nav { display: flex; background: white; padding: 5px 15px; gap: 10px; border-bottom: 1px solid #eee; overflow-x: auto; scrollbar-width: none; }
+        .nav-tab { 
+            padding: 10px 20px; border-radius: 50px; border: none; background: transparent; 
+            color: #888; font-weight: 700; font-size: 0.85rem; white-space: nowrap; transition: 0.3s;
+        }
+        .nav-tab.active { background: var(--primary-green); color: white; box-shadow: 0 4px 12px rgba(27,94,32,0.2); }
+
+        /* CONTENT SECTION */
+        .content-area { padding: 20px; height: calc(100vh - 130px); overflow-y: auto; }
+        .card-santri { 
+            background: white; border-radius: 18px; padding: 15px; margin-bottom: 15px;
+            border: 1px solid #f0f0f0; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: 0.3s;
+        }
+        .card-santri:hover { border-color: var(--primary-green); }
+        .btn-status-v2 { 
+            flex: 1; border: 1.5px solid #eee; background: white; border-radius: 10px; 
+            padding: 8px 0; font-size: 0.75rem; font-weight: 800; color: #666;
+        }
+        .btn-status-v2.active { border-color: var(--primary-green); background: var(--light-green); color: var(--primary-green); }
+
+        /* REKAP TABLES */
+        .rekap-box { background: var(--light-green); border-radius: 20px; padding: 15px; margin-top: 25px; }
+        .rekap-title { font-weight: 800; font-size: 0.9rem; color: var(--primary-green); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+
+        /* FLOATING ACTION BUTTON (Tambah Santri) */
+        .fab-add { 
+            position: fixed; bottom: 30px; right: 30px; 
+            width: 60px; height: 60px; background: var(--primary-green); 
+            border-radius: 20px; color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; box-shadow: 0 10px 20px rgba(27,94,32,0.3); border: none;
         }
 
-        /* Header */
-        .header-top { display: flex; justify-content: space-between; align-items: center; }
-        .logo-text { font-weight: 800; color: #bbb; font-size: 0.7rem; letter-spacing: 3px; }
-        #jam-wib { font-weight: 800; color: var(--primary-green); font-size: 1rem; background: var(--light-green); padding: 5px 12px; border-radius: 50px; }
-
-        /* Brand Section */
-        .brand-section { text-align: center; }
-        .brand-title { 
-            color: var(--primary-green); font-weight: 800; 
-            font-size: 2.2rem; line-height: 1.1; letter-spacing: -1px;
-        }
-        .brand-sub { 
-            color: var(--accent-gold); font-weight: 600; 
-            font-size: 0.9rem; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        /* Role Selector - Persegi Panjang Polos Gen Z */
-        .role-container { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; margin: 0 auto; }
-        .role-button {
-            background: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 15px; /* Kurva khas Gen Z */
-            font-weight: 700;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(27, 94, 32, 0.2);
-            text-align: center;
-            text-decoration: none;
-        }
-        .role-button:active { transform: scale(0.96); background: #144618; }
-        .role-button-outline {
-            background: white;
-            color: var(--primary-green);
-            border: 2px solid var(--primary-green);
-        }
-
-        /* Responsif Tablet */
-        @media (min-width: 768px) {
-            .brand-title { font-size: 3.5rem; }
-            .role-container { flex-direction: row; max-width: 600px; }
-            .role-button { flex: 1; }
-        }
+        /* HIDDEN SECTIONS */
+        .section-page { display: none; }
+        .section-page.active { display: block; }
     </style>
 </head>
 <body>
@@ -91,50 +83,105 @@
         </video>
     </div>
 
-    <div id="main-page">
-        <div class="header-top">
-            <div class="logo-text">LOGO MADIN</div>
-            <div id="jam-wib">00:00:00 WIB</div>
+    <div id="main-role" style="display:none; height: 100vh; flex-direction: column; justify-content: space-around; padding: 40px 25px;">
+        <div class="text-center">
+            <h1 style="color:var(--primary-green); font-weight:800; font-size:2.2rem;">Madrasah Diniyah<br>Nurul Yusuf</h1>
+            <p style="color:var(--accent-gold); font-weight:600; font-size:0.9rem; letter-spacing:1px;">Mencetak Generasi Pecinta Al-Qur'an</p>
         </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button class="btn w-100 py-3 rounded-4 fw-bold" style="background:var(--primary-green); color:white;" onclick="pilihRole('Ustadz')">USTADZ / USTADZAH</button>
+            <button class="btn w-100 py-3 rounded-4 fw-bold border-2" style="border-color:var(--primary-green); color:var(--primary-green);" onclick="pilihRole('Wali')">WALI SANTRI</button>
+        </div>
+    </div>
 
-        <div class="brand-section">
-            <h1 class="brand-title">Madrasah Diniyah<br>Nurul Yusuf</h1>
-            <p class="brand-sub">Mencetak Generasi Pecinta Al-Qur'an</p>
-        </div>
+    <div id="dashboard-ustadz" class="section-page">
+        <header class="header-dashboard">
+            <div class="header-left">
+                <div class="logo-box">LOGO</div>
+                <h2 class="header-title">Madrasah Diniyah<br>Nurul Yusuf</h2>
+            </div>
+            <div id="jam-v2">00:00:00 WIB</div>
+        </header>
 
-        <div class="role-container">
-            <button class="role-button" onclick="pilihRole('Ustadz')">Ustadz / Ustadzah</button>
-            <button class="role-button role-button-outline" onclick="pilihRole('Wali')">Wali Santri</button>
-        </div>
+        <nav class="top-nav">
+            <button class="nav-tab active" onclick="switchTab('absensi', this)">Absensi</button>
+            <button class="nav-tab" onclick="switchTab('hafalan', this)">Rekap Hafalan</button>
+            <button class="nav-tab" onclick="switchTab('materi', this)">Materi</button>
+        </nav>
+
+        <main class="content-area">
+            <div id="tab-absensi">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fw-bold" style="color:#555">Daftar Santri</span>
+                    <input type="date" class="form-control form-control-sm w-50 border-0 bg-light rounded-pill px-3">
+                </div>
+                
+                <div class="card-santri">
+                    <div class="d-flex justify-content-between mb-3 align-items-center">
+                        <span class="fw-bold" style="font-size:1rem;">Ahmad Yusuf</span>
+                        <div>
+                            <button class="btn btn-sm text-muted p-0 me-2"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-sm text-danger p-0"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn-status-v2 active">H</button>
+                        <button class="btn-status-v2">I</button>
+                        <button class="btn-status-v2">S</button>
+                        <button class="btn-status-v2">A</button>
+                    </div>
+                </div>
+
+                <div class="rekap-box">
+                    <div class="rekap-title"><i class="bi bi-calendar-event"></i> Rekap Hari Ini</div>
+                    <div class="row text-center">
+                        <div class="col-3"><div class="fw-800" style="color:var(--primary-green)">12</div><small class="text-muted">Hadir</small></div>
+                        <div class="col-3"><div class="fw-800" style="color:orange">2</div><small class="text-muted">Izin</small></div>
+                        <div class="col-3"><div class="fw-800" style="color:red">1</div><small class="text-muted">Sakit</small></div>
+                        <div class="col-3"><div class="fw-800" style="color:gray">0</div><small class="text-muted">Alpha</small></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <button class="fab-add"><i class="bi bi-plus-lg"></i></button>
     </div>
 
     <script>
         const v = document.getElementById('intro-video');
         const intro = document.getElementById('intro-screen');
-        const main = document.getElementById('main-page');
+        const lamanRole = document.getElementById('main-role');
+        const dashUstadz = document.getElementById('dashboard-ustadz');
 
         function masukKeApp() {
             intro.style.display = 'none';
-            main.style.display = 'flex';
+            lamanRole.style.display = 'flex';
         }
 
         v.onended = masukKeApp;
         intro.onclick = masukKeApp;
-        window.addEventListener('load', () => {
-            v.play().catch(() => {});
-            setTimeout(() => { if(intro.style.display !== 'none') masukKeApp(); }, 5000);
-        });
+
+        function pilihRole(role) {
+            if(role === 'Ustadz') {
+                const pw = prompt("Masukkan Password Ustadz:");
+                if(pw === '123') { // Ganti dengan password asli nanti
+                    lamanRole.style.display = 'none';
+                    dashUstadz.classList.add('active');
+                } else { alert("Salah!"); }
+            }
+        }
+
+        function switchTab(tab, el) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            alert("Membuka Tab: " + tab);
+        }
 
         setInterval(() => {
             const now = new Date();
-            document.getElementById('jam-wib').innerText = now.toLocaleTimeString('id-ID', { 
-                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false 
-            }) + " WIB";
+            const timeStr = now.toLocaleTimeString('id-ID', { hour12: false }) + " WIB";
+            document.getElementById('jam-v2').innerText = timeStr;
         }, 1000);
-
-        function pilihRole(role) {
-            alert("Mode: " + role);
-        }
     </script>
 </body>
 </html>
