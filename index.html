@@ -2,57 +2,86 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madin Digital - Yusuf</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Madin Digital - Adaptive</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        :root { --primary: #1b5e20; --accent: #ffd700; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #fdfdfd; overflow: hidden; }
+        :root { --primary: #1b5e20; --bg: #fdfdfd; }
+        
+        /* Mencegah scroll saat intro dan menstabilkan tampilan di semua HP */
+        body, html { 
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background: var(--bg); overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        /* 1. INTRO VIDEO (SPLASH SCREEN) */
+        /* INTRO VIDEO - Full Screen Adaptive */
         #intro-screen {
-            position: fixed; inset: 0; background: white; z-index: 9999;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; z-index: 10000;
             display: flex; align-items: center; justify-content: center;
         }
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* 2. LAMAN UTAMA */
-        #main-page { display: none; height: 100vh; flex-direction: column; padding: 20px; }
-
-        /* Atas: Logo & Jam */
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: auto; }
-        .logo-small { width: 50px; height: 50px; background: #eee; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
-        #jam-wib { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
-
-        /* Tengah: Judul & Sub-judul */
-        .brand-section { text-align: center; margin-bottom: 50px; }
-        .brand-title { color: var(--primary); font-weight: 800; font-size: 1.8rem; margin-bottom: 5px; }
-        .brand-sub { color: #666; font-style: italic; font-size: 0.95rem; }
-
-        /* Bawah: Kotak Pilihan Role */
-        .role-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px; }
-        .role-card {
-            border: 2px solid #eee; border-radius: 20px; padding: 25px 15px;
-            text-align: center; cursor: pointer; transition: 0.3s; background: white;
+        /* MAIN PAGE - Layout yang bisa "Bernapas" */
+        #main-page { 
+            display: none; height: 100%; width: 100%;
+            flex-direction: column; justify-content: space-between;
+            padding: env(safe-area-inset-top) 25px env(safe-area-inset-bottom) 25px;
+            box-sizing: border-box;
         }
-        .role-card:active { transform: scale(0.95); border-color: var(--primary); background: #e8f5e9; }
-        .role-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
-        .role-name { font-weight: 700; color: #333; font-size: 0.9rem; }
+
+        /* Header: Logo & Jam */
+        .header-top { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding-top: 20px;
+        }
+        .logo-placeholder { font-weight: 900; color: #ddd; font-size: 0.8rem; letter-spacing: 2px; }
+        #jam-wib { font-weight: 800; color: var(--primary); font-size: 1rem; }
+
+        /* Brand: Tengah */
+        .brand-section { text-align: center; }
+        .brand-title { 
+            color: var(--primary); font-weight: 800; 
+            font-size: calc(1.5rem + 1vw); /* Ukuran teks adaptif */
+            line-height: 1.1; margin-bottom: 10px;
+        }
+        .brand-sub { color: #666; font-style: italic; font-size: 0.9rem; }
+
+        /* Role: Bawah */
+        .role-container { 
+            display: grid; grid-template-columns: 1fr 1fr; 
+            gap: 15px; padding-bottom: 30px; 
+        }
+        .role-card {
+            border: 2px solid #f0f0f0; border-radius: 25px; padding: 25px 10px;
+            text-align: center; cursor: pointer; background: white; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s;
+        }
+        .role-card:active { transform: scale(0.95); background: #f9fdf9; border-color: var(--primary); }
+        .role-icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+        .role-name { font-weight: 700; color: #333; font-size: 0.85rem; line-height: 1.2; }
+
+        /* Responsif untuk layar Tablet/PC */
+        @media (min-width: 768px) {
+            .role-container { max-width: 500px; margin: 0 auto 50px auto; }
+            .brand-title { font-size: 3rem; }
+        }
     </style>
 </head>
 <body>
 
     <div id="intro-screen">
-        <video id="intro-video" autoplay muted playsinline>
+        <video id="intro-video" muted autoplay playsinline preload="auto">
             <source src="https://assets.mixkit.co/videos/preview/mixkit-white-ink-spreading-in-water-background-animation-316-large.mp4" type="video/mp4">
         </video>
     </div>
 
     <div id="main-page">
         <div class="header-top">
-            <div class="logo-small">LOGO</div>
-            <div id="jam-wib">00:00:00</div>
+            <div class="logo-placeholder">LOGO DISINI</div>
+            <div id="jam-wib">00:00:00 WIB</div>
         </div>
 
         <div class="brand-section">
@@ -73,26 +102,41 @@
     </div>
 
     <script>
-        // Logika Video Intro Selesai
         const v = document.getElementById('intro-video');
-        v.onended = function() {
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('main-page').style.display = 'flex';
+        const intro = document.getElementById('intro-screen');
+        const main = document.getElementById('main-page');
+
+        function masukKeApp() {
+            intro.style.display = 'none';
+            main.style.display = 'flex';
             document.body.style.overflow = 'auto';
-        };
-
-        // Fungsi Jam WIB Otomatis
-        function updateJam() {
-            const now = new Date();
-            const jam = now.toLocaleTimeString('id-ID', { hour12: false });
-            document.getElementById('jam-wib').innerText = jam + " WIB";
         }
-        setInterval(updateJam, 1000);
-        updateJam();
 
-        // Fungsi Klik Role
+        // Pindah jika video selesai atau diklik
+        v.onended = masukKeApp;
+        intro.onclick = masukKeApp;
+
+        // Jaga-jaga jika autoplay gagal
+        window.addEventListener('load', () => {
+            v.play().catch(() => {
+                console.log("Autoplay diblokir, menunggu interaksi.");
+            });
+            // Timeout 5 detik sebagai pelapis terakhir
+            setTimeout(() => {
+                if(intro.style.display !== 'none') masukKeApp();
+            }, 5000);
+        });
+
+        // Update Jam WIB
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('jam-wib').innerText = now.toLocaleTimeString('id-ID', { 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false 
+            }) + " WIB";
+        }, 1000);
+
         function pilihRole(role) {
-            alert("Role terpilih: " + role + "\n(Halaman berikutnya belum dibuat)");
+            alert("Masuk sebagai: " + role);
         }
     </script>
 </body>
