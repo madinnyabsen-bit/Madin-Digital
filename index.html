@@ -3,70 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Madin Digital - Adaptive</title>
+    <title>Madin Digital - Gen Z Islamic</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #1b5e20; --bg: #fdfdfd; }
+        :root { 
+            --primary-green: #1b5e20; 
+            --light-green: #e8f5e9;
+            --accent-gold: #c5a059;
+        }
         
-        /* Mencegah scroll saat intro dan menstabilkan tampilan di semua HP */
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background: var(--bg); overflow: hidden;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; 
+            background-color: #fdfdfd;
+            /* Pattern Islami Halus */
+            background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+            overflow: hidden;
         }
 
-        /* INTRO VIDEO - Full Screen Adaptive */
+        /* INTRO VIDEO */
         #intro-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; z-index: 10000;
+            position: fixed; inset: 0; background: white; z-index: 10000;
             display: flex; align-items: center; justify-content: center;
         }
         #intro-video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* MAIN PAGE - Layout yang bisa "Bernapas" */
+        /* MAIN PAGE */
         #main-page { 
             display: none; height: 100%; width: 100%;
             flex-direction: column; justify-content: space-between;
-            padding: env(safe-area-inset-top) 25px env(safe-area-inset-bottom) 25px;
-            box-sizing: border-box;
+            padding: 40px 25px; box-sizing: border-box;
         }
 
-        /* Header: Logo & Jam */
-        .header-top { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding-top: 20px;
-        }
-        .logo-placeholder { font-weight: 900; color: #ddd; font-size: 0.8rem; letter-spacing: 2px; }
-        #jam-wib { font-weight: 800; color: var(--primary); font-size: 1rem; }
+        /* Header */
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        .logo-text { font-weight: 800; color: #bbb; font-size: 0.7rem; letter-spacing: 3px; }
+        #jam-wib { font-weight: 800; color: var(--primary-green); font-size: 1rem; background: var(--light-green); padding: 5px 12px; border-radius: 50px; }
 
-        /* Brand: Tengah */
+        /* Brand Section */
         .brand-section { text-align: center; }
         .brand-title { 
-            color: var(--primary); font-weight: 800; 
-            font-size: calc(1.5rem + 1vw); /* Ukuran teks adaptif */
-            line-height: 1.1; margin-bottom: 10px;
+            color: var(--primary-green); font-weight: 800; 
+            font-size: 2.2rem; line-height: 1.1; letter-spacing: -1px;
         }
-        .brand-sub { color: #666; font-style: italic; font-size: 0.9rem; }
+        .brand-sub { 
+            color: var(--accent-gold); font-weight: 600; 
+            font-size: 0.9rem; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px;
+        }
 
-        /* Role: Bawah */
-        .role-container { 
-            display: grid; grid-template-columns: 1fr 1fr; 
-            gap: 15px; padding-bottom: 30px; 
+        /* Role Selector - Persegi Panjang Polos Gen Z */
+        .role-container { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; margin: 0 auto; }
+        .role-button {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px; /* Kurva khas Gen Z */
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(27, 94, 32, 0.2);
+            text-align: center;
+            text-decoration: none;
         }
-        .role-card {
-            border: 2px solid #f0f0f0; border-radius: 25px; padding: 25px 10px;
-            text-align: center; cursor: pointer; background: white; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s;
+        .role-button:active { transform: scale(0.96); background: #144618; }
+        .role-button-outline {
+            background: white;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
         }
-        .role-card:active { transform: scale(0.95); background: #f9fdf9; border-color: var(--primary); }
-        .role-icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
-        .role-name { font-weight: 700; color: #333; font-size: 0.85rem; line-height: 1.2; }
 
-        /* Responsif untuk layar Tablet/PC */
+        /* Responsif Tablet */
         @media (min-width: 768px) {
-            .role-container { max-width: 500px; margin: 0 auto 50px auto; }
-            .brand-title { font-size: 3rem; }
+            .brand-title { font-size: 3.5rem; }
+            .role-container { flex-direction: row; max-width: 600px; }
+            .role-button { flex: 1; }
         }
     </style>
 </head>
@@ -80,24 +93,18 @@
 
     <div id="main-page">
         <div class="header-top">
-            <div class="logo-placeholder">LOGO DISINI</div>
+            <div class="logo-text">LOGO MADIN</div>
             <div id="jam-wib">00:00:00 WIB</div>
         </div>
 
         <div class="brand-section">
             <h1 class="brand-title">Madrasah Diniyah<br>Nurul Yusuf</h1>
-            <p class="brand-sub">"Mencetak generasi pecinta Al-Qur'an"</p>
+            <p class="brand-sub">Mencetak Generasi Pecinta Al-Qur'an</p>
         </div>
 
         <div class="role-container">
-            <div class="role-card" onclick="pilihRole('Ustadz')">
-                <span class="role-icon">👳‍♂️</span>
-                <span class="role-name">Ustadz /<br>Ustadzah</span>
-            </div>
-            <div class="role-card" onclick="pilihRole('Wali')">
-                <span class="role-icon">👨‍👩-👧</span>
-                <span class="role-name">Wali<br>Santri</span>
-            </div>
+            <button class="role-button" onclick="pilihRole('Ustadz')">Ustadz / Ustadzah</button>
+            <button class="role-button role-button-outline" onclick="pilihRole('Wali')">Wali Santri</button>
         </div>
     </div>
 
@@ -109,25 +116,15 @@
         function masukKeApp() {
             intro.style.display = 'none';
             main.style.display = 'flex';
-            document.body.style.overflow = 'auto';
         }
 
-        // Pindah jika video selesai atau diklik
         v.onended = masukKeApp;
         intro.onclick = masukKeApp;
-
-        // Jaga-jaga jika autoplay gagal
         window.addEventListener('load', () => {
-            v.play().catch(() => {
-                console.log("Autoplay diblokir, menunggu interaksi.");
-            });
-            // Timeout 5 detik sebagai pelapis terakhir
-            setTimeout(() => {
-                if(intro.style.display !== 'none') masukKeApp();
-            }, 5000);
+            v.play().catch(() => {});
+            setTimeout(() => { if(intro.style.display !== 'none') masukKeApp(); }, 5000);
         });
 
-        // Update Jam WIB
         setInterval(() => {
             const now = new Date();
             document.getElementById('jam-wib').innerText = now.toLocaleTimeString('id-ID', { 
@@ -136,7 +133,7 @@
         }, 1000);
 
         function pilihRole(role) {
-            alert("Masuk sebagai: " + role);
+            alert("Mode: " + role);
         }
     </script>
 </body>
