@@ -6,116 +6,120 @@
     <title>Madin Digital - Yusuf</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .hero { background: #2e7d32; color: white; padding: 3rem 1rem; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .card-menu { border: none; border-radius: 20px; transition: 0.3s; cursor: pointer; height: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card-menu:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .icon-display { font-size: 3rem; margin-bottom: 10px; }
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; }
+        .hero { background: #2e7d32; color: white; padding: 2rem 1rem; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; }
+        .card-menu { border: none; border-radius: 15px; cursor: pointer; transition: 0.3s; }
+        .card-menu:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        #adminPanel { display: none; }
+        .santri-list { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
 
-<div id="loader" class="loading-overlay">
-    <div class="spinner-border text-success" role="status"></div>
+<div id="loader" class="loading-overlay"><div class="spinner-border text-success"></div></div>
+
+<div id="mainDashboard">
+    <div class="hero text-center mb-4">
+        <h2 class="fw-bold">Madin Digital</h2>
+        <p>Manajemen Santri & Laporan</p>
+    </div>
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-6"><div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Absensi')"><h3>📝</h3><h6>Absensi</h6></div></div>
+            <div class="col-6"><div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Hafalan')"><h3>📖</h3><h6>Hafalan</h6></div></div>
+            <div class="col-12"><div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Data Santri')"><h3>👥</h3><h6>Kelola Data Santri</h6></div></div>
+        </div>
+    </div>
 </div>
 
-<div class="hero text-center mb-5">
-    <h2 class="fw-bold">Madin Digital</h2>
-    <p>Manajemen Absensi, Hafalan & Materi Santri</p>
-</div>
-
-<div class="container">
-    <div id="app" class="row g-3">
-        <div class="col-6 col-md-4">
-            <div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Absensi')">
-                <div class="icon-display">📝</div>
-                <h6 class="fw-bold">Absensi</h6>
-            </div>
+<div id="adminPanel" class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-secondary btn-sm" onclick="location.reload()">⬅ Kembali</button>
+        <h4 id="panelTitle" class="m-0">Data Santri</h4>
+    </div>
+    
+    <div class="santri-list">
+        <div class="d-flex mb-3">
+            <input type="text" id="namaSantriBaru" class="form-control me-2" placeholder="Nama Santri Baru...">
+            <button class="btn btn-success" onclick="tambahSantri()">Tambah</button>
         </div>
-        <div class="col-6 col-md-4">
-            <div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Hafalan')">
-                <div class="icon-display">📖</div>
-                <h6 class="fw-bold">Hafalan</h6>
-            </div>
-        </div>
-        <div class="col-6 col-md-4">
-            <div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Materi')">
-                <div class="icon-display">📚</div>
-                <h6 class="fw-bold">Materi</h6>
-            </div>
+        <hr>
+        <div id="daftarSantri" class="list-group">
+            <p class="text-center text-muted">Mengambil data...</p>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="modalTitle">Login Guru</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white"><h5>Login Guru</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
             <div class="modal-body p-4">
-                <div class="mb-3">
-                    <label class="form-label text-secondary">Masukkan Password Khusus Guru:</label>
-                    <input type="password" id="passInput" class="form-control form-control-lg" placeholder="***">
-                </div>
-                <button type="button" id="btnLogin" class="btn btn-success w-100 btn-lg" onclick="cekLogin()">Masuk ke Panel</button>
+                <input type="password" id="passInput" class="form-control mb-3" placeholder="Password Guru">
+                <button class="btn btn-success w-100" onclick="cekLogin()">Masuk</button>
             </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-    // URL API BARU ANDA
-    const API_URL = "https://script.google.com/macros/s/AKfycbxqb9Ld8rSD6nnQaRTa_EJwB4SGz7jqoe0ZBdstJkmOtfFfXfnqXRWYWySrd65Ir9te/exec";
-    
+    const API_URL = "https://script.google.com/macros/s/AKfycbz-i-_KWVvmNLqoxn-CUzOvxll8H_vAZvw2LHyzha3QFSvcFvVeinSs_wcRRKw_CU8i/exec";
     let currentMenu = "";
     const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-    const loader = document.getElementById('loader');
 
     function bukaLogin(menu) {
         currentMenu = menu;
-        document.getElementById('modalTitle').innerText = "Login Guru - " + menu;
         loginModal.show();
     }
 
     async function cekLogin() {
         const pass = document.getElementById('passInput').value;
-        const btn = document.getElementById('btnLogin');
-        
-        if (!pass) return alert("Isi password dulu!");
-
-        // Set Loading State
-        btn.disabled = true;
-        btn.innerText = "Memverifikasi...";
-        loader.style.display = "flex";
-
+        showLoading(true);
         try {
-            // Verifikasi ke Apps Script (Validasi Server)
-            const response = await fetch(`${API_URL}?action=login&pass=${pass}`);
-            const result = await response.text();
-
+            const res = await fetch(`${API_URL}?action=login&pass=${pass}`);
+            const result = await res.text();
             if (result === "SUCCESS") {
                 loginModal.hide();
-                document.getElementById('passInput').value = "";
-                alert("Login Berhasil! Membuka menu " + currentMenu);
-                // Langkah selanjutnya: Menampilkan list santri
-            } else {
-                alert("Password Salah! Akses ditolak.");
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Terjadi kesalahan koneksi ke server. Pastikan Web App sudah di-deploy 'Anyone'.");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "Masuk ke Panel";
-            loader.style.display = "none";
-        }
+                document.getElementById('mainDashboard').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadSantri();
+            } else { alert("Password Salah!"); }
+        } catch (e) { alert("Error koneksi"); }
+        showLoading(false);
     }
-</script>
 
+    async function loadSantri() {
+        const container = document.getElementById('daftarSantri');
+        container.innerHTML = "Memuat data...";
+        try {
+            const res = await fetch(`${API_URL}?action=read`);
+            const data = await res.json();
+            container.innerHTML = "";
+            data.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>${index + 1}. <strong>${item[0]}</strong> <small class="text-muted">(${item[1] || 'Umum'})</small></span>
+                        <button class="btn btn-outline-danger btn-sm" onclick="alert('Fitur hapus segera hadir!')">🗑</button>
+                    </div>`;
+            });
+        } catch (e) { container.innerHTML = "Data masih kosong atau error."; }
+    }
+
+    async function tambahSantri() {
+        const nama = document.getElementById('namaSantriBaru').value;
+        if (!nama) return alert("Isi nama dulu!");
+        showLoading(true);
+        try {
+            await fetch(`${API_URL}?action=add&nama=${nama}&kelas=Madin`);
+            document.getElementById('namaSantriBaru').value = "";
+            loadSantri(); // Refresh daftar
+        } catch (e) { alert("Gagal menambah"); }
+        showLoading(false);
+    }
+
+    function showLoading(val) { document.getElementById('loader').style.display = val ? 'flex' : 'none'; }
+</script>
 </body>
 </html>
