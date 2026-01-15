@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Madin Digital - Yusuf</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; }
-        .hero { background: #2e7d32; color: white; padding: 2rem 1rem; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; }
+        .hero { background: #2e7d32; color: white; padding: 1.5rem 1rem; border-bottom-right-radius: 30px; border-bottom-left-radius: 30px; }
         .card-menu { border: none; border-radius: 15px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card-menu:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         #adminPanel { display: none; }
         .santri-list { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .rekap-container { background: #fff; border-radius: 15px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; }
-        .btn-group-absen .btn { font-size: 0.7rem; font-weight: bold; padding: 8px 2px; }
-        .table-rekap { font-size: 0.85rem; }
+        .btn-group-absen .btn { font-size: 0.65rem; font-weight: bold; padding: 8px 2px; opacity: 0.4; }
+        .btn-group-absen .btn.active { opacity: 1; transform: scale(1.05); border: 2px solid black; }
+        .rekap-container { background: #fff; border-radius: 15px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
@@ -29,62 +29,55 @@
     </div>
     <div class="container">
         <div class="row g-3">
-            <div class="col-6"><div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Absensi')"><h3 class="mb-2">📝</h3><h6>Absensi</h6></div></div>
-            <div class="col-6"><div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Hafalan')"><h3 class="mb-2">📖</h3><h6>Hafalan</h6></div></div>
-            <div class="col-12"><div class="card card-menu text-center p-4 bg-white" onclick="bukaLogin('Data Santri')"><h3 class="mb-2">👥</h3><h6>Kelola Data Santri</h6></div></div>
+            <div class="col-6" onclick="bukaLogin('Absensi')"><div class="card card-menu text-center p-4"><h3>📝</h3><h6>Absensi</h6></div></div>
+            <div class="col-6" onclick="bukaLogin('Hafalan')"><div class="card card-menu text-center p-4"><h3>📖</h3><h6>Hafalan</h6></div></div>
+            <div class="col-12" onclick="bukaLogin('Data Santri')"><div class="card card-menu text-center p-4"><h3>👥</h3><h6>Kelola Data Santri</h6></div></div>
         </div>
     </div>
 </div>
 
-<div id="adminPanel" class="container mt-4 pb-5">
+<div id="adminPanel" class="container mt-3 pb-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <button class="btn btn-secondary btn-sm" onclick="location.reload()">⬅ Kembali</button>
-        <h4 id="panelTitle" class="m-0 text-success fw-bold text-uppercase">Panel</h4>
+        <button class="btn btn-secondary btn-sm" onclick="location.reload()"><i class="bi bi-arrow-left"></i></button>
+        <h5 id="panelTitle" class="m-0 fw-bold text-success">PANEL</h5>
+        <div id="calendarIcon" style="display:none">
+            <input type="date" id="tglFilter" class="form-control form-control-sm" onchange="loadSantri()">
+        </div>
     </div>
     
     <div class="santri-list">
-        <div id="tambahSantriSection" class="d-flex mb-3">
-            <input type="text" id="namaSantriBaru" class="form-control me-2" placeholder="Nama Santri Baru...">
+        <div id="tambahSantriSection" class="d-flex mb-3" style="display:none">
+            <input type="text" id="namaSantriBaru" class="form-control me-2" placeholder="Nama Baru...">
             <button class="btn btn-success" onclick="tambahSantri()">Tambah</button>
         </div>
-        
-        <div id="daftarSantri" class="list-group">
-            </div>
+        <div id="daftarSantri" class="list-group"></div>
     </div>
 
     <div id="sectionRekapOtomatis" class="rekap-container" style="display: none;">
-        <h6 class="fw-bold text-success mb-3">📊 REKAP KEHADIRAN GLOBAL</h6>
-        <div id="tabelRekapContainer" class="table-responsive">
-            </div>
+        <h6 class="fw-bold text-success mb-3"><i class="bi bi-graph-up"></i> REKAP TOTAL</h6>
+        <div id="tabelRekapContainer" class="table-responsive"></div>
     </div>
 </div>
 
 <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow">
-            <div class="modal-header bg-success text-white"><h5>Login Guru</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
-            <div class="modal-body p-4 text-center">
-                <input type="password" id="passInput" class="form-control mb-3 form-control-lg text-center" placeholder="Password Guru">
-                <button class="btn btn-success w-100 btn-lg" onclick="cekLogin()">Masuk ke Panel</button>
-            </div>
-        </div>
-    </div>
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body p-4 text-center">
+        <input type="password" id="passInput" class="form-control mb-3 text-center" placeholder="Password">
+        <button class="btn btn-success w-100" onclick="cekLogin()">Masuk</button>
+    </div></div></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwH54piREhtiyHO-ZlybCAYS0VSO5iSwVXgg4UbFivtj99EgUvBqvqlvkp9qTRCJotV/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwuSYq2D7ASJMEGQiWh-IR6hjq6V1fhFJZfsHIoX2kat3u6qT515J0w3WMhw4YHjfxQ/exec"; 
     let currentMenu = "";
     const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
 
-    function bukaLogin(menu) {
-        currentMenu = menu;
-        loginModal.show();
-    }
+    // Set default tanggal hari ini di kalender
+    document.getElementById('tglFilter').valueAsDate = new Date();
+
+    function bukaLogin(menu) { currentMenu = menu; loginModal.show(); }
 
     async function cekLogin() {
         const pass = document.getElementById('passInput').value;
-        if(!pass) return;
         showLoading(true);
         try {
             const res = await fetch(`${API_URL}?action=login&pass=${encodeURIComponent(pass)}`);
@@ -94,107 +87,91 @@
                 document.getElementById('mainDashboard').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('panelTitle').innerText = currentMenu;
-                
+                document.getElementById('calendarIcon').style.display = (currentMenu === 'Absensi') ? 'block' : 'none';
                 document.getElementById('tambahSantriSection').style.display = (currentMenu === 'Data Santri') ? 'flex' : 'none';
-                
-                // Jika menu Absensi, tampilkan kontainer rekap di bawah
-                if(currentMenu === 'Absensi') {
-                    document.getElementById('sectionRekapOtomatis').style.display = 'block';
-                    loadRekap(); // Panggil rekap otomatis
-                } else {
-                    document.getElementById('sectionRekapOtomatis').style.display = 'none';
-                }
-                
+                if(currentMenu === 'Absensi') { document.getElementById('sectionRekapOtomatis').style.display = 'block'; loadRekap(); }
                 loadSantri();
-            } else { alert("Password Salah!"); }
-        } catch (e) { alert("Gagal koneksi."); } finally { showLoading(false); }
+            } else { alert("Salah!"); }
+        } finally { showLoading(false); }
     }
 
     async function loadSantri() {
         const container = document.getElementById('daftarSantri');
-        container.innerHTML = "<p class='text-center text-muted small'>Memuat data...</p>";
+        const tglDoc = new Date(document.getElementById('tglFilter').value).toLocaleDateString('id-ID');
+        container.innerHTML = "Memuat...";
+        
         try {
-            const res = await fetch(`${API_URL}?action=read`);
-            const data = await res.json();
+            const resData = await fetch(`${API_URL}?action=read`);
+            const santri = await resData.json();
+            
+            // Cek siapa saja yang sudah absen hari ini
+            const resCheck = await fetch(`${API_URL}?action=checkToday&tanggal=${tglDoc}`);
+            const sudahAbsen = await resCheck.json();
+
             container.innerHTML = "";
-            data.forEach((item) => {
+            santri.forEach(item => {
                 const nama = item[1];
+                const statusSkrg = sudahAbsen[nama] || ""; // Cek statusnya (HADIR/IZIN/dll)
+                
                 let actionHtml = "";
                 if(currentMenu === 'Absensi') {
                     actionHtml = `
                         <div class="d-flex justify-content-between gap-1 mt-2 btn-group-absen">
-                            <button class="btn btn-success flex-fill" onclick="kirimAbsen('${nama}', 'HADIR')">HADIR</button>
-                            <button class="btn btn-warning flex-fill" onclick="kirimAbsen('${nama}', 'IZIN')">IZIN</button>
-                            <button class="btn btn-danger flex-fill" onclick="kirimAbsen('${nama}', 'SAKIT')">SAKIT</button>
-                            <button class="btn btn-secondary flex-fill" onclick="kirimAbsen('${nama}', 'ALPHA')">ALPHA</button>
+                            <button class="btn btn-success flex-fill ${statusSkrg==='HADIR'?'active':''}" onclick="kirimAbsen('${nama}','HADIR')">H</button>
+                            <button class="btn btn-warning flex-fill ${statusSkrg==='IZIN'?'active':''}" onclick="kirimAbsen('${nama}','IZIN')">I</button>
+                            <button class="btn btn-danger flex-fill ${statusSkrg==='SAKIT'?'active':''}" onclick="kirimAbsen('${nama}','SAKIT')">S</button>
+                            <button class="btn btn-secondary flex-fill ${statusSkrg==='ALPHA'?'active':''}" onclick="kirimAbsen('${nama}','ALPHA')">A</button>
                         </div>`;
+                } else if(currentMenu === 'Data Santri') {
+                    actionHtml = `<button class="btn btn-sm btn-outline-danger mt-2" onclick="hapusSantri('${nama}')"><i class="bi bi-trash"></i> Hapus</button>`;
                 }
+
                 container.innerHTML += `
                     <div class="list-group-item mb-2 border-0 shadow-sm p-3" style="border-radius:12px;">
-                        <strong style="color: #2e7d32;">${nama}</strong>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong>${nama}</strong>
+                            ${statusSkrg ? `<span class="badge bg-success small">Selesai</span>` : ''}
+                        </div>
                         ${actionHtml}
                     </div>`;
             });
-        } catch (e) { container.innerHTML = "Gagal memuat."; }
+        } catch(e) { container.innerHTML = "Gagal."; }
+    }
+
+    async function kirimAbsen(nama, status) {
+        const tglDoc = new Date(document.getElementById('tglFilter').value).toLocaleDateString('id-ID');
+        showLoading(true);
+        try {
+          await fetch(`${API_URL}?action=absen&nama=${encodeURIComponent(nama)}&status=${status}&tanggal=${tglDoc}`);
+          loadSantri(); // Refresh list untuk update tombol active
+          loadRekap();  // Refresh tabel rekap
+        } finally { showLoading(false); }
+    }
+
+    async function hapusSantri(nama) {
+        if(!confirm("Hapus santri ini?")) return;
+        showLoading(true);
+        await fetch(`${API_URL}?action=deleteSantri&nama=${encodeURIComponent(nama)}`);
+        loadSantri();
+        showLoading(false);
     }
 
     async function loadRekap() {
         const container = document.getElementById('tabelRekapContainer');
-        container.innerHTML = "<p class='text-center text-muted small'>Mengupdate rekap...</p>";
         try {
             const res = await fetch(`${API_URL}?action=readRekap`);
             const data = await res.json();
-            let html = `
-                <table class="table table-sm table-bordered table-rekap text-center">
-                    <thead class="table-dark">
-                        <tr>
-                            <th class="text-start">Nama</th>
-                            <th>H</th><th>I</th><th>S</th><th>A</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
-            
+            let html = `<table class="table table-sm text-center"><thead><tr><th>Nama</th><th>H</th><th>I</th><th>S</th><th>A</th></tr></thead><tbody>`;
             data.forEach(item => {
                 if(!item[0]) return;
-                html += `
-                    <tr>
-                        <td class="text-start fw-bold">${item[0]}</td>
-                        <td class="text-success fw-bold">${item[1] || 0}</td>
-                        <td class="text-warning fw-bold">${item[2] || 0}</td>
-                        <td class="text-danger fw-bold">${item[3] || 0}</td>
-                        <td class="text-secondary fw-bold">${item[4] || 0}</td>
-                    </tr>`;
+                html += `<tr><td class="text-start">${item[0]}</td><td>${item[1]}</td><td>${item[2]}</td><td>${item[3]}</td><td>${item[4]}</td></tr>`;
             });
-            html += `</tbody></table>`;
-            container.innerHTML = html;
-        } catch (e) { container.innerHTML = "Gagal memuat rekap."; }
-    }
-
-    async function kirimAbsen(nama, status) {
-        if(!confirm(`Catat ${status} untuk ${nama}?`)) return;
-        showLoading(true);
-        try {
-            const res = await fetch(`${API_URL}?action=absen&nama=${encodeURIComponent(nama)}&status=${status}`);
-            const result = await res.text();
-            if(result === "SUCCESS_ABSEN") { 
-                // Setelah sukses absen, update tabel rekap di bawah secara otomatis
-                loadRekap(); 
-            }
-        } catch (e) { alert("Gagal kirim."); } finally { showLoading(false); }
-    }
-
-    async function tambahSantri() {
-        const nama = document.getElementById('namaSantriBaru').value;
-        if (!nama) return alert("Isi nama!");
-        showLoading(true);
-        try {
-            const res = await fetch(`${API_URL}?action=add&nama=${encodeURIComponent(nama)}&kelas=Madin`);
-            const result = await res.text();
-            if(result === "SUCCESS_ADD") { document.getElementById('namaSantriBaru').value = ""; loadSantri(); }
-        } catch (e) { alert("Gagal tambah."); } finally { showLoading(false); }
+            container.innerHTML = html + "</tbody></table>";
+        } catch(e) {}
     }
 
     function showLoading(val) { document.getElementById('loader').style.display = val ? 'flex' : 'none'; }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
