@@ -52,10 +52,15 @@
         /* HAFALAN TABLE */
         .hafalan-table { width: 100%; border-collapse: collapse; font-size: 0.65rem; margin-top: 10px; }
         .hafalan-table th { color: var(--madin-green); border-bottom: 2px solid #444; padding: 8px 2px; text-align: center; }
-        .hafalan-table td { border-bottom: 1px solid #444; padding: 10px 2px; text-align: center; cursor: pointer; }
+        .hafalan-table td { border-bottom: 1px solid #444; padding: 10px 2px; text-align: center; }
 
         .btn-konfirmasi { background: var(--madin-green); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: 800; margin-top: 15px; }
         input[type="date"] { border: none; background: var(--madin-green); color: white; font-weight: 800; font-size: 0.7rem; border-radius: 5px; padding: 5px; }
+
+        /* CLASS KHUSUS UNTUK MENYEMBUNYIKAN ELEMEN EDIT */
+        .mode-view .btn-konfirmasi, 
+        .mode-view .btn-tambah, 
+        .mode-view .btn-hapus { display: none !important; }
 
         @media (max-width: 380px) {
             .brand-text { display: none; }
@@ -63,7 +68,7 @@
         }
     </style>
 </head>
-<body>
+<body id="main-body">
 
     <div id="login-page">
         <div class="logo-circle-lg">LOGO</div>
@@ -71,7 +76,7 @@
         <h2 style="color:var(--primary-green); font-weight:800; font-size:1.6rem; margin-bottom:10px;">Nurul Yusuf</h2>
         <p style="color:#b38b4d; font-weight:700; font-size:0.7rem; letter-spacing:1px; margin-bottom:30px;">MENCETAK GENERASI PECINTA AL-QUR'AN</p>
         <button class="btn-role" onclick="loginUstadz()">USTADZ / USTADZAH</button>
-        <button class="btn-role" onclick="alert('Fitur Wali Santri Segera Hadir')">WALI SANTRI</button>
+        <button class="btn-role" onclick="loginWali()">WALI SANTRI</button>
     </div>
 
     <div id="pilih-kelas-page" class="hidden">
@@ -86,7 +91,7 @@
                 <button onclick="logout()" style="background:#333; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.55rem; font-weight:800;">OUT</button>
             </div>
         </header>
-        <div style="background: var(--dark-bar); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 800;">SILAHKAN KONFIRMASI KELAS</div>
+        <div id="banner-text" style="background: var(--dark-bar); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 800;">SILAHKAN KONFIRMASI KELAS</div>
         <div style="background: var(--dark-bar); color: white; margin: 20px; padding: 25px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem;">MOTIVASI HARI INI</div>
         <div class="grid-kelas" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 40px;">
             <button style="background: var(--dark-bar); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;" onclick="bukaAbsensi('KELAS A')">KELAS A</button>
@@ -125,7 +130,7 @@
                 <span>STATUS</span>
             </div>
             <div id="list-santri"></div>
-            <button style="background:transparent; color:var(--madin-green); border:1px dashed var(--madin-green); width:100%; padding:10px; border-radius:8px; font-weight:800; font-size:0.7rem; margin-top:10px;" onclick="tambahSantri()">+ TAMBAH NAMA SANTRI</button>
+            <button class="btn-tambah" style="background:transparent; color:var(--madin-green); border:1px dashed var(--madin-green); width:100%; padding:10px; border-radius:8px; font-weight:800; font-size:0.7rem; margin-top:10px;" onclick="tambahSantri()">+ TAMBAH NAMA SANTRI</button>
             <button class="btn-konfirmasi" onclick="simpanKeDatabase()">KONFIRMASI ABSENSI</button>
         </div>
 
@@ -148,23 +153,38 @@
     </div>
 
     <script>
-        // Database Santri diperluas kolomnya
+        let currentUserRole = "ustadz"; // default
         let dataSantri = [
             { id: 1, nama: "ZAYDAN", status: "", surat: "-", ket: "-", catatan: "-" },
             { id: 2, nama: "SYAMIL", status: "", surat: "-", ket: "-", catatan: "-" }
         ];
 
         function loginUstadz() {
-            const pw = prompt("Masukkan Password:");
+            const pw = prompt("Masukkan Password Ustadz:");
             if(pw === "123") {
-                document.getElementById('login-page').classList.add('hidden');
-                document.getElementById('pilih-kelas-page').classList.remove('hidden');
+                currentUserRole = "ustadz";
+                document.getElementById('main-body').classList.remove('mode-view');
+                document.getElementById('banner-text').innerText = "SILAHKAN KONFIRMASI KELAS";
+                lanjutMasuk();
             } else { alert("Password Salah!"); }
+        }
+
+        function loginWali() {
+            currentUserRole = "wali";
+            document.getElementById('main-body').classList.add('mode-view');
+            document.getElementById('banner-text').innerText = "MODE LIHAT DATA (WALI SANTRI)";
+            lanjutMasuk();
+        }
+
+        function lanjutMasuk() {
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('pilih-kelas-page').classList.remove('hidden');
         }
 
         function logout() {
             if(confirm("Keluar aplikasi?")) {
                 document.getElementById('pilih-kelas-page').classList.add('hidden');
+                document.getElementById('absensi-page').classList.add('hidden');
                 document.getElementById('login-page').classList.remove('hidden');
             }
         }
@@ -181,7 +201,6 @@
             document.getElementById('pilih-kelas-page').classList.remove('hidden');
         }
 
-        // FUNGSI GANTI TAB
         function gantiTab(tab) {
             document.querySelectorAll('.nav-link-custom').forEach(el => el.classList.remove('active'));
             document.getElementById('konten-absensi').classList.add('hidden');
@@ -192,44 +211,47 @@
             if(tab === 'absensi') {
                 document.getElementById('konten-absensi').classList.remove('hidden');
                 document.getElementById('btn-rekap').classList.remove('hidden');
+                renderSantri();
             } else if(tab === 'hafalan') {
                 document.getElementById('konten-hafalan').classList.remove('hidden');
                 renderHafalan();
             }
         }
 
-        // RENDER TAB ABSENSI (Sama seperti kode Ustadz)
         function renderSantri() {
             const container = document.getElementById('list-santri');
-            container.innerHTML = dataSantri.map(s => `
+            container.innerHTML = dataSantri.map(s => {
+                // Sembunyikan tombol hapus jika Wali
+                const btnHapus = currentUserRole === 'ustadz' ? `<button class="btn-hapus" onclick="hapusSantri(${s.id})" style="background:none; border:none; color:#ff5252; font-size:1.1rem; padding-left:5px;">&times;</button>` : '';
+                
+                return `
                 <div class="santri-item">
-                    <button class="name-btn" onclick="editNama(${s.id})">${s.nama}</button>
+                    <button class="name-btn" onclick="${currentUserRole==='ustadz'?'editNama('+s.id+')':''}">${s.nama}</button>
                     <div class="d-flex gap-1">
-                        <button class="btn-st ${s.status==='H'?'active':''}" onclick="updateStatus(${s.id},'H')">H</button>
-                        <button class="btn-st ${s.status==='S'?'active':''}" onclick="updateStatus(${s.id},'S')">S</button>
-                        <button class="btn-st ${s.status==='I'?'active':''}" onclick="updateStatus(${s.id},'I')">I</button>
-                        <button class="btn-st ${s.status==='A'?'active':''}" onclick="updateStatus(${s.id},'A')">A</button>
-                        <button onclick="hapusSantri(${s.id})" style="background:none; border:none; color:#ff5252; font-size:1.1rem; padding-left:5px;">&times;</button>
+                        <button class="btn-st ${s.status==='H'?'active':''}" onclick="${currentUserRole==='ustadz'?'updateStatus('+s.id+',\'H\')':''}">H</button>
+                        <button class="btn-st ${s.status==='S'?'active':''}" onclick="${currentUserRole==='ustadz'?'updateStatus('+s.id+',\'S\')':''}">S</button>
+                        <button class="btn-st ${s.status==='I'?'active':''}" onclick="${currentUserRole==='ustadz'?'updateStatus('+s.id+',\'I\')':''}">I</button>
+                        <button class="btn-st ${s.status==='A'?'active':''}" onclick="${currentUserRole==='ustadz'?'updateStatus('+s.id+',\'A\')':''}">A</button>
+                        ${btnHapus}
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
-        // RENDER TAB HAFALAN
         function renderHafalan() {
             const container = document.getElementById('list-hafalan');
             container.innerHTML = dataSantri.map(s => `
                 <tr>
                     <td style="text-align:left; font-weight:800; color:var(--madin-green)">${s.nama}</td>
-                    <td onclick="editFieldHafalan(${s.id}, 'surat')">${s.surat}</td>
-                    <td onclick="editFieldHafalan(${s.id}, 'ket')">${s.ket}</td>
-                    <td onclick="editFieldHafalan(${s.id}, 'catatan')">${s.catatan}</td>
+                    <td onclick="${currentUserRole==='ustadz'?'editFieldHafalan('+s.id+', \'surat\')':''}">${s.surat}</td>
+                    <td onclick="${currentUserRole==='ustadz'?'editFieldHafalan('+s.id+', \'ket\')':''}">${s.ket}</td>
+                    <td onclick="${currentUserRole==='ustadz'?'editFieldHafalan('+s.id+', \'catatan\')':''}">${s.catatan}</td>
                 </tr>
             `).join('');
         }
 
-        // FUNGSI EDIT HAFALAN (PROMPT)
         function editFieldHafalan(id, field) {
+            if(currentUserRole !== 'ustadz') return;
             let s = dataSantri.find(x => x.id === id);
             if(field === 'ket') {
                 let p = prompt("Pilih Keterangan:\n1. ZIYADAH\n2. MURAJA'AH", "1");
@@ -243,38 +265,38 @@
         }
 
         function updateStatus(id, stat) {
+            if(currentUserRole !== 'ustadz') return;
             dataSantri.find(x => x.id === id).status = stat;
             renderSantri();
         }
 
         function tambahSantri() {
+            if(currentUserRole !== 'ustadz') return;
             const n = prompt("Nama Santri:");
             if(n) { 
-                dataSantri.push({
-                    id: Date.now(), 
-                    nama: n.toUpperCase(), 
-                    status: "", 
-                    surat: "-", 
-                    ket: "-", 
-                    catatan: "-"
-                }); 
+                dataSantri.push({id: Date.now(), nama: n.toUpperCase(), status: "", surat: "-", ket: "-", catatan: "-"}); 
                 renderSantri(); 
             }
         }
 
         function editNama(id) {
+            if(currentUserRole !== 'ustadz') return;
             const s = dataSantri.find(x => x.id === id);
             const n = prompt("Edit Nama:", s.nama);
             if(n) { s.nama = n.toUpperCase(); renderSantri(); }
         }
 
         function hapusSantri(id) {
+            if(currentUserRole !== 'ustadz') return;
             if(confirm("Hapus santri?")) { dataSantri = dataSantri.filter(x => x.id !== id); renderSantri(); }
         }
 
-        function simpanKeDatabase() { alert("Data Berhasil Dikonfirmasi!"); }
+        function simpanKeDatabase() { 
+            if(currentUserRole !== 'ustadz') return;
+            alert("Data Berhasil Dikonfirmasi!"); 
+        }
 
-        function filterTanggal() { alert("Tanggal: " + document.getElementById('input-tanggal').value); }
+        function filterTanggal() { alert("Melihat data tanggal: " + document.getElementById('input-tanggal').value); }
 
         setInterval(() => {
             const now = new Date();
