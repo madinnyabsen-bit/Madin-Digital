@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Madin Digital - Login</title>
+    <title>Madin Digital - Login Calibrated</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -17,37 +17,35 @@
             margin: 0; padding: 0; height: 100%; width: 100%;
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: var(--soft-white);
-            /* Pattern Islami Lembut Transparan */
             background-image: linear-gradient(rgba(253,253,253,0.98), rgba(253,253,253,0.98)), url('https://www.transparenttextures.com/patterns/arabesque.png');
             overflow: hidden;
         }
 
-        /* Container Utama */
         .main-container {
             height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 20px 30px;
+            /* Memberikan ruang napas agar tidak mepet pembatas device */
+            padding: calc(15px + env(safe-area-inset-top)) 25px calc(30px + env(safe-area-inset-bottom)) 25px;
             box-sizing: border-box;
         }
 
-        /* 1. Header: Hari & Jam di Pojok Kanan Atas */
+        /* 1. Header Jam */
         .header-info {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 20px;
+            margin-bottom: 5vh; /* Menggunakan VH agar proporsional */
         }
         .time-badge {
             background: var(--primary-green);
             color: white;
-            padding: 6px 15px;
+            padding: 6px 14px;
             border-radius: 12px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            box-shadow: 0 4px 10px rgba(27, 94, 32, 0.2);
         }
 
-        /* 2. Middle Content: Logo, Judul, Subjudul */
+        /* 2. Middle Content (Logo & Judul) - Digeser ke atas sedikit */
         .middle-content {
             flex-grow: 1;
             display: flex;
@@ -55,11 +53,12 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            margin-top: -5vh; /* Menarik ke atas sedikit agar tidak terlalu rendah di HP */
         }
 
         .logo-circle {
-            width: 120px;
-            height: 120px;
+            width: clamp(80px, 25vw, 130px); /* Ukuran adaptif sesuai lebar layar */
+            height: clamp(80px, 25vw, 130px);
             background: var(--primary-green);
             border-radius: 50%;
             display: flex;
@@ -67,64 +66,57 @@
             justify-content: center;
             color: white;
             font-weight: 800;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             box-shadow: 0 10px 25px rgba(27, 94, 32, 0.15);
             border: 4px solid white;
+            font-size: 0.8rem;
         }
 
         .brand-title {
             color: var(--primary-green);
             font-weight: 800;
-            font-size: 2.2rem;
+            font-size: clamp(1.6rem, 8vw, 2.5rem); /* Teks mengecil otomatis di HP */
             line-height: 1.1;
-            margin-bottom: 8px;
-            letter-spacing: -1px;
+            margin-bottom: 10px;
         }
 
         .brand-subtitle {
             color: var(--accent-gold);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: clamp(0.7rem, 3vw, 0.85rem);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
         }
 
-        /* 3. Bottom: Role Selection (Persegi Panjang Polos) */
+        /* 3. Bottom: Role Selection */
         .role-section {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             width: 100%;
             max-width: 400px;
-            margin: 0 auto 40px auto;
+            margin: 0 auto;
         }
 
         .btn-role {
-            background: #333; /* Warna gelap sesuai gambar blueprint */
+            background: #333;
             color: white;
             border: none;
-            padding: 18px;
-            border-radius: 12px;
+            padding: clamp(14px, 4vw, 18px); /* Padding tombol adaptif */
+            border-radius: 14px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
         }
 
-        .btn-role:active {
-            transform: scale(0.97);
-            background: #000;
-        }
+        .btn-role:active { transform: scale(0.96); background: #000; }
 
-        /* Efek Hover untuk Laptop/Tablet */
-        @media (min-width: 768px) {
-            .btn-role:hover {
-                background: var(--primary-green);
-                box-shadow: 0 10px 20px rgba(27, 94, 32, 0.2);
-            }
-            .brand-title { font-size: 3.5rem; }
+        /* Media Query Khusus Laptop untuk Layout Lebih Lega */
+        @media (min-width: 992px) {
+            .middle-content { margin-top: 0; }
+            .role-section { gap: 20px; }
         }
     </style>
 </head>
@@ -132,7 +124,7 @@
 
     <div class="main-container">
         <div class="header-info">
-            <div id="display-date-time" class="time-badge">Memuat...</div>
+            <div id="display-date-time" class="time-badge">MEMUAT...</div>
         </div>
 
         <div class="middle-content">
@@ -148,31 +140,28 @@
     </div>
 
     <script>
-        // Fungsi Jam dan Hari WIB
+        // Logika Apps Script (Ingat: Jangan kerja 2x!)
+        // Slot ini sudah siap diisi fungsi google.script.run
+        
         function updateClock() {
             const now = new Date();
             const options = { weekday: 'long', day: 'numeric', month: 'short' };
             const dateStr = now.toLocaleDateString('id-ID', options);
             const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
-            
             document.getElementById('display-date-time').innerText = `${dateStr.toUpperCase()} | ${timeStr} WIB`;
         }
-        
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Fungsi Pilih Role
         function pilihRole(role) {
             if(role === 'Ustadz') {
-                const pw = prompt("Masukkan Password Ustadz:");
+                const pw = prompt("Password Ustadz:");
                 if(pw === "123") {
-                    alert("Berhasil Login Ustadz!");
-                    // Nanti diarahkan ke Laman 2 Dashboard
-                } else {
-                    alert("Password Salah!");
+                    // Masuk ke Laman 2 (Dashboard)
+                    alert("Akses Ustadz Diterima!");
                 }
             } else {
-                alert("Masuk sebagai Wali Santri");
+                alert("Akses Wali Santri Terbuka.");
             }
         }
     </script>
