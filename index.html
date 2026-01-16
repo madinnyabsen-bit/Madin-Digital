@@ -3,172 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Madin Digital - Yusuf</title>
+    <title>Madin Digital - Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #1b5e20; --light: #e8f5e9; --gold: #c5a059; }
+        :root { 
+            --primary-green: #1b5e20; 
+            --accent-gold: #c5a059;
+            --soft-white: #fdfdfd;
+        }
         
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%;
-            font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fdfdfd;
-            background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
-            background-attachment: fixed;
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--soft-white);
+            /* Pattern Islami Lembut Transparan */
+            background-image: linear-gradient(rgba(253,253,253,0.98), rgba(253,253,253,0.98)), url('https://www.transparenttextures.com/patterns/arabesque.png');
+            overflow: hidden;
         }
 
-        /* INTRO FIXED */
-        #intro-screen { position: fixed; inset: 0; background: white; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: 0.5s; }
-        #intro-video { width: 100%; height: 100%; object-fit: cover; }
-
-        /* HEADER DASHBOARD LAMAN 2 */
-        .header-app { 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 15px 20px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
-            border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;
+        /* Container Utama */
+        .main-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 30px;
+            box-sizing: border-box;
         }
-        .header-info { display: flex; align-items: center; gap: 10px; }
-        .logo-img { width: 35px; height: 35px; background: var(--primary); border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 900; }
-        .title-app { font-size: 0.85rem; font-weight: 800; color: var(--primary); margin: 0; line-height: 1.2; }
-        .jam-text { font-weight: 800; font-size: 0.75rem; color: var(--primary); background: var(--light); padding: 4px 10px; border-radius: 50px; }
 
-        /* TOP NAVIGATION (TABS) */
-        .top-nav { 
-            display: flex; background: white; padding: 10px; gap: 8px; 
-            overflow-x: auto; border-bottom: 1px solid #eee; scrollbar-width: none;
+        /* 1. Header: Hari & Jam di Pojok Kanan Atas */
+        .header-info {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
         }
-        .tab-btn { 
-            padding: 8px 18px; border-radius: 12px; border: none; background: #f5f5f5;
-            color: #777; font-weight: 700; font-size: 0.8rem; white-space: nowrap; transition: 0.3s;
+        .time-badge {
+            background: var(--primary-green);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(27, 94, 32, 0.2);
         }
-        .tab-btn.active { background: var(--primary); color: white; }
 
-        /* CONTENT */
-        .page-section { display: none; padding: 20px; }
-        .page-section.active { display: block; }
-
-        /* LIST SANTRI GEN Z */
-        .santri-card { 
-            background: white; border-radius: 16px; padding: 16px; margin-bottom: 12px;
-            border: 1px solid #f0f0f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        /* 2. Middle Content: Logo, Judul, Subjudul */
+        .middle-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
-        .btn-hisa { 
-            flex: 1; border: 1.5px solid #eee; background: white; border-radius: 10px; 
-            padding: 10px 0; font-weight: 800; color: #888; transition: 0.2s;
-        }
-        .btn-hisa.active-h { border-color: #2e7d32; background: #e8f5e9; color: #2e7d32; }
 
-        /* REKAP BOX */
-        .box-rekap { background: var(--light); border-radius: 20px; padding: 15px; margin-top: 20px; border: 1px solid rgba(27,94,32,0.1); }
-        .fab { position: fixed; bottom: 25px; right: 25px; width: 55px; height: 55px; background: var(--primary); border-radius: 18px; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: none; box-shadow: 0 8px 20px rgba(27,94,32,0.3); }
+        .logo-circle {
+            width: 120px;
+            height: 120px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(27, 94, 32, 0.15);
+            border: 4px solid white;
+        }
+
+        .brand-title {
+            color: var(--primary-green);
+            font-weight: 800;
+            font-size: 2.2rem;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .brand-subtitle {
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* 3. Bottom: Role Selection (Persegi Panjang Polos) */
+        .role-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 40px auto;
+        }
+
+        .btn-role {
+            background: #333; /* Warna gelap sesuai gambar blueprint */
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-role:active {
+            transform: scale(0.97);
+            background: #000;
+        }
+
+        /* Efek Hover untuk Laptop/Tablet */
+        @media (min-width: 768px) {
+            .btn-role:hover {
+                background: var(--primary-green);
+                box-shadow: 0 10px 20px rgba(27, 94, 32, 0.2);
+            }
+            .brand-title { font-size: 3.5rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="intro-screen">
-        <video id="intro-video" muted autoplay playsinline preload="auto">
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-white-ink-spreading-in-water-background-animation-316-large.mp4" type="video/mp4">
-        </video>
-    </div>
-
-    <div id="role-page" class="container h-100 d-flex flex-column justify-content-center px-4">
-        <div class="text-center mb-5">
-            <h1 class="fw-bolder" style="color:var(--primary); font-size: 2.2rem;">Madrasah Diniyah<br>Nurul Yusuf</h1>
-            <p style="color:var(--gold); font-weight:700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Mencetak Generasi Pecinta Al-Qur'an</p>
+    <div class="main-container">
+        <div class="header-info">
+            <div id="display-date-time" class="time-badge">Memuat...</div>
         </div>
-        <button class="btn py-3 mb-3 fw-bold rounded-4" style="background:var(--primary); color:white;" onclick="loginUstadz()">USTADZ / USTADZAH</button>
-        <button class="btn py-3 fw-bold rounded-4 border-2" style="border-color:var(--primary); color:var(--primary);" onclick="loginWali()">WALI SANTRI</button>
-    </div>
 
-    <div id="dashboard-page" style="display:none;">
-        <header class="header-app">
-            <div class="header-info">
-                <div class="logo-img">LOGO</div>
-                <h2 class="title-app">Madrasah Diniyah<br>Nurul Yusuf</h2>
-            </div>
-            <div id="jam-v2" class="jam-text">00:00:00 WIB</div>
-        </header>
+        <div class="middle-content">
+            <div class="logo-circle">LOGO</div>
+            <h1 class="brand-title">Madrasah Diniyah<br>Nurul Yusuf</h1>
+            <p class="brand-subtitle">Mencetak Generasi Pecinta Al-Qur'an</p>
+        </div>
 
-        <nav class="top-nav">
-            <button id="btn-absensi" class="tab-btn active" onclick="showTab('absensi')">Absensi</button>
-            <button id="btn-hafalan" class="tab-btn" onclick="showTab('hafalan')">Rekap Hafalan</button>
-            <button id="btn-materi" class="tab-btn" onclick="showTab('materi')">Materi</button>
-        </nav>
-
-        <main>
-            <section id="sec-absensi" class="page-section active">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="fw-bold text-secondary">Santri Madin</span>
-                    <input type="date" class="form-control form-control-sm w-50 border-0 bg-white shadow-sm rounded-pill px-3">
-                </div>
-
-                <div class="santri-card">
-                    <div class="d-flex justify-content-between mb-3 align-items-center">
-                        <span class="fw-bold">Muhammad Fatih</span>
-                        <div class="d-flex gap-2">
-                            <i class="bi bi-pencil-square text-muted"></i>
-                            <i class="bi bi-trash text-danger"></i>
-                        </div>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn-hisa active-h">H</button>
-                        <button class="btn-hisa">I</button>
-                        <button class="btn-hisa">S</button>
-                        <button class="btn-hisa">A</button>
-                    </div>
-                </div>
-
-                <div class="box-rekap">
-                    <p class="fw-bold mb-2" style="font-size:0.8rem; color:var(--primary)">Rekap Hari Ini</p>
-                    <div class="row text-center g-0">
-                        <div class="col"><div class="fw-bold">10</div><small class="text-muted">H</small></div>
-                        <div class="col"><div class="fw-bold">1</div><small class="text-muted">I</small></div>
-                        <div class="col"><div class="fw-bold">0</div><small class="text-muted">S</small></div>
-                        <div class="col"><div class="fw-bold">0</div><small class="text-muted">A</small></div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="sec-hafalan" class="page-section"><p class="text-center p-5">Halaman Rekap Hafalan</p></section>
-            <section id="sec-materi" class="page-section"><p class="text-center p-5">Halaman Materi</p></section>
-        </main>
-
-        <button class="fab"><i class="bi bi-plus-lg"></i></button>
+        <div class="role-section">
+            <button class="btn-role" onclick="pilihRole('Ustadz')">Ustadz / Ustadzah</button>
+            <button class="btn-role" onclick="pilihRole('Wali')">Wali Santri</button>
+        </div>
     </div>
 
     <script>
-        const intro = document.getElementById('intro-screen');
-        const rolePage = document.getElementById('role-page');
-        const dashPage = document.getElementById('dashboard-page');
-
-        function bypassIntro() {
-            intro.style.opacity = '0';
-            setTimeout(() => { intro.style.display = 'none'; }, 500);
+        // Fungsi Jam dan Hari WIB
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'long', day: 'numeric', month: 'short' };
+            const dateStr = now.toLocaleDateString('id-ID', options);
+            const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
+            
+            document.getElementById('display-date-time').innerText = `${dateStr.toUpperCase()} | ${timeStr} WIB`;
         }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        // AUTO-SKIP INTRO JIKA LEBIH DARI 3 DETIK (Paten Anti-Putih)
-        setTimeout(bypassIntro, 3000);
-        document.getElementById('intro-video').onended = bypassIntro;
-        intro.onclick = bypassIntro;
-
-        function loginUstadz() {
-            const p = prompt("Password Ustadz:");
-            if(p === "123") {
-                rolePage.style.display = "none";
-                dashPage.style.display = "block";
+        // Fungsi Pilih Role
+        function pilihRole(role) {
+            if(role === 'Ustadz') {
+                const pw = prompt("Masukkan Password Ustadz:");
+                if(pw === "123") {
+                    alert("Berhasil Login Ustadz!");
+                    // Nanti diarahkan ke Laman 2 Dashboard
+                } else {
+                    alert("Password Salah!");
+                }
+            } else {
+                alert("Masuk sebagai Wali Santri");
             }
         }
-
-        function showTab(name) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('sec-' + name).classList.add('active');
-            document.getElementById('btn-' + name).classList.add('active');
-        }
-
-        setInterval(() => {
-            const n = new Date();
-            document.getElementById('jam-v2').innerText = n.toLocaleTimeString('id-ID') + " WIB";
-        }, 1000);
     </script>
 </body>
 </html>
