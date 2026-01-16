@@ -7,34 +7,33 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --madin-green: #7ed348; 
-            --primary-green: #1b5e20;
-            --dark-bar: #333333; 
-        }
+        :root { --madin-green: #7ed348; --primary-green: #1b5e20; --dark-bar: #333333; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9fa; margin: 0; overflow-x: hidden; }
         .hidden { display: none !important; }
 
-        /* --- 1. STYLE LOGIN --- */
+        /* HEADER UNIVERSAL */
+        .header-dash { background: var(--madin-green); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; height: 65px; }
+        .logo-small { width: 35px; height: 35px; background: #444; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.5rem; flex-shrink: 0; }
+        .header-title { font-weight: 800; font-size: 0.75rem; line-height: 1.2; margin-left: 10px; }
+        
+        /* POSISI NAMA KELAS DI TENGAH (FLOATING) */
+        .class-center-title { position: absolute; left: 50%; transform: translateX(-50%); font-weight: 800; font-size: 0.9rem; color: var(--primary-green); text-transform: uppercase; white-space: nowrap; }
+
+        /* STYLE LOGIN */
         #login-page { height: 100vh; display: flex; flex-direction: column; padding: 30px; justify-content: center; align-items: center; text-align: center; background: #fdfdfd; }
         .logo-circle-lg { width: 110px; height: 110px; background: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-bottom: 20px; border: 4px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .btn-role { background: #2b2b2b; color: white; border: none; padding: 18px; border-radius: 15px; font-weight: 700; width: 100%; max-width: 320px; margin-bottom: 12px; text-transform: uppercase; }
 
-        /* --- 2. STYLE DASHBOARD & ABSENSI --- */
-        .header-dash { background: var(--madin-green); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-        .logo-small { width: 35px; height: 35px; background: #444; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.5rem; }
-        
+        /* DASHBOARD */
         .nav-tabs-custom { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--dark-bar); }
         .nav-link-custom { color: white; text-align: center; padding: 12px; font-weight: 700; font-size: 0.75rem; border: 0.5px solid #444; text-decoration: none; }
         .nav-link-custom.active { background: #444; border-bottom: 3px solid var(--madin-green); }
-
         .banner-info { background: var(--dark-bar); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; }
         .motivasi-box { background: var(--dark-bar); color: white; margin: 20px; padding: 30px; border-radius: 12px; text-align: center; font-weight: 700; }
-
         .grid-kelas { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 40px; }
         .btn-class { background: var(--dark-bar); color: white; border: none; padding: 20px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
 
-        /* --- 3. STYLE TABEL ABSENSI --- */
+        /* TABEL ABSENSI */
         .absensi-box { background: var(--dark-bar); margin: 0 15px; border-radius: 12px; padding: 15px; color: white; min-height: 250px; }
         .santri-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #444; }
         .name-btn { background: var(--madin-green); border: none; color: white; padding: 6px 12px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; min-width: 110px; text-align: left; }
@@ -42,7 +41,6 @@
         .btn-st.active { background: var(--madin-green); }
         .btn-konfirmasi { background: var(--madin-green); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: 800; margin-top: 15px; }
         .btn-rekap-total { background: var(--dark-bar); color: white; border: none; width: calc(100% - 30px); margin: 20px 15px; padding: 30px; border-radius: 12px; font-weight: 800; font-size: 1.1rem; }
-        
         input[type="date"] { border: none; background: var(--madin-green); color: white; font-weight: 800; font-size: 0.7rem; border-radius: 5px; padding: 5px; }
     </style>
 </head>
@@ -58,11 +56,14 @@
 
     <div id="pilih-kelas-page" class="hidden">
         <header class="header-dash">
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center">
                 <div class="logo-small">LOGO</div>
-                <div style="font-weight:800; font-size:0.75rem; line-height:1.2;">MADRASAH DINIYAH<br>NURUL YUSUF</div>
+                <div class="header-title">MADRASAH DINIYAH<br>NURUL YUSUF</div>
             </div>
-            <button class="btn-dark-sm" style="background:#333; color:white; border:none; padding:5px 10px; border-radius:5px; font-size:0.6rem;" onclick="logout()">LOGOUT</button>
+            <div class="jam-display" style="font-weight:800; font-size:0.7rem; text-align:right;">
+                <span class="live-jam">00:00 WIB</span><br>
+                <button onclick="logout()" style="background:#333; color:white; border:none; padding:2px 8px; border-radius:4px; font-size:0.55rem; margin-top:3px;">LOGOUT</button>
+            </div>
         </header>
         <div class="banner-info">SILAHKAN KONFIRMASI KELAS</div>
         <div class="motivasi-box">MOTIVASI HARI INI</div>
@@ -76,11 +77,14 @@
 
     <div id="absensi-page" class="hidden">
         <header class="header-dash">
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center">
                 <div class="logo-small">LOGO</div>
-                <div id="judul-kelas-aktif" style="font-weight:800; font-size:0.85rem;">KELAS</div>
+                <div class="header-title">MADRASAH DINIYAH<br>NURUL YUSUF</div>
             </div>
-            <div id="jam" style="font-weight:800; font-size:0.75rem;">00:00 WIB</div>
+            
+            <div id="judul-kelas-aktif" class="class-center-title">KELAS</div>
+
+            <div class="live-jam" style="font-weight:800; font-size:0.7rem;">00:00 WIB</div>
         </header>
 
         <nav class="nav-tabs-custom">
@@ -106,7 +110,6 @@
             <button style="background:transparent; color:var(--madin-green); border:1px dashed var(--madin-green); width:100%; padding:10px; border-radius:8px; font-weight:800; font-size:0.7rem; margin-top:10px;" onclick="tambahSantri()">+ TAMBAH NAMA SANTRI</button>
             <button class="btn-konfirmasi" onclick="simpanKeDatabase()">KONFIRMASI</button>
         </div>
-
         <button class="btn-rekap-total" onclick="alert('Membuka Rekap Total...')">TOTAL REKAP</button>
     </div>
 
@@ -116,7 +119,6 @@
             { id: 2, nama: "SYAMIL", status: "" }
         ];
 
-        // --- NAVIGATION LOGIC ---
         function loginUstadz() {
             const pw = prompt("Masukkan Password:");
             if(pw === "123") {
@@ -144,7 +146,6 @@
             document.getElementById('pilih-kelas-page').classList.remove('hidden');
         }
 
-        // --- ABSENSI LOGIC ---
         function renderSantri() {
             const container = document.getElementById('list-santri');
             container.innerHTML = dataSantri.map(s => `
@@ -181,17 +182,14 @@
             if(confirm("Hapus santri?")) { dataSantri = dataSantri.filter(x => x.id !== id); renderSantri(); }
         }
 
-        function simpanKeDatabase() {
-            alert("Data Berhasil Dikonfirmasi!");
-        }
+        function simpanKeDatabase() { alert("Data Berhasil Dikonfirmasi!"); }
 
-        function filterTanggal() {
-            alert("History Tanggal: " + document.getElementById('input-tanggal').value);
-        }
+        function filterTanggal() { alert("History Tanggal: " + document.getElementById('input-tanggal').value); }
 
-        // --- CLOCK ---
+        // Update Semua Elemen Jam Sekaligus
         setInterval(() => {
-            document.getElementById('jam').innerText = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + " WIB";
+            const timeStr = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + " WIB";
+            document.querySelectorAll('.live-jam').forEach(el => el.innerText = timeStr);
         }, 1000);
 
         window.onload = () => {
