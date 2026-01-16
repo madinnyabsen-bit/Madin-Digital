@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Madin Digital - Login Compact</title>
+    <title>Madin Digital - Official App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -11,118 +11,66 @@
             --primary-green: #1b5e20; 
             --accent-gold: #c5a059;
             --soft-white: #fdfdfd;
+            --madin-light-green: #7ed348; /* Warna Dashboard */
+            --dark-bar: #333333;
         }
         
         body, html { 
             margin: 0; padding: 0; height: 100%; width: 100%;
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: var(--soft-white);
-            background-image: linear-gradient(rgba(253,253,253,0.98), rgba(253,253,253,0.98)), url('https://www.transparenttextures.com/patterns/arabesque.png');
-            overflow: hidden;
         }
 
-        .main-container {
+        /* --- STYLE HALAMAN LOGIN --- */
+        #login-page {
             height: 100vh;
             display: flex;
             flex-direction: column;
             padding: calc(20px + env(safe-area-inset-top)) 30px;
             box-sizing: border-box;
+            background-image: linear-gradient(rgba(253,253,253,0.98), rgba(253,253,253,0.98)), url('https://www.transparenttextures.com/patterns/arabesque.png');
         }
 
-        /* 1. Header Jam */
-        .header-info {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-        .time-badge {
-            background: var(--primary-green);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 0.65rem;
-            font-weight: 800;
-        }
+        .header-info { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+        .time-badge { background: var(--primary-green); color: white; padding: 8px 16px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; }
 
-        /* 2. Grouping Center: Logo + Judul + Tombol ditarik ke atas */
-        .center-group {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-top: -5vh; /* Menarik seluruh grup ke atas agar pas di tengah mata */
-        }
+        .center-group { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-top: -5vh; }
+        .logo-circle { width: clamp(90px, 25vw, 130px); height: clamp(90px, 25vw, 130px); background: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(27, 94, 32, 0.15); border: 4px solid white; }
+        .brand-title { color: var(--primary-green); font-weight: 800; font-size: clamp(1.6rem, 7vw, 2.5rem); line-height: 1.1; margin-bottom: 8px; }
+        .brand-subtitle { color: var(--accent-gold); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 40px; }
 
-        .logo-circle {
-            width: clamp(90px, 25vw, 130px);
-            height: clamp(90px, 25vw, 130px);
-            background: var(--primary-green);
-            border-radius: 50%;
-            display: flex;
-            align-items: center; justify-content: center;
-            color: white; font-weight: 800; margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(27, 94, 32, 0.15);
-            border: 4px solid white;
-        }
-
-        .brand-title {
-            color: var(--primary-green);
-            font-weight: 800;
-            font-size: clamp(1.6rem, 7vw, 2.5rem);
-            line-height: 1.1;
-            margin-bottom: 8px;
-        }
-
-        .brand-subtitle {
-            color: var(--accent-gold);
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 40px; /* Memberi jarak ke tombol role */
-        }
-
-        /* 3. Role Section Sekarang Menempel di Bawah Judul */
-        .role-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            max-width: 380px;
-        }
-
-        .btn-role {
-            background: #2b2b2b;
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 15px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.2s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
+        .role-section { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 380px; }
+        .btn-role { background: #2b2b2b; color: white; border: none; padding: 16px; border-radius: 15px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .btn-role:active { transform: scale(0.96); background: #000; }
+
+        /* --- STYLE DASHBOARD USTADZ (Setelah Login) --- */
+        #dashboard-ustadz { display: none; min-height: 100vh; background: #f8f9fa; }
+        
+        .header-dash { background-color: var(--madin-light-green); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .header-brand-dash { display: flex; align-items: center; gap: 12px; }
+        .logo-small { width: 40px; height: 40px; background: #444; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.5rem; font-weight: 800; }
+        .title-dash { font-weight: 800; font-size: 0.85rem; margin: 0; line-height: 1.2; color: #000; }
+        .btn-logout { background: var(--dark-bar); color: white; border: none; padding: 5px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
+
+        .banner-kelas { background: var(--dark-bar); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .motivasi-box { background: var(--dark-bar); color: white; margin: 20px; padding: 40px 20px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 1.2rem; }
+
+        .grid-kelas { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 20px 40px 20px; }
+        .btn-class { background: var(--dark-bar); color: white; border: none; padding: 20px 10px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
+        
+        @media (min-width: 768px) { .grid-kelas { grid-template-columns: repeat(3, 1fr); max-width: 800px; margin: 0 auto; } }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
+    <div id="login-page">
         <div class="header-info">
             <div id="display-date-time" class="time-badge">MEMUAT...</div>
         </div>
-
         <div class="center-group">
             <div class="logo-circle">LOGO</div>
-            
             <h1 class="brand-title">Madrasah Diniyah<br>Nurul Yusuf</h1>
             <p class="brand-subtitle">Mencetak Generasi Pecinta Al-Qur'an</p>
-
             <div class="role-section">
                 <button class="btn-role" onclick="pilihRole('Ustadz')">Ustadz / Ustadzah</button>
                 <button class="btn-role" onclick="pilihRole('Wali')">Wali Santri</button>
@@ -130,23 +78,67 @@
         </div>
     </div>
 
+    <div id="dashboard-ustadz">
+        <header class="header-dash">
+            <div class="header-brand-dash">
+                <div class="logo-small">LOGO</div>
+                <h1 class="title-dash">MADRASAH DINIYAH<br>NURUL YUSUF</h1>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <div id="jam-dash" style="font-size: 0.7rem; font-weight: 800;">00:00 WIB</div>
+                <button class="btn-logout" onclick="logout()">LOG OUT</button>
+            </div>
+        </header>
+
+        <div class="banner-kelas">SILAHKAN KONFIRMASI KELAS</div>
+
+        <div class="motivasi-box">MOTIVASI</div>
+
+        <div class="grid-kelas">
+            <button class="btn-class" onclick="bukaAbsensi('Kelas A')">NAMA KELAS</button>
+            <button class="btn-class" onclick="bukaAbsensi('Kelas B')">NAMA KELAS</button>
+            <button class="btn-class" onclick="bukaAbsensi('Kelas C')">NAMA KELAS</button>
+            <button class="btn-class" onclick="bukaAbsensi('Kelas D')">NAMA KELAS</button>
+            <button class="btn-class" onclick="bukaAbsensi('Kelas E')">NAMA KELAS</button>
+            <button class="btn-class" onclick="bukaAbsensi('Kelas F')">NAMA KELAS</button>
+        </div>
+    </div>
+
     <script>
-        
+        // UPDATE JAM & HARI
         function updateClock() {
             const now = new Date();
             const options = { weekday: 'long', day: 'numeric', month: 'short' };
             const dateStr = now.toLocaleDateString('id-ID', options);
-            const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
-            document.getElementById('display-date-time').innerText = `${dateStr.toUpperCase()} | ${timeStr} WIB`;
+            const timeStr = now.toLocaleTimeString('id-ID', { hour12: false, hour: '2-digit', minute: '2-digit' });
+            
+            const fullTime = `${dateStr.toUpperCase()} | ${timeStr} WIB`;
+            if(document.getElementById('display-date-time')) document.getElementById('display-date-time').innerText = fullTime;
+            if(document.getElementById('jam-dash')) document.getElementById('jam-dash').innerText = timeStr + " WIB";
         }
         setInterval(updateClock, 1000);
         updateClock();
 
+        // LOGIKA PINDAH HALAMAN (Login -> Dash)
         function pilihRole(role) {
             if(role === 'Ustadz') {
                 const pw = prompt("Password Ustadz:");
-                if(pw === "123") { alert("Akses Diterima!"); }
+                if(pw === "123") { // Nanti hubungkan ke Apps Script
+                    document.getElementById('login-page').style.display = 'none';
+                    document.getElementById('dashboard-ustadz').style.display = 'block';
+                } else { alert("Password Salah!"); }
             }
+        }
+
+        function logout() {
+            if(confirm("Keluar dari dashboard?")) {
+                document.getElementById('dashboard-ustadz').style.display = 'none';
+                document.getElementById('login-page').style.display = 'flex';
+            }
+        }
+
+        function bukaAbsensi(kelas) {
+            alert("Membuka Absensi " + kelas + ". Menghubungkan ke Google Sheets...");
         }
     </script>
 </body>
