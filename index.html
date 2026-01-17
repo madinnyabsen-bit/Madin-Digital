@@ -8,43 +8,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --madin-green: #7ed348; --primary-green: #1b5e20; --dark-bar: #333333; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9fa; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9fa; margin: 0; padding: 0; overflow-x: hidden; }
         .hidden { display: none !important; }
         .header-dash { background: var(--madin-green); height: 65px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 15px; position: sticky; top: 0; z-index: 1000; }
         .header-center { font-weight: 800; font-size: 0.85rem; color: var(--primary-green); text-transform: uppercase; }
         .logo-small { width: 32px; height: 32px; background: #444; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: 800; }
         .brand-text { font-weight: 800; font-size: 0.55rem; color: var(--primary-green); }
-        #login-page { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .btn-role { background: #2b2b2b; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; width: 100%; max-width: 300px; margin-bottom: 15px; }
+        #login-page { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #ffffff; padding: 20px; text-align: center; }
+        .btn-role { background: #2b2b2b; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; width: 100%; max-width: 300px; margin-bottom: 15px; text-transform: uppercase; }
         .nav-tabs-custom { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--dark-bar); }
-        .nav-link-custom { color: white; text-align: center; padding: 12px; font-weight: 700; font-size: 0.75rem; cursor: pointer; border-bottom: 3px solid transparent; }
+        .nav-link-custom { color: white; text-align: center; padding: 12px; font-weight: 700; font-size: 0.75rem; border: 0.5px solid #444; text-decoration: none; cursor: pointer; }
         .nav-link-custom.active { background: #444; border-bottom: 3px solid var(--madin-green); }
         .absensi-box { background: var(--dark-bar); margin: 0 15px; border-radius: 12px; padding: 15px; color: white; }
-        .santri-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 8px; border-bottom: 1px solid #444; }
+        .santri-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 8px; border-bottom: 1px solid #444; gap: 5px; }
         .santri-item.sudah-absen { background: rgba(126, 211, 72, 0.1); border-left: 4px solid var(--madin-green); }
-        .name-btn { background: var(--madin-green); border: none; color: white; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; flex: 1; text-align: left; margin-right: 5px; }
+        .name-btn { background: var(--madin-green); border: none; color: white; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; flex: 1; text-align: left; overflow: hidden; }
         .sudah-absen .name-btn { background: #2e7d32; }
-        .btn-st { background: #555; border: none; color: white; width: 30px; height: 30px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; }
-        .btn-st.active { background: var(--madin-green); color: black; }
+        .btn-st { background: #555; border: none; color: white; width: 28px; height: 28px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; }
+        .btn-st.active { background: var(--madin-green); }
         .btn-konfirmasi { background: var(--madin-green); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: 800; margin-top: 15px; }
         #rekap-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; padding: 20px; overflow-y: auto; color: white; }
         .card-rekap { background: #333; border-radius: 12px; padding: 15px; margin-bottom: 10px; border-left: 5px solid var(--madin-green); }
     </style>
 </head>
-<body id="main-body">
+<body>
 
     <div id="login-page">
-        <div style="background:var(--primary-green); width:100px; height:100px; border-radius:50%; margin-bottom:20px;"></div>
-        <h2 style="font-weight:800; color:var(--primary-green)">Madin Nurul Yusuf</h2>
-        <button class="btn-role" onclick="loginUstadz()">USTADZ</button>
+        <div style="background:var(--primary-green); width:110px; height:110px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-weight:800; margin-bottom:25px;">LOGO</div>
+        <h2 style="color:var(--primary-green); font-weight:800;">Madin Nurul Yusuf</h2>
+        <button class="btn-role" onclick="loginUstadz()">USTADZ / USTADZAH</button>
         <button class="btn-role" onclick="loginWali()">WALI SANTRI</button>
     </div>
 
     <div id="pilih-kelas-page" class="hidden">
         <header class="header-dash">
-            <div class="header-left"><div class="brand-text">NURUL YUSUF</div></div>
+            <div class="header-left"><div class="brand-text">MADRASAH DINIYAH<br>NURUL YUSUF</div></div>
             <div class="header-center">DAFTAR KELAS</div>
-            <div class="header-right"><button onclick="logout()">OUT</button></div>
+            <div class="header-right"><button onclick="logout()" style="background:#333; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.55rem;">OUT</button></div>
         </header>
         <div id="grid-kelas-otomatis" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px;"></div>
     </div>
@@ -52,15 +52,15 @@
     <div id="absensi-page" class="hidden">
         <header class="header-dash">
             <div id="judul-kelas-aktif" class="header-center">KELAS</div>
-            <div class="header-right"><span class="live-jam">00:00</span></div>
+            <div class="header-right"><span class="live-jam">00:00 WIB</span></div>
         </header>
         <nav class="nav-tabs-custom">
-            <div id="tab-absensi" class="nav-link-custom active" onclick="gantiTab('absensi')">ABSENSI</div>
-            <div id="tab-hafalan" class="nav-link-custom" onclick="gantiTab('hafalan')">HAFALAN</div>
-            <div id="tab-rekap" class="nav-link-custom" onclick="bukaModalRekap()">REKAP</div>
+            <div class="nav-link-custom active">ABSENSI</div>
+            <div class="nav-link-custom">HAFALAN</div>
+            <div class="nav-link-custom" onclick="bukaModalRekap()">REKAP</div>
         </nav>
-        <div style="display:flex; justify-content:space-between; padding:15px;">
-            <button onclick="backToKelas()">KEMBALI</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:15px;">
+            <button style="background:#333; color:white; border:none; padding:8px 15px; border-radius:6px; font-size:0.7rem;" onclick="backToKelas()">KEMBALI</button>
             <input type="date" id="input-tanggal" onchange="sinkronisasiStatus()">
         </div>
         <div id="konten-absensi" class="absensi-box">
@@ -71,8 +71,8 @@
 
     <div id="rekap-modal" class="hidden">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h4 style="color:var(--madin-green)">REKAP TOTAL</h4>
-            <button onclick="tutupModalRekap()" style="background:red; color:white; border:none; padding:5px 15px; border-radius:5px;">TUTUP</button>
+            <h4 style="margin:0; color:var(--madin-green)">REKAP DATA SANTRI</h4>
+            <button onclick="tutupModalRekap()" style="background:red; color:white; border:none; border-radius:50%; width:30px; height:30px;">&times;</button>
         </div>
         <div id="isi-rekap"></div>
     </div>
@@ -85,24 +85,25 @@
         let kelasAktif = "";
 
         async function loginUstadz() {
-            const pw = prompt("Password:");
+            const pw = prompt("Masukkan Password Ustadz:");
             if(pw === '123') { currentUserRole = "ustadz"; lanjutMasuk(); }
+            else if(pw) { alert("Salah!"); }
         }
+
         function loginWali() { currentUserRole = "wali"; lanjutMasuk(); }
 
         async function lanjutMasuk() {
             document.getElementById('login-page').classList.add('hidden');
             document.getElementById('pilih-kelas-page').classList.remove('hidden');
-            await loadDaftarKelas();
-            await loadDataSantri();
-            await loadLogAbsensi();
+            // Menjalankan load data secara paralel agar cepat
+            Promise.all([loadDaftarKelas(), loadDataSantri(), loadLogAbsensi()]);
         }
 
         async function loadDaftarKelas() {
             const res = await fetch(scriptURL + "?action=readKelas");
             const list = await res.json();
             document.getElementById('grid-kelas-otomatis').innerHTML = list.map(k => 
-                `<button style="background:var(--dark-bar); color:white; padding:20px; border-radius:12px; border:none;" onclick="bukaAbsensi('${encodeURIComponent(k)}')">${k}</button>`
+                `<button style="background:var(--dark-bar); color:white; border:none; padding:18px; border-radius:12px; font-weight:800; font-size:0.75rem;" onclick="bukaAbsensi('${encodeURIComponent(k)}')">${k}</button>`
             ).join('');
         }
 
@@ -122,11 +123,10 @@
             const tglPilihan = document.getElementById('input-tanggal').value;
             semuaDataSantri.forEach(s => {
                 const found = logAbsensi.find(row => {
-                    let tglRow = "";
-                    if(row[1]) tglRow = row[1].toString().split('T')[0];
+                    let tglRow = row[1] ? row[1].toString().split('T')[0] : "";
                     return tglRow === tglPilihan && row[3] === s.nama;
                 });
-                s.status = found ? found[4] : "";
+                s.status = found ? found[4] : ""; 
             });
             if(kelasAktif) renderSantri();
         }
@@ -144,7 +144,7 @@
             document.getElementById('list-santri').innerHTML = filtered.map(s => {
                 const isFilled = s.status !== "" ? "sudah-absen" : "";
                 const check = s.status !== "" ? "✅ " : "";
-                // Handle petik satu untuk nama seperti Al-Mubdi'
+                // PERBAIKAN AL-MUBDI' (Escape tanda petik tunggal)
                 const safeName = s.nama.replace(/'/g, "\\'");
                 return `
                 <div class="santri-item ${isFilled}">
@@ -166,13 +166,16 @@
             const tgl = document.getElementById('input-tanggal').value;
             const btn = document.getElementById('btn-save-absen');
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif && s.status !== "");
+            if(!filtered.length) return alert("Belum ada data!");
             
-            btn.disabled = true; btn.innerText = "MENYIMPAN...";
-            for(let s of filtered) {
-                await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${encodeURIComponent(kelasAktif)}&nama=${encodeURIComponent(s.nama)}&status=${s.status}`);
-            }
-            alert("Selesai!");
-            await loadLogAbsensi(); // Refresh log agar rekap update
+            btn.disabled = true; btn.innerText = "PROSES...";
+            try {
+                for(let s of filtered) {
+                    await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${encodeURIComponent(kelasAktif)}&nama=${encodeURIComponent(s.nama)}&status=${s.status}`);
+                }
+                alert("Berhasil!");
+                await loadLogAbsensi(); // Refresh log agar rekap sinkron
+            } catch(e) { alert("Gagal koneksi!"); }
             btn.disabled = false; btn.innerText = "KONFIRMASI ABSENSI";
         }
 
@@ -181,7 +184,7 @@
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif);
             document.getElementById('isi-rekap').innerHTML = filtered.map(s => {
                 const hists = logAbsensi.filter(row => row[3] === s.nama);
-                return `<div class="card-rekap"><b>${s.nama}</b><br>H:${hists.filter(r=>r[4]==='H').length} S:${hists.filter(r=>r[4]==='S').length} I:${hists.filter(r=>r[4]==='I').length} A:${hists.filter(r=>r[4]==='A').length}</div>`;
+                return `<div class="card-rekap"><b>${s.nama}</b><br><small>H:${hists.filter(r=>r[4]==='H').length} S:${hists.filter(r=>r[4]==='S').length} I:${hists.filter(r=>r[4]==='I').length} A:${hists.filter(r=>r[4]==='A').length}</small></div>`;
             }).join('');
         }
 
@@ -189,8 +192,12 @@
         function backToKelas() { document.getElementById('absensi-page').classList.add('hidden'); document.getElementById('pilih-kelas-page').classList.remove('hidden'); }
         function logout() { location.reload(); }
         
+        setInterval(() => { 
+            document.querySelectorAll('.live-jam').forEach(el => el.innerText = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + " WIB"); 
+        }, 1000);
+
         window.onload = () => { 
-            document.getElementById('input-tanggal').value = new Date().toLocaleDateString('en-CA');
+            document.getElementById('input-tanggal').value = new Date().toLocaleDateString('en-CA'); 
         };
     </script>
 </body>
