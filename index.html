@@ -37,10 +37,13 @@
         .hafalan-table td { border-bottom: 1px solid #444; padding: 10px 2px; text-align: center; color: white; }
 
         .btn-konfirmasi { background: var(--madin-green); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: 800; margin-top: 15px; }
-        .btn-konfirmasi:disabled { background: #555; opacity: 0.7; }
+        .btn-rekap-total { background: #444; color: var(--madin-green); border: 1px solid var(--madin-green); width: calc(100% - 30px); margin: 10px 15px; padding: 15px; border-radius: 10px; font-weight: 800; font-size: 0.8rem; }
+        
         input[type="date"] { border: none; background: var(--madin-green); color: white; font-weight: 800; font-size: 0.7rem; border-radius: 5px; padding: 5px; }
         .mode-view .btn-konfirmasi, .mode-view .btn-tambah, .mode-view .btn-hapus { display: none !important; }
-        @media (max-width: 380px) { .brand-text { display: none; } .header-center { font-size: 0.75rem; } }
+        
+        #rekap-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; padding: 20px; overflow-y: auto; color: white; }
+        .card-rekap { background: #333; border-radius: 12px; padding: 15px; margin-bottom: 10px; border-left: 5px solid var(--madin-green); }
     </style>
 </head>
 <body id="main-body">
@@ -60,12 +63,9 @@
             <div class="header-center">DAFTAR KELAS</div>
             <div class="header-right"><span class="live-jam">00:00 WIB</span><button onclick="logout()" style="background:#333; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.55rem; font-weight:800;">OUT</button></div>
         </header>
-        <div id="banner-text" style="background: var(--dark-bar); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 800;">MEMUAT DATA...</div>
-        <div id="box-motivasi" style="background: var(--dark-bar); color: #7ed348; margin: 20px; padding: 25px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem; border: 1px solid #444;">
-            "Memuat Motivasi..."
-        </div>
-        <div id="grid-kelas-otomatis" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 40px;">
-            </div>
+        <div id="banner-text" style="background: var(--dark-bar); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 800;">PILIH KELAS</div>
+        <div id="box-motivasi" style="background: var(--dark-bar); color: #7ed348; margin: 20px; padding: 25px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem; border: 1px solid #444;">"Memuat Motivasi..."</div>
+        <div id="grid-kelas-otomatis" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 40px;"></div>
     </div>
 
     <div id="absensi-page" class="hidden">
@@ -83,10 +83,13 @@
             <button style="background:#333; color:white; border:none; padding:8px 15px; border-radius:6px; font-weight:700; font-size:0.7rem;" onclick="backToKelas()">KEMBALI</button>
             <input type="date" id="input-tanggal">
         </div>
+
         <div id="konten-absensi" class="absensi-box">
             <div id="list-santri"></div>
+            <button class="btn-tambah" style="background:transparent; color:var(--madin-green); border:1px dashed var(--madin-green); width:100%; padding:10px; border-radius:8px; font-weight:800; font-size:0.7rem; margin-top:10px;" onclick="tambahSantri()">+ TAMBAH NAMA SANTRI</button>
             <button class="btn-konfirmasi" id="btn-save-absen" onclick="simpanAbsen()">KONFIRMASI ABSENSI</button>
         </div>
+
         <div id="konten-hafalan" class="absensi-box hidden">
             <table class="hafalan-table">
                 <thead><tr><th style="text-align:left">NAMA</th><th>SURAT</th><th>KET</th><th>CATATAN</th></tr></thead>
@@ -94,27 +97,46 @@
             </table>
             <button class="btn-konfirmasi" id="btn-save-hafalan" onclick="simpanHafalan()">KONFIRMASI HAFALAN</button>
         </div>
+
+        <button class="btn-rekap-total" onclick="bukaModalRekap()">LIHAT REKAP KEHADIRAN</button>
+    </div>
+
+    <div id="rekap-modal" class="hidden">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h4 style="margin:0; color:var(--madin-green)">REKAP DATA SANTRI</h4>
+            <button onclick="tutupModalRekap()" style="background:red; color:white; border:none; border-radius:50%; width:30px; height:30px; font-weight:bold;">&times;</button>
+        </div>
+        <div id="isi-rekap">Memproses Data...</div>
     </div>
 
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbzvXf255ErKrlqFoJ-pvrNCrd12veSNXQN_5oLFPSc-6L3l-WvWd8MabWMwpcRL_shw/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxQ-P3wYfU0ylH5cQiMU0nH-MZzS2XT4eoWX7Ehrw_YRgwGRNhEeFQFIUosjyYVL5Tq/exec";
         let currentUserRole = "ustadz";
         let semuaDataSantri = [];
+        let logAbsensi = []; 
         let kelasAktif = "";
 
         async function loginUstadz() {
             const pw = prompt("Masukkan Password Ustadz:");
-            if(pw === "gurumadinny") {
-                currentUserRole = "ustadz";
-                document.getElementById('main-body').classList.remove('mode-view');
-                lanjutMasuk();
-            } else { alert("Password Salah!"); }
+            if(!pw) return;
+            
+            try {
+                const res = await fetch(`${scriptURL}?action=login&pass=${pw}`);
+                const result = await res.text();
+                if(result === "SUCCESS") {
+                    currentUserRole = "ustadz";
+                    document.getElementById('main-body').classList.remove('mode-view');
+                    lanjutMasuk();
+                } else {
+                    alert("Password Salah!");
+                }
+            } catch (e) { alert("Error Login!"); }
         }
 
-        function loginWali() {
-            currentUserRole = "wali";
-            document.getElementById('main-body').classList.add('mode-view');
-            lanjutMasuk();
+        function loginWali() { 
+            currentUserRole = "wali"; 
+            document.getElementById('main-body').classList.add('mode-view'); 
+            lanjutMasuk(); 
         }
 
         async function lanjutMasuk() {
@@ -123,47 +145,49 @@
             await loadMotivasi();
             await loadDaftarKelas();
             await loadDataSantri();
+            await loadLogAbsensi(); 
         }
 
         async function loadMotivasi() {
             const hari = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
-            const hariIni = hari[new Date().getDay()];
             try {
                 const res = await fetch(scriptURL + "?action=readMotivasi");
                 const data = await res.json();
-                const motiv = data.find(m => m[0].toUpperCase() === hariIni);
-                document.getElementById('box-motivasi').innerText = motiv ? motiv[1] : "Semangat Belajar Al-Qur'an!";
-            } catch (e) { document.getElementById('box-motivasi').innerText = "Gagal memuat motivasi."; }
+                const motiv = data.find(m => m[0].toUpperCase() === hari[new Date().getDay()]);
+                document.getElementById('box-motivasi').innerText = motiv ? motiv[1] : "Semangat Mengaji!";
+            } catch (e) { document.getElementById('box-motivasi').innerText = "Madrasah Digital"; }
         }
 
         async function loadDaftarKelas() {
-            try {
-                const res = await fetch(scriptURL + "?action=readKelas");
-                const list = await res.json();
-                const container = document.getElementById('grid-kelas-otomatis');
-                container.innerHTML = list.map(k => `<button style="background:var(--dark-bar); color:white; border:none; padding:18px; border-radius:12px; font-weight:800; font-size:0.7rem;" onclick="bukaAbsensi('${k}')">${k.toUpperCase()}</button>`).join('');
-                document.getElementById('banner-text').innerText = currentUserRole === 'ustadz' ? "SILAHKAN PILIH KELAS ANDA" : "MODE LIHAT DATA (WALI)";
-            } catch (e) { alert("Gagal koneksi ke database!"); }
+            const res = await fetch(scriptURL + "?action=readKelas");
+            const list = await res.json();
+            document.getElementById('grid-kelas-otomatis').innerHTML = list.map(k => `<button style="background:var(--dark-bar); color:white; border:none; padding:18px; border-radius:12px; font-weight:800; font-size:0.75rem;" onclick="bukaAbsensi('${k}')">${k}</button>`).join('');
         }
 
         async function loadDataSantri() {
             const res = await fetch(scriptURL + "?action=read");
             const data = await res.json();
-            semuaDataSantri = data.map(row => ({ nama: row[1], kelas: row[2], status: "", surat: "-", ket: "-", catatan: "-" }));
+            semuaDataSantri = data.map(r => ({ nama: r[1], kelas: r[2], status: "", surat: "-", ket: "-", catatan: "-" }));
         }
 
-        function bukaAbsensi(namaKelas) {
-            kelasAktif = namaKelas;
-            document.getElementById('judul-kelas-aktif').innerText = namaKelas;
+        async function loadLogAbsensi() {
+            try {
+                const res = await fetch(scriptURL + "?action=readAbsensi");
+                logAbsensi = await res.json(); 
+            } catch (e) { console.log("Gagal load log"); }
+        }
+
+        function bukaAbsensi(k) {
+            kelasAktif = k; 
+            document.getElementById('judul-kelas-aktif').innerText = k;
             document.getElementById('pilih-kelas-page').classList.add('hidden');
             document.getElementById('absensi-page').classList.remove('hidden');
             renderSantri();
         }
 
         function renderSantri() {
-            const container = document.getElementById('list-santri');
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif);
-            container.innerHTML = filtered.map(s => `
+            document.getElementById('list-santri').innerHTML = filtered.map(s => `
                 <div class="santri-item">
                     <button class="name-btn">${s.nama}</button>
                     <div class="d-flex gap-1">
@@ -172,24 +196,65 @@
                 </div>`).join('');
         }
 
-        function updateStatus(nama, stat) {
+        function updateStatus(n, st) {
             if(currentUserRole !== 'ustadz') return;
-            semuaDataSantri.find(s => s.nama === nama).status = stat;
-            renderSantri();
+            const santri = semuaDataSantri.find(s => s.nama === n);
+            if(santri) {
+                santri.status = st;
+                renderSantri();
+            }
+        }
+
+        function tambahSantri() {
+            const n = prompt("Nama Santri Baru:");
+            if(n) { 
+                semuaDataSantri.push({ nama: n.toUpperCase(), kelas: kelasAktif, status: "", surat: "-", ket: "-", catatan: "-" }); 
+                renderSantri(); 
+            }
         }
 
         async function simpanAbsen() {
-            const btn = document.getElementById('btn-save-absen');
             const tgl = document.getElementById('input-tanggal').value;
+            const btn = document.getElementById('btn-save-absen');
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif && s.status !== "");
-            if(filtered.length === 0) return alert("Pilih status absen dulu!");
+            if(!filtered.length) return alert("Belum ada santri yang diabsen!");
             
             btn.disabled = true; btn.innerText = "MENYIMPAN...";
-            for(let s of filtered) {
-                await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${kelasAktif}&nama=${s.nama}&status=${s.status}`);
-            }
-            alert("Absensi " + kelasAktif + " Berhasil!");
+            try {
+                for(let s of filtered) { 
+                    await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${kelasAktif}&nama=${s.nama}&status=${s.status}`); 
+                }
+                alert("Absensi Berhasil Disimpan!");
+                await loadLogAbsensi();
+            } catch(e) { alert("Gagal menyimpan!"); }
             btn.disabled = false; btn.innerText = "KONFIRMASI ABSENSI";
+        }
+
+        function bukaModalRekap() {
+            document.getElementById('rekap-modal').classList.remove('hidden');
+            const filteredSantri = semuaDataSantri.filter(s => s.kelas === kelasAktif);
+            let html = "";
+            
+            filteredSantri.forEach(s => {
+                // Filter history berdasarkan Nama (kolom indeks 3 di sheet Absensi)
+                const history = logAbsensi.filter(row => row[3] === s.nama);
+                const h = history.filter(r => r[4] === "H").length;
+                const s_ = history.filter(r => r[4] === "S").length;
+                const i = history.filter(r => r[4] === "I").length;
+                const a = history.filter(r => r[4] === "A").length;
+                
+                html += `
+                <div class="card-rekap">
+                    <div style="font-weight:800; font-size:1rem; margin-bottom:5px;">${s.nama}</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:10px; font-size:0.75rem; font-weight:bold;">
+                        <span style="color:#7ed348">HADIR: ${h}</span>
+                        <span style="color:#ffeb3b">SAKIT: ${s_}</span>
+                        <span style="color:#03a9f4">IZIN: ${i}</span>
+                        <span style="color:#ff5252">ALPHA: ${a}</span>
+                    </div>
+                </div>`;
+            });
+            document.getElementById('isi-rekap').innerHTML = html || "Tidak ada data kehadiran.";
         }
 
         function gantiTab(tab) {
@@ -201,9 +266,8 @@
         }
 
         function renderHafalan() {
-            const container = document.getElementById('list-hafalan');
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif);
-            container.innerHTML = filtered.map(s => `
+            document.getElementById('list-hafalan').innerHTML = filtered.map(s => `
                 <tr>
                     <td style="text-align:left; font-weight:800; color:var(--madin-green)">${s.nama}</td>
                     <td onclick="editHafalan('${s.nama}','surat')">${s.surat}</td>
@@ -212,34 +276,40 @@
                 </tr>`).join('');
         }
 
-        function editHafalan(nama, field) {
+        function editHafalan(n, f) {
             if(currentUserRole !== 'ustadz') return;
-            const s = semuaDataSantri.find(x => x.nama === nama);
-            const val = prompt("Isi " + field.toUpperCase() + ":", s[field]);
-            if(val) { s[field] = val.toUpperCase(); renderHafalan(); }
+            const s = semuaDataSantri.find(x => x.nama === n);
+            const v = prompt(`Edit ${f.toUpperCase()} untuk ${n}:`, s[f]);
+            if(v !== null) { s[f] = v.toUpperCase() || "-"; renderHafalan(); }
         }
 
         async function simpanHafalan() {
-            const btn = document.getElementById('btn-save-hafalan');
             const tgl = document.getElementById('input-tanggal').value;
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif && s.surat !== "-");
-            btn.disabled = true;
-            for(let s of filtered) {
-                await fetch(`${scriptURL}?action=simpanHafalan&tanggal=${tgl}&kelas=${kelasAktif}&nama=${s.nama}&surat=${s.surat}&ket=${s.ket}&catatan=${s.catatan}`);
-            }
-            alert("Data Hafalan Berhasil!");
-            btn.disabled = false;
+            if(!filtered.length) return alert("Belum ada data hafalan baru.");
+
+            const btn = document.getElementById('btn-save-hafalan');
+            btn.disabled = true; btn.innerText = "MENYIMPAN...";
+            try {
+                for(let s of filtered) { 
+                    await fetch(`${scriptURL}?action=simpanHafalan&tanggal=${tgl}&kelas=${kelasAktif}&nama=${s.nama}&surat=${s.surat}&ket=${s.ket}&catatan=${s.catatan}`); 
+                }
+                alert("Hafalan Berhasil Disimpan!");
+            } catch(e) { alert("Gagal menyimpan hafalan!"); }
+            btn.disabled = false; btn.innerText = "KONFIRMASI HAFALAN";
         }
 
+        function tutupModalRekap() { document.getElementById('rekap-modal').classList.add('hidden'); }
         function backToKelas() { document.getElementById('absensi-page').classList.add('hidden'); document.getElementById('pilih-kelas-page').classList.remove('hidden'); }
         function logout() { location.reload(); }
 
         setInterval(() => {
-            const now = new Date();
-            document.querySelectorAll('.live-jam').forEach(el => el.innerText = now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + " WIB");
+            document.querySelectorAll('.live-jam').forEach(el => el.innerText = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + " WIB");
         }, 1000);
 
-        window.onload = () => { document.getElementById('input-tanggal').value = new Date().toISOString().split('T')[0]; };
+        window.onload = () => { 
+            document.getElementById('input-tanggal').value = new Date().toISOString().split('T')[0]; 
+        };
     </script>
 </body>
 </html>
