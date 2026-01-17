@@ -110,14 +110,14 @@
     </div>
 
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbxZDi8JGElyx83m3lnWjD38njWmQsqdehR2FFhbDgOjn4LlgSFXnpnebVP63WljyulA/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwaEuq8upBodGN4373tFo83b2KCuesSQct7SdWTOhXzfyNMKWKhD7XHfCYLdQEK0AZz/exec";
         let currentUserRole = "ustadz";
         let semuaDataSantri = [];
         let logAbsensi = []; 
         let kelasAktif = "";
 
         async function loginUstadz() {
-            const pw = prompt("Masukkan Password Ustadz:");
+            const pw = prompt("Masukkan Password Ustadz/ustadzah:");
             if(!pw) return;
             try {
                 const res = await fetch(`${scriptURL}?action=login&pass=${pw}`);
@@ -161,7 +161,7 @@
         async function loadDataSantri() {
             const res = await fetch(scriptURL + "?action=read");
             const data = await res.json();
-            semuaDataSantri = data.map(r => ({ nama: r[1], kelas: r[2], status: "", surat: "-", ket: "-", catatan: "-" }));
+            semuaDataSantri = data.map(r => ({ nama: r[1].toString().trim(), kelas: r[2].toString().trim(), status: "", surat: "-", ket: "-", catatan: "-" }));
         }
 
         async function loadLogAbsensi() {
@@ -172,12 +172,13 @@
 
         function sinkronisasiStatus() {
             const tglPilihan = document.getElementById('input-tanggal').value;
+            if(!tglPilihan) return;
+            
             semuaDataSantri.forEach(s => {
-                // Mencari record yang pas dengan tanggal dan nama
                 const found = logAbsensi.find(row => {
-                    // Format tanggal dari database (row[1]) disamakan dengan input date (YYYY-MM-DD)
+                    if(!row[1]) return false;
                     const tglRow = new Date(row[1]).toISOString().split('T')[0];
-                    return tglRow === tglPilihan && row[3] === s.nama;
+                    return tglRow === tglPilihan && row[3].toString().trim() === s.nama;
                 });
                 s.status = found ? found[4] : ""; 
             });
@@ -211,7 +212,6 @@
             if(currentUserRole !== 'ustadz') return;
             const santri = semuaDataSantri.find(s => s.nama === n);
             if(santri) { 
-                // Jika klik status yang sama, reset jadi kosong (untuk batalkan)
                 santri.status = (santri.status === st) ? "" : st; 
                 renderSantri(); 
             }
@@ -222,9 +222,9 @@
             const namaBaru = prompt("Masukkan Nama Santri Baru:");
             if(!namaBaru) return;
             
-            // Tambahkan ke array lokal
+            const nUpper = namaBaru.toUpperCase().trim();
             semuaDataSantri.push({
-                nama: namaBaru.toUpperCase(),
+                nama: nUpper,
                 kelas: kelasAktif,
                 status: "",
                 surat: "-",
@@ -232,12 +232,10 @@
                 catatan: "-"
             });
             
-            // Tampilkan kembali
             renderSantri();
             
-            // Opsional: Kirim ke database (Server side action=tambahSantri harus tersedia di GAS)
             try {
-                await fetch(`${scriptURL}?action=tambahSantri&nama=${encodeURIComponent(namaBaru.toUpperCase())}&kelas=${encodeURIComponent(kelasAktif)}`);
+                await fetch(`${scriptURL}?action=tambahSantri&nama=${encodeURIComponent(nUpper)}&kelas=${encodeURIComponent(kelasAktif)}`);
             } catch(e) { console.log("Database sync failed"); }
         }
 
@@ -245,19 +243,17 @@
             if(currentUserRole !== 'ustadz') return;
             const tgl = document.getElementById('input-tanggal').value;
             const btn = document.getElementById('btn-save-absen');
-            // Hanya simpan santri di kelas aktif yang sudah dipilih statusnya
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif && s.status !== "");
             
             if(!filtered.length) return alert("Pilih status absen dulu!");
             
             btn.disabled = true; btn.innerText = "MENYIMPAN...";
             try {
-                // Loop simpan satu-satu (atau bisa dioptimasi di backend GAS)
                 for(let s of filtered) { 
                     await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${encodeURIComponent(kelasAktif)}&nama=${encodeURIComponent(s.nama)}&status=${s.status}`); 
                 }
                 alert("Berhasil Tersimpan ke Database!");
-                await loadLogAbsensi(); // Refresh log agar status ✅ muncul permanen
+                await loadLogAbsensi(); // REFRESH DATA AGAR ✅ TETAP ADA
             } catch(e) { alert("Gagal Simpan!"); }
             btn.disabled = false; btn.innerText = "KONFIRMASI ABSENSI";
         }
@@ -283,9 +279,13 @@
 
         function editHafalan(n, f) {
             if(currentUserRole !== 'ustadz') return;
-            const s = semuaDataSantri.find(x => x.nama === n);
+            const s = semuaDataSantri.find(x => x.nama.toString().trim() === n.toString().trim());
+            if(!s) return;
             const v = prompt(`Edit ${f.toUpperCase()}:`, s[f]);
-            if(v !== null) { s[f] = v.toUpperCase() || "-"; renderHafalan(); }
+            if(v !== null) { 
+                s[f] = v.toUpperCase() || "-"; 
+                renderHafalan(); 
+            }
         }
 
         async function simpanHafalan() {
@@ -307,7 +307,7 @@
             document.getElementById('rekap-modal').classList.remove('hidden');
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif);
             document.getElementById('isi-rekap').innerHTML = filtered.map(s => {
-                const hists = logAbsensi.filter(row => row[3] === s.nama);
+                const hists = logAbsensi.filter(row => row[3].toString().trim() === s.nama);
                 return `<div class="card-rekap"><b>${s.nama}</b><br><small>H:${hists.filter(r=>r[4]==='H').length} S:${hists.filter(r=>r[4]==='S').length} I:${hists.filter(r=>r[4]==='I').length} A:${hists.filter(r=>r[4]==='A').length}</small></div>`;
             }).join('');
         }
