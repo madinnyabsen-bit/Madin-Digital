@@ -11,61 +11,36 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8f9fa; margin: 0; padding: 0; overflow-x: hidden; }
         .hidden { display: none !important; }
 
-        /* HEADER FIX - 3 COLUMN SYSTEM */
-        .header-dash { 
-            background: var(--madin-green); 
-            height: 65px; 
-            display: grid; 
-            grid-template-columns: 1fr auto 1fr; 
-            align-items: center; 
-            padding: 0 15px; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
-        }
+        .header-dash { background: var(--madin-green); height: 65px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 15px; position: sticky; top: 0; z-index: 1000; }
         .header-left { display: flex; align-items: center; gap: 8px; }
         .header-center { font-weight: 800; font-size: 0.85rem; color: var(--primary-green); text-transform: uppercase; }
         .header-right { display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
-
         .logo-small { width: 32px; height: 32px; background: #444; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: 800; flex-shrink: 0; }
         .brand-text { font-weight: 800; font-size: 0.55rem; line-height: 1.1; color: var(--primary-green); }
 
-        /* STYLE LOGIN PAGE */
-        #login-page { 
-            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #ffffff; padding: 20px; text-align: center;
-        }
+        #login-page { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #ffffff; padding: 20px; text-align: center; }
         .logo-circle-lg { width: 110px; height: 110px; background: var(--primary-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; margin-bottom: 25px; border: 4px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .btn-role { background: #2b2b2b; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; width: 100%; max-width: 300px; margin-bottom: 15px; text-transform: uppercase; transition: 0.3s; }
 
-        /* DASHBOARD & NAV */
         .nav-tabs-custom { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--dark-bar); }
         .nav-link-custom { color: white; text-align: center; padding: 12px; font-weight: 700; font-size: 0.75rem; border: 0.5px solid #444; text-decoration: none; cursor: pointer; }
         .nav-link-custom.active { background: #444; border-bottom: 3px solid var(--madin-green); }
         
-        /* BOX CONTENT */
         .absensi-box { background: var(--dark-bar); margin: 0 15px; border-radius: 12px; padding: 15px; color: white; }
         .santri-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #444; gap: 5px; }
         .name-btn { background: var(--madin-green); border: none; color: white; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; flex: 1; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .btn-st { background: #555; border: none; color: white; width: 28px; height: 28px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; flex-shrink: 0; }
         .btn-st.active { background: var(--madin-green); }
         
-        /* HAFALAN TABLE */
         .hafalan-table { width: 100%; border-collapse: collapse; font-size: 0.65rem; margin-top: 10px; }
         .hafalan-table th { color: var(--madin-green); border-bottom: 2px solid #444; padding: 8px 2px; text-align: center; }
-        .hafalan-table td { border-bottom: 1px solid #444; padding: 10px 2px; text-align: center; }
+        .hafalan-table td { border-bottom: 1px solid #444; padding: 10px 2px; text-align: center; color: white; }
 
         .btn-konfirmasi { background: var(--madin-green); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: 800; margin-top: 15px; }
+        .btn-konfirmasi:disabled { background: #555; opacity: 0.7; }
         input[type="date"] { border: none; background: var(--madin-green); color: white; font-weight: 800; font-size: 0.7rem; border-radius: 5px; padding: 5px; }
-
-        /* CLASS KHUSUS UNTUK MENYEMBUNYIKAN ELEMEN EDIT */
-        .mode-view .btn-konfirmasi, 
-        .mode-view .btn-tambah, 
-        .mode-view .btn-hapus { display: none !important; }
-
-        @media (max-width: 380px) {
-            .brand-text { display: none; }
-            .header-center { font-size: 0.75rem; }
-        }
+        .mode-view .btn-konfirmasi, .mode-view .btn-tambah, .mode-view .btn-hapus { display: none !important; }
+        @media (max-width: 380px) { .brand-text { display: none; } .header-center { font-size: 0.75rem; } }
     </style>
 </head>
 <body id="main-body">
@@ -81,90 +56,57 @@
 
     <div id="pilih-kelas-page" class="hidden">
         <header class="header-dash">
-            <div class="header-left">
-                <div class="logo-small">LOGO</div>
-                <div class="brand-text">MADRASAH DINIYAH<br>NURUL YUSUF</div>
-            </div>
-            <div class="header-center">PILIH KELAS</div>
-            <div class="header-right">
-                <span class="live-jam" style="font-weight:800; font-size:0.65rem; white-space:nowrap;">00:00 WIB</span>
-                <button onclick="logout()" style="background:#333; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.55rem; font-weight:800;">OUT</button>
-            </div>
+            <div class="header-left"><div class="logo-small">LOGO</div><div class="brand-text">MADRASAH DINIYAH<br>NURUL YUSUF</div></div>
+            <div class="header-center">DAFTAR KELAS</div>
+            <div class="header-right"><span class="live-jam">00:00 WIB</span><button onclick="logout()" style="background:#333; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:0.55rem; font-weight:800;">OUT</button></div>
         </header>
-        <div id="banner-text" style="background: var(--dark-bar); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 800;">SILAHKAN KONFIRMASI KELAS</div>
-        <div style="background: var(--dark-bar); color: white; margin: 20px; padding: 25px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem;">MOTIVASI HARI INI</div>
-        <div class="grid-kelas" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 40px;">
-            <button style="background: var(--dark-bar); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;" onclick="bukaAbsensi('KELAS A')">KELAS A</button>
-            <button style="background: var(--dark-bar); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;" onclick="bukaAbsensi('KELAS B')">KELAS B</button>
-            <button style="background: var(--dark-bar); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;" onclick="bukaAbsensi('KELAS C')">KELAS C</button>
-            <button style="background: var(--dark-bar); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase;" onclick="bukaAbsensi('KELAS D')">KELAS D</button>
+        <div id="banner-text" style="background: var(--dark-bar); color: white; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 800;">MEMUAT DATA...</div>
+        <div id="box-motivasi" style="background: var(--dark-bar); color: #7ed348; margin: 20px; padding: 25px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.9rem; border: 1px solid #444;">
+            "Memuat Motivasi..."
         </div>
+        <div id="grid-kelas-otomatis" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 40px;">
+            </div>
     </div>
 
     <div id="absensi-page" class="hidden">
         <header class="header-dash">
-            <div class="header-left">
-                <div class="logo-small">LOGO</div>
-                <div class="brand-text">MADRASAH DINIYAH<br>NURUL YUSUF</div>
-            </div>
+            <div class="header-left"><div class="logo-small">LOGO</div><div class="brand-text">MADRASAH DINIYAH<br>NURUL YUSUF</div></div>
             <div id="judul-kelas-aktif" class="header-center">KELAS</div>
-            <div class="header-right">
-                <span class="live-jam" style="font-weight:800; font-size:0.65rem;">00:00 WIB</span>
-            </div>
+            <div class="header-right"><span class="live-jam">00:00 WIB</span></div>
         </header>
-
         <nav class="nav-tabs-custom">
             <div id="tab-absensi" class="nav-link-custom active" onclick="gantiTab('absensi')">ABSENSI</div>
             <div id="tab-hafalan" class="nav-link-custom" onclick="gantiTab('hafalan')">HAFALAN</div>
             <div id="tab-materi" class="nav-link-custom" onclick="gantiTab('materi')">MATERI</div>
         </nav>
-
         <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 20px;">
             <button style="background:#333; color:white; border:none; padding:8px 15px; border-radius:6px; font-weight:700; font-size:0.7rem;" onclick="backToKelas()">KEMBALI</button>
-            <input type="date" id="input-tanggal" onchange="filterTanggal()">
+            <input type="date" id="input-tanggal">
         </div>
-
         <div id="konten-absensi" class="absensi-box">
-            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:0.7rem; color:var(--madin-green); margin-bottom:10px; padding:0 5px;">
-                <span>NAMA SANTRI</span>
-                <span>STATUS</span>
-            </div>
             <div id="list-santri"></div>
-            <button class="btn-tambah" style="background:transparent; color:var(--madin-green); border:1px dashed var(--madin-green); width:100%; padding:10px; border-radius:8px; font-weight:800; font-size:0.7rem; margin-top:10px;" onclick="tambahSantri()">+ TAMBAH NAMA SANTRI</button>
-            <button class="btn-konfirmasi" onclick="simpanKeDatabase()">KONFIRMASI ABSENSI</button>
+            <button class="btn-konfirmasi" id="btn-save-absen" onclick="simpanAbsen()">KONFIRMASI ABSENSI</button>
         </div>
-
         <div id="konten-hafalan" class="absensi-box hidden">
             <table class="hafalan-table">
-                <thead>
-                    <tr>
-                        <th style="text-align:left">NAMA</th>
-                        <th>SURAT/JUZ/AYAT</th>
-                        <th>KET</th>
-                        <th>CATATAN</th>
-                    </tr>
-                </thead>
+                <thead><tr><th style="text-align:left">NAMA</th><th>SURAT</th><th>KET</th><th>CATATAN</th></tr></thead>
                 <tbody id="list-hafalan"></tbody>
             </table>
-            <button class="btn-konfirmasi" onclick="simpanKeDatabase()">KONFIRMASI HAFALAN</button>
+            <button class="btn-konfirmasi" id="btn-save-hafalan" onclick="simpanHafalan()">KONFIRMASI HAFALAN</button>
         </div>
-
-        <button id="btn-rekap" class="btn-rekap-total" style="background: var(--dark-bar); color: white; border: none; width: calc(100% - 30px); margin: 20px 15px; padding: 25px; border-radius: 12px; font-weight: 800;" onclick="alert('Membuka Rekap Total...')">TOTAL REKAP</button>
     </div>
 
     <script>
-        let currentUserRole = "ustadz"; // default
-        let dataSantri = [
-            { id: 1, nama: "ZAYDAN", status: "", surat: "-", ket: "-", catatan: "-" },
-            { id: 2, nama: "SYAMIL", status: "", surat: "-", ket: "-", catatan: "-" }
-        ];
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzvXf255ErKrlqFoJ-pvrNCrd12veSNXQN_5oLFPSc-6L3l-WvWd8MabWMwpcRL_shw/exec";
+        let currentUserRole = "ustadz";
+        let semuaDataSantri = [];
+        let kelasAktif = "";
 
-        function loginUstadz() {
+        async function loginUstadz() {
             const pw = prompt("Masukkan Password Ustadz:");
-            if(pw === "123") {
+            if(pw === "gurumadinny") {
                 currentUserRole = "ustadz";
                 document.getElementById('main-body').classList.remove('mode-view');
-                document.getElementById('banner-text').innerText = "SILAHKAN KONFIRMASI KELAS";
                 lanjutMasuk();
             } else { alert("Password Salah!"); }
         }
@@ -172,141 +114,132 @@
         function loginWali() {
             currentUserRole = "wali";
             document.getElementById('main-body').classList.add('mode-view');
-            document.getElementById('banner-text').innerText = "MODE LIHAT DATA (WALI SANTRI)";
             lanjutMasuk();
         }
 
-        function lanjutMasuk() {
+        async function lanjutMasuk() {
             document.getElementById('login-page').classList.add('hidden');
             document.getElementById('pilih-kelas-page').classList.remove('hidden');
+            await loadMotivasi();
+            await loadDaftarKelas();
+            await loadDataSantri();
         }
 
-        function logout() {
-            if(confirm("Keluar aplikasi?")) {
-                document.getElementById('pilih-kelas-page').classList.add('hidden');
-                document.getElementById('absensi-page').classList.add('hidden');
-                document.getElementById('login-page').classList.remove('hidden');
-            }
+        async function loadMotivasi() {
+            const hari = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
+            const hariIni = hari[new Date().getDay()];
+            try {
+                const res = await fetch(scriptURL + "?action=readMotivasi");
+                const data = await res.json();
+                const motiv = data.find(m => m[0].toUpperCase() === hariIni);
+                document.getElementById('box-motivasi').innerText = motiv ? motiv[1] : "Semangat Belajar Al-Qur'an!";
+            } catch (e) { document.getElementById('box-motivasi').innerText = "Gagal memuat motivasi."; }
+        }
+
+        async function loadDaftarKelas() {
+            try {
+                const res = await fetch(scriptURL + "?action=readKelas");
+                const list = await res.json();
+                const container = document.getElementById('grid-kelas-otomatis');
+                container.innerHTML = list.map(k => `<button style="background:var(--dark-bar); color:white; border:none; padding:18px; border-radius:12px; font-weight:800; font-size:0.7rem;" onclick="bukaAbsensi('${k}')">${k.toUpperCase()}</button>`).join('');
+                document.getElementById('banner-text').innerText = currentUserRole === 'ustadz' ? "SILAHKAN PILIH KELAS ANDA" : "MODE LIHAT DATA (WALI)";
+            } catch (e) { alert("Gagal koneksi ke database!"); }
+        }
+
+        async function loadDataSantri() {
+            const res = await fetch(scriptURL + "?action=read");
+            const data = await res.json();
+            semuaDataSantri = data.map(row => ({ nama: row[1], kelas: row[2], status: "", surat: "-", ket: "-", catatan: "-" }));
         }
 
         function bukaAbsensi(namaKelas) {
+            kelasAktif = namaKelas;
             document.getElementById('judul-kelas-aktif').innerText = namaKelas;
             document.getElementById('pilih-kelas-page').classList.add('hidden');
             document.getElementById('absensi-page').classList.remove('hidden');
             renderSantri();
         }
 
-        function backToKelas() {
-            document.getElementById('absensi-page').classList.add('hidden');
-            document.getElementById('pilih-kelas-page').classList.remove('hidden');
+        function renderSantri() {
+            const container = document.getElementById('list-santri');
+            const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif);
+            container.innerHTML = filtered.map(s => `
+                <div class="santri-item">
+                    <button class="name-btn">${s.nama}</button>
+                    <div class="d-flex gap-1">
+                        ${['H','S','I','A'].map(st => `<button class="btn-st ${s.status===st?'active':''}" onclick="updateStatus('${s.nama}','${st}')">${st}</button>`).join('')}
+                    </div>
+                </div>`).join('');
+        }
+
+        function updateStatus(nama, stat) {
+            if(currentUserRole !== 'ustadz') return;
+            semuaDataSantri.find(s => s.nama === nama).status = stat;
+            renderSantri();
+        }
+
+        async function simpanAbsen() {
+            const btn = document.getElementById('btn-save-absen');
+            const tgl = document.getElementById('input-tanggal').value;
+            const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif && s.status !== "");
+            if(filtered.length === 0) return alert("Pilih status absen dulu!");
+            
+            btn.disabled = true; btn.innerText = "MENYIMPAN...";
+            for(let s of filtered) {
+                await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${kelasAktif}&nama=${s.nama}&status=${s.status}`);
+            }
+            alert("Absensi " + kelasAktif + " Berhasil!");
+            btn.disabled = false; btn.innerText = "KONFIRMASI ABSENSI";
         }
 
         function gantiTab(tab) {
             document.querySelectorAll('.nav-link-custom').forEach(el => el.classList.remove('active'));
-            document.getElementById('konten-absensi').classList.add('hidden');
-            document.getElementById('konten-hafalan').classList.add('hidden');
-            document.getElementById('btn-rekap').classList.add('hidden');
-
             document.getElementById('tab-' + tab).classList.add('active');
-            if(tab === 'absensi') {
-                document.getElementById('konten-absensi').classList.remove('hidden');
-                document.getElementById('btn-rekap').classList.remove('hidden');
-                renderSantri();
-            } else if(tab === 'hafalan') {
-                document.getElementById('konten-hafalan').classList.remove('hidden');
-                renderHafalan();
-            }
-        }
-
-        function renderSantri() {
-            const container = document.getElementById('list-santri');
-            container.innerHTML = dataSantri.map(s => {
-                // Sembunyikan tombol hapus jika Wali
-                const btnHapus = currentUserRole === 'ustadz' ? `<button class="btn-hapus" onclick="hapusSantri(${s.id})" style="background:none; border:none; color:#ff5252; font-size:1.1rem; padding-left:5px;">&times;</button>` : '';
-                
-                return `
-                <div class="santri-item">
-                    <button class="name-btn" onclick="${currentUserRole==='ustadz'?'editNama('+s.id+')':''}">${s.nama}</button>
-                    <div class="d-flex gap-1">
-                        <button class="btn-st ${s.status==='H'?'active':''}" onclick="${currentUserRole==='ustadz'?'updateStatus('+s.id+',\'H\')':''}">H</button>
-                        <button class="btn-st ${s.status==='S'?'active':''}" onclick="${currentUserRole==='ustadz'?'updateStatus('+s.id+',\'S\')':''}">S</button>
-                        <button class="btn-st ${s.status==='I'?'active':''}" onclick="${currentUserRole==='ustadz'?'updateStatus('+s.id+',\'I\')':''}">I</button>
-                        <button class="btn-st ${s.status==='A'?'active':''}" onclick="${currentUserRole==='ustadz'?'updateStatus('+s.id+',\'A\')':''}">A</button>
-                        ${btnHapus}
-                    </div>
-                </div>
-            `}).join('');
+            document.getElementById('konten-absensi').classList.toggle('hidden', tab !== 'absensi');
+            document.getElementById('konten-hafalan').classList.toggle('hidden', tab !== 'hafalan');
+            if(tab === 'hafalan') renderHafalan();
         }
 
         function renderHafalan() {
             const container = document.getElementById('list-hafalan');
-            container.innerHTML = dataSantri.map(s => `
+            const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif);
+            container.innerHTML = filtered.map(s => `
                 <tr>
                     <td style="text-align:left; font-weight:800; color:var(--madin-green)">${s.nama}</td>
-                    <td onclick="${currentUserRole==='ustadz'?'editFieldHafalan('+s.id+', \'surat\')':''}">${s.surat}</td>
-                    <td onclick="${currentUserRole==='ustadz'?'editFieldHafalan('+s.id+', \'ket\')':''}">${s.ket}</td>
-                    <td onclick="${currentUserRole==='ustadz'?'editFieldHafalan('+s.id+', \'catatan\')':''}">${s.catatan}</td>
-                </tr>
-            `).join('');
+                    <td onclick="editHafalan('${s.nama}','surat')">${s.surat}</td>
+                    <td onclick="editHafalan('${s.nama}','ket')">${s.ket}</td>
+                    <td onclick="editHafalan('${s.nama}','catatan')">${s.catatan}</td>
+                </tr>`).join('');
         }
 
-        function editFieldHafalan(id, field) {
+        function editHafalan(nama, field) {
             if(currentUserRole !== 'ustadz') return;
-            let s = dataSantri.find(x => x.id === id);
-            if(field === 'ket') {
-                let p = prompt("Pilih Keterangan:\n1. ZIYADAH\n2. MURAJA'AH", "1");
-                if(p === "1") s.ket = "ZIYADAH";
-                else if(p === "2") s.ket = "MURAJA'AH";
-            } else {
-                let val = prompt("Edit " + field.toUpperCase() + ":", s[field]);
-                if(val !== null) s[field] = val.toUpperCase();
+            const s = semuaDataSantri.find(x => x.nama === nama);
+            const val = prompt("Isi " + field.toUpperCase() + ":", s[field]);
+            if(val) { s[field] = val.toUpperCase(); renderHafalan(); }
+        }
+
+        async function simpanHafalan() {
+            const btn = document.getElementById('btn-save-hafalan');
+            const tgl = document.getElementById('input-tanggal').value;
+            const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif && s.surat !== "-");
+            btn.disabled = true;
+            for(let s of filtered) {
+                await fetch(`${scriptURL}?action=simpanHafalan&tanggal=${tgl}&kelas=${kelasAktif}&nama=${s.nama}&surat=${s.surat}&ket=${s.ket}&catatan=${s.catatan}`);
             }
-            renderHafalan();
+            alert("Data Hafalan Berhasil!");
+            btn.disabled = false;
         }
 
-        function updateStatus(id, stat) {
-            if(currentUserRole !== 'ustadz') return;
-            dataSantri.find(x => x.id === id).status = stat;
-            renderSantri();
-        }
-
-        function tambahSantri() {
-            if(currentUserRole !== 'ustadz') return;
-            const n = prompt("Nama Santri:");
-            if(n) { 
-                dataSantri.push({id: Date.now(), nama: n.toUpperCase(), status: "", surat: "-", ket: "-", catatan: "-"}); 
-                renderSantri(); 
-            }
-        }
-
-        function editNama(id) {
-            if(currentUserRole !== 'ustadz') return;
-            const s = dataSantri.find(x => x.id === id);
-            const n = prompt("Edit Nama:", s.nama);
-            if(n) { s.nama = n.toUpperCase(); renderSantri(); }
-        }
-
-        function hapusSantri(id) {
-            if(currentUserRole !== 'ustadz') return;
-            if(confirm("Hapus santri?")) { dataSantri = dataSantri.filter(x => x.id !== id); renderSantri(); }
-        }
-
-        function simpanKeDatabase() { 
-            if(currentUserRole !== 'ustadz') return;
-            alert("Data Berhasil Dikonfirmasi!"); 
-        }
-
-        function filterTanggal() { alert("Melihat data tanggal: " + document.getElementById('input-tanggal').value); }
+        function backToKelas() { document.getElementById('absensi-page').classList.add('hidden'); document.getElementById('pilih-kelas-page').classList.remove('hidden'); }
+        function logout() { location.reload(); }
 
         setInterval(() => {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + " WIB";
-            document.querySelectorAll('.live-jam').forEach(el => el.innerText = timeStr);
+            document.querySelectorAll('.live-jam').forEach(el => el.innerText = now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + " WIB");
         }, 1000);
 
-        window.onload = () => {
-            document.getElementById('input-tanggal').value = new Date().toISOString().split('T')[0];
-        };
+        window.onload = () => { document.getElementById('input-tanggal').value = new Date().toISOString().split('T')[0]; };
     </script>
 </body>
 </html>
