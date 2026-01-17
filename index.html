@@ -84,13 +84,30 @@
         let logAbsensi = []; 
         let kelasAktif = "";
 
+        // LOGIN DENGAN VALIDASI KE SERVER (TERSEMBUNYI)
         async function loginUstadz() {
             const pw = prompt("Masukkan Password Ustadz:");
-            if(pw === '123') { currentUserRole = "ustadz"; lanjutMasuk(); }
-            else if(pw) { alert("Salah!"); }
+            if (!pw) return;
+
+            try {
+                const response = await fetch(`${scriptURL}?action=login&pass=${encodeURIComponent(pw)}`);
+                const hasil = await response.text();
+
+                if (hasil === "SUCCESS") {
+                    currentUserRole = "ustadz";
+                    lanjutMasuk();
+                } else {
+                    alert("Password Salah!");
+                }
+            } catch (e) {
+                alert("Koneksi gagal saat verifikasi password.");
+            }
         }
 
-        function loginWali() { currentUserRole = "wali"; lanjutMasuk(); }
+        function loginWali() { 
+            currentUserRole = "wali"; 
+            lanjutMasuk(); 
+        }
 
         async function lanjutMasuk() {
             document.getElementById('login-page').classList.add('hidden');
@@ -144,8 +161,10 @@
             document.getElementById('list-santri').innerHTML = filtered.map(s => {
                 const isFilled = s.status !== "" ? "sudah-absen" : "";
                 const check = s.status !== "" ? "✅ " : "";
-                // PERBAIKAN AL-MUBDI' (Escape tanda petik tunggal)
+                
+                // PERBAIKAN AL-MUBDI'
                 const safeName = s.nama.replace(/'/g, "\\'");
+                
                 return `
                 <div class="santri-item ${isFilled}">
                     <button class="name-btn">${check}${s.nama}</button>
@@ -174,7 +193,7 @@
                     await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${encodeURIComponent(kelasAktif)}&nama=${encodeURIComponent(s.nama)}&status=${s.status}`);
                 }
                 alert("Berhasil!");
-                await loadLogAbsensi(); // Refresh log agar rekap sinkron
+                await loadLogAbsensi(); 
             } catch(e) { alert("Gagal koneksi!"); }
             btn.disabled = false; btn.innerText = "KONFIRMASI ABSENSI";
         }
