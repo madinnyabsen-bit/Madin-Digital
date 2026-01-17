@@ -110,7 +110,7 @@
     </div>
 
     <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbzh_Td2bvQiA-tg4U-TgIAM_6QKDwBaOkllg8Wu02V7mlVvlhh_qe2boEMTfTr1KFmA/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbykLF2jOb6QCUpAvKmDuGTpsjje8rZGQrygHJz3sT-Q1400cQCF-JkI3AC9QZzwHgAP/exec";
         let currentUserRole = "ustadz";
         let semuaDataSantri = [];
         let logAbsensi = []; 
@@ -233,6 +233,7 @@
             renderSantri();
             try {
                 await fetch(`${scriptURL}?action=tambahSantri&nama=${encodeURIComponent(nUpper)}&kelas=${encodeURIComponent(kelasAktif)}`);
+                await loadDataSantri();
             } catch(e) { console.log("Database sync failed"); }
         }
 
@@ -242,15 +243,25 @@
             const btn = document.getElementById('btn-save-absen');
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif && s.status !== "");
             if(!filtered.length) return alert("Pilih status absen dulu!");
-            btn.disabled = true; btn.innerText = "MENYIMPAN...";
+            
+            btn.disabled = true; 
+            btn.innerText = "MENYIMPAN...";
+            
             try {
-                for(let s of filtered) { 
-                    await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${encodeURIComponent(kelasAktif)}&nama=${encodeURIComponent(s.nama)}&status=${s.status}`); 
-                }
+                // Gunakan Promise.all agar fetch berjalan beriringan tapi kita tunggu semuanya SELESAI
+                const promises = filtered.map(s => 
+                    fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${encodeURIComponent(kelasAktif)}&nama=${encodeURIComponent(s.nama)}&status=${s.status}`)
+                );
+                await Promise.all(promises);
+                
                 alert("Berhasil Tersimpan!");
-                await loadLogAbsensi(); 
-            } catch(e) { alert("Gagal Simpan!"); }
-            btn.disabled = false; btn.innerText = "KONFIRMASI ABSENSI";
+                await loadLogAbsensi(); // Ambil log terbaru agar tanda ✅ muncul
+            } catch(e) { 
+                alert("Gagal Simpan!"); 
+            } finally {
+                btn.disabled = false; 
+                btn.innerText = "KONFIRMASI ABSENSI";
+            }
         }
 
         function gantiTab(tab) {
@@ -290,11 +301,12 @@
             const btn = document.getElementById('btn-save-hafalan');
             btn.disabled = true; btn.innerText = "MEMPROSES...";
             try {
-                for(let s of filtered) { 
-                    await fetch(`${scriptURL}?action=simpanHafalan&tanggal=${tgl}&kelas=${encodeURIComponent(kelasAktif)}&nama=${encodeURIComponent(s.nama)}&surat=${s.surat}&ket=${s.ket}&catatan=${s.catatan}`); 
-                }
+                const promises = filtered.map(s => 
+                    fetch(`${scriptURL}?action=simpanHafalan&tanggal=${tgl}&kelas=${encodeURIComponent(kelasAktif)}&nama=${encodeURIComponent(s.nama)}&surat=${s.surat}&ket=${s.ket}&catatan=${s.catatan}`)
+                );
+                await Promise.all(promises);
                 alert("Hafalan Berhasil Dicatat!");
-            } catch(e) { }
+            } catch(e) { alert("Gagal Simpan Hafalan!"); }
             btn.disabled = false; btn.innerText = "KONFIRMASI HAFALAN";
         }
 
