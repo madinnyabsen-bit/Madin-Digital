@@ -27,10 +27,16 @@
         .nav-link-custom.active { background: #444; border-bottom: 3px solid var(--madin-green); }
         
         .absensi-box { background: var(--dark-bar); margin: 0 15px; border-radius: 12px; padding: 15px; color: white; }
-        .santri-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #444; gap: 5px; }
+        
+        /* EFFECT: Gaya santri yang sudah terisi */
+        .santri-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 8px; border-bottom: 1px solid #444; gap: 5px; transition: 0.3s; border-radius: 8px; }
+        .santri-item.sudah-absen { background: rgba(126, 211, 72, 0.15); border-left: 4px solid var(--madin-green); }
+        
         .name-btn { background: var(--madin-green); border: none; color: white; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; flex: 1; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .sudah-absen .name-btn { background: #1b5e20; } /* Warna lebih gelap jika sudah absen */
+
         .btn-st { background: #555; border: none; color: white; width: 28px; height: 28px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; flex-shrink: 0; }
-        .btn-st.active { background: var(--madin-green); }
+        .btn-st.active { background: var(--madin-green); transform: scale(1.1); }
         
         .hafalan-table { width: 100%; border-collapse: collapse; font-size: 0.65rem; margin-top: 10px; }
         .hafalan-table th { color: var(--madin-green); border-bottom: 2px solid #444; padding: 8px 2px; text-align: center; }
@@ -81,7 +87,7 @@
         </nav>
         <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 20px;">
             <button style="background:#333; color:white; border:none; padding:8px 15px; border-radius:6px; font-weight:700; font-size:0.7rem;" onclick="backToKelas()">KEMBALI</button>
-            <input type="date" id="input-tanggal">
+            <input type="date" id="input-tanggal" onchange="sinkronisasiStatus()">
         </div>
 
         <div id="konten-absensi" class="absensi-box">
@@ -119,7 +125,6 @@
         async function loginUstadz() {
             const pw = prompt("Masukkan Password Ustadz:");
             if(!pw) return;
-            
             try {
                 const res = await fetch(`${scriptURL}?action=login&pass=${pw}`);
                 const result = await res.text();
@@ -127,9 +132,7 @@
                     currentUserRole = "ustadz";
                     document.getElementById('main-body').classList.remove('mode-view');
                     lanjutMasuk();
-                } else {
-                    alert("Password Salah!");
-                }
+                } else { alert("Password Salah!"); }
             } catch (e) { alert("Error Login!"); }
         }
 
@@ -159,9 +162,14 @@
         }
 
         async function loadDaftarKelas() {
-            const res = await fetch(scriptURL + "?action=readKelas");
-            const list = await res.json();
-            document.getElementById('grid-kelas-otomatis').innerHTML = list.map(k => `<button style="background:var(--dark-bar); color:white; border:none; padding:18px; border-radius:12px; font-weight:800; font-size:0.75rem;" onclick="bukaAbsensi('${k}')">${k}</button>`).join('');
+            try {
+                const res = await fetch(scriptURL + "?action=readKelas");
+                const list = await res.json();
+                document.getElementById('grid-kelas-otomatis').innerHTML = list.map(k => {
+                    // FIX: Gunakan JSON.stringify untuk menangani petik satu seperti Al-Mubdi'
+                    return `<button style="background:var(--dark-bar); color:white; border:none; padding:18px; border-radius:12px; font-weight:800; font-size:0.75rem;" onclick='bukaAbsensi(${JSON.stringify(k)})'>${k}</button>`;
+                }).join('');
+            } catch (e) { console.error("Gagal load kelas"); }
         }
 
         async function loadDataSantri() {
@@ -174,7 +182,22 @@
             try {
                 const res = await fetch(scriptURL + "?action=readAbsensi");
                 logAbsensi = await res.json(); 
+                sinkronisasiStatus(); // Langsung cek data hari ini
             } catch (e) { console.log("Gagal load log"); }
+        }
+
+        // FUNGSI BARU: Mencocokkan data lokal dengan data di Google Sheets berdasarkan Tanggal
+        function sinkronisasiStatus() {
+            const tglPilihan = document.getElementById('input-tanggal').value;
+            semuaDataSantri.forEach(s => {
+                // Cari apakah santri ini sudah ada di log absensi pada tanggal tersebut
+                const found = logAbsensi.find(row => {
+                    const tglRow = new Date(row[1]).toISOString().split('T')[0];
+                    return tglRow === tglPilihan && row[3] === s.nama;
+                });
+                s.status = found ? found[4] : ""; // Jika ketemu, set statusnya. Jika tidak, kosongkan.
+            });
+            if(kelasAktif) renderSantri();
         }
 
         function bukaAbsensi(k) {
@@ -182,18 +205,22 @@
             document.getElementById('judul-kelas-aktif').innerText = k;
             document.getElementById('pilih-kelas-page').classList.add('hidden');
             document.getElementById('absensi-page').classList.remove('hidden');
-            renderSantri();
+            sinkronisasiStatus(); // Pastikan data terbaru saat buka kelas
         }
 
         function renderSantri() {
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif);
-            document.getElementById('list-santri').innerHTML = filtered.map(s => `
-                <div class="santri-item">
-                    <button class="name-btn">${s.nama}</button>
+            document.getElementById('list-santri').innerHTML = filtered.map(s => {
+                const isFilled = s.status !== "" ? "sudah-absen" : "";
+                const checkIcon = s.status !== "" ? "✅ " : "";
+                return `
+                <div class="santri-item ${isFilled}">
+                    <button class="name-btn">${checkIcon}${s.nama}</button>
                     <div class="d-flex gap-1">
-                        ${['H','S','I','A'].map(st => `<button class="btn-st ${s.status===st?'active':''}" onclick="updateStatus('${s.nama}','${st}')">${st}</button>`).join('')}
+                        ${['H','S','I','A'].map(st => `<button class="btn-st ${s.status===st?'active':''}" onclick="updateStatus('${s.nama.replace(/'/g, "\\'")}','${st}')">${st}</button>`).join('')}
                     </div>
-                </div>`).join('');
+                </div>`;
+            }).join('');
         }
 
         function updateStatus(n, st) {
@@ -202,14 +229,6 @@
             if(santri) {
                 santri.status = st;
                 renderSantri();
-            }
-        }
-
-        function tambahSantri() {
-            const n = prompt("Nama Santri Baru:");
-            if(n) { 
-                semuaDataSantri.push({ nama: n.toUpperCase(), kelas: kelasAktif, status: "", surat: "-", ket: "-", catatan: "-" }); 
-                renderSantri(); 
             }
         }
 
@@ -225,24 +244,29 @@
                     await fetch(`${scriptURL}?action=absen&tanggal=${tgl}&kelas=${kelasAktif}&nama=${s.nama}&status=${s.status}`); 
                 }
                 alert("Absensi Berhasil Disimpan!");
-                await loadLogAbsensi();
+                await loadLogAbsensi(); // Reload data agar tanda ✅ permanen di hari itu
             } catch(e) { alert("Gagal menyimpan!"); }
             btn.disabled = false; btn.innerText = "KONFIRMASI ABSENSI";
+        }
+
+        function tambahSantri() {
+            const n = prompt("Nama Santri Baru:");
+            if(n) { 
+                semuaDataSantri.push({ nama: n.toUpperCase(), kelas: kelasAktif, status: "", surat: "-", ket: "-", catatan: "-" }); 
+                renderSantri(); 
+            }
         }
 
         function bukaModalRekap() {
             document.getElementById('rekap-modal').classList.remove('hidden');
             const filteredSantri = semuaDataSantri.filter(s => s.kelas === kelasAktif);
             let html = "";
-            
             filteredSantri.forEach(s => {
-                // Filter history berdasarkan Nama (kolom indeks 3 di sheet Absensi)
                 const history = logAbsensi.filter(row => row[3] === s.nama);
                 const h = history.filter(r => r[4] === "H").length;
                 const s_ = history.filter(r => r[4] === "S").length;
                 const i = history.filter(r => r[4] === "I").length;
                 const a = history.filter(r => r[4] === "A").length;
-                
                 html += `
                 <div class="card-rekap">
                     <div style="font-weight:800; font-size:1rem; margin-bottom:5px;">${s.nama}</div>
@@ -270,9 +294,9 @@
             document.getElementById('list-hafalan').innerHTML = filtered.map(s => `
                 <tr>
                     <td style="text-align:left; font-weight:800; color:var(--madin-green)">${s.nama}</td>
-                    <td onclick="editHafalan('${s.nama}','surat')">${s.surat}</td>
-                    <td onclick="editHafalan('${s.nama}','ket')">${s.ket}</td>
-                    <td onclick="editHafalan('${s.nama}','catatan')">${s.catatan}</td>
+                    <td onclick="editHafalan('${s.nama.replace(/'/g, "\\'")}','surat')">${s.surat}</td>
+                    <td onclick="editHafalan('${s.nama.replace(/'/g, "\\'")}','ket')">${s.ket}</td>
+                    <td onclick="editHafalan('${s.nama.replace(/'/g, "\\'")}','catatan')">${s.catatan}</td>
                 </tr>`).join('');
         }
 
@@ -287,7 +311,6 @@
             const tgl = document.getElementById('input-tanggal').value;
             const filtered = semuaDataSantri.filter(s => s.kelas === kelasAktif && s.surat !== "-");
             if(!filtered.length) return alert("Belum ada data hafalan baru.");
-
             const btn = document.getElementById('btn-save-hafalan');
             btn.disabled = true; btn.innerText = "MENYIMPAN...";
             try {
@@ -307,9 +330,7 @@
             document.querySelectorAll('.live-jam').forEach(el => el.innerText = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + " WIB");
         }, 1000);
 
-        window.onload = () => { 
-            document.getElementById('input-tanggal').value = new Date().toISOString().split('T')[0]; 
-        };
+        window.onload = () => { document.getElementById('input-tanggal').value = new Date().toISOString().split('T')[0]; };
     </script>
 </body>
 </html>
