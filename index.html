@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Manajemen Pesantren</title>
+    <title>Madrasah Diniyah Nurul Yusuf</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,6 +27,7 @@
         .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Loader Biasa (Cadangan jika video gagal) */
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid #16a34a; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
@@ -35,37 +36,40 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased overflow-x-hidden">
 
-    <div id="loadingScreen" class="fixed inset-0 z-50 bg-islamic-600 flex flex-col items-center justify-center text-white transition-opacity duration-700">
-        <div class="mb-4 text-4xl font-bold tracking-widest">BISMILLAH</div>
-        <div class="loader mb-4"></div>
-        <p class="text-sm opacity-80 animate-pulse">Memuat Sistem...</p>
+    <div id="loadingScreen" class="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center transition-opacity duration-700">
+        <video autoplay muted playsinline class="w-48 h-48 object-cover rounded-2xl shadow-lg mb-4">
+            <source src="./loading.mp4" type="video/mp4">
+            <div class="loader"></div> 
+        </video>
+        <p class="text-islamic-600 font-bold tracking-widest animate-pulse text-sm">MEMUAT SISTEM...</p>
     </div>
 
     <section id="loginPage" class="hidden min-h-screen flex items-center justify-center p-4 bg-islamic-50">
         <div class="glass-effect w-full max-w-md p-8 rounded-3xl shadow-xl border border-islamic-100 text-center fade-in">
-            <div class="mx-auto w-20 h-20 bg-islamic-100 rounded-full flex items-center justify-center mb-4 text-islamic-600">
-                <i class="fas fa-quran text-3xl"></i>
+            <div class="mx-auto w-24 h-24 mb-4 bg-white rounded-full p-2 shadow-sm flex items-center justify-center">
+                <img src="./logo.png" onerror="this.src='https://via.placeholder.com/100?text=LOGO'" alt="Logo" class="w-full h-full object-contain">
             </div>
+            
             <h1 class="text-2xl font-bold text-gray-800">MADRASAH DIGITAL</h1>
             <p class="text-gray-500 text-sm mb-8">Platform Manajemen Akademik</p>
 
             <div class="space-y-3">
-                <button onclick="handleLogin('ustadz')" class="w-full bg-white border-2 border-islamic-100 hover:border-islamic-500 p-4 rounded-xl flex items-center transition-all group">
-                    <div class="w-8 h-8 bg-islamic-100 rounded-full flex items-center justify-center text-islamic-600 group-hover:bg-islamic-500 group-hover:text-white">
+                <button onclick="handleLogin('ustadz')" class="w-full bg-white border-2 border-islamic-100 hover:border-islamic-500 p-4 rounded-xl flex items-center transition-all group shadow-sm hover:shadow-md">
+                    <div class="w-8 h-8 bg-islamic-100 rounded-full flex items-center justify-center text-islamic-600 group-hover:bg-islamic-500 group-hover:text-white transition-colors">
                         <i class="fas fa-chalkboard-user"></i>
                     </div>
                     <div class="ml-3 text-left">
-                        <h3 class="font-bold text-sm">Ustadz / Ustadzah</h3>
-                        <p class="text-[10px] text-gray-500">Kelola Kelas & Materi</p>
+                        <h3 class="font-bold text-sm text-gray-800">Ustadz / Ustadzah</h3>
+                        <p class="text-[10px] text-gray-500">Akses Penuh (Edit/Hapus)</p>
                     </div>
                 </button>
-                <button onclick="handleLogin('walisantri')" class="w-full bg-white border-2 border-islamic-100 hover:border-blue-500 p-4 rounded-xl flex items-center transition-all group">
-                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 group-hover:bg-blue-500 group-hover:text-white">
+                <button onclick="handleLogin('walisantri')" class="w-full bg-white border-2 border-islamic-100 hover:border-blue-500 p-4 rounded-xl flex items-center transition-all group shadow-sm hover:shadow-md">
+                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-colors">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="ml-3 text-left">
-                        <h3 class="font-bold text-sm">Wali Santri</h3>
-                        <p class="text-[10px] text-gray-500">Pantau Perkembangan</p>
+                        <h3 class="font-bold text-sm text-gray-800">Wali Santri</h3>
+                        <p class="text-[10px] text-gray-500">Hanya Lihat Data</p>
                     </div>
                 </button>
             </div>
@@ -76,8 +80,8 @@
         <header class="bg-white shadow-sm sticky top-0 z-40 px-4 py-3 border-b border-gray-100">
             <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
                 <div class="flex items-center w-full md:w-auto">
-                    <div class="w-10 h-10 bg-islamic-600 text-white rounded-lg flex items-center justify-center mr-3 shadow-md">
-                        <i class="fas fa-mosque"></i>
+                    <div class="w-10 h-10 mr-3 rounded-lg overflow-hidden border border-gray-200 shadow-sm bg-white p-1">
+                        <img src="./logo.png" onerror="this.style.display='none'" alt="Logo" class="w-full h-full object-contain">
                     </div>
                     <div>
                         <h1 class="font-bold text-gray-800 leading-tight">MADRASAH DIGITAL</h1>
@@ -91,9 +95,9 @@
                 <div class="flex items-center justify-end w-full md:w-auto gap-3 order-2 md:order-3">
                     <div class="text-right hidden md:block">
                         <p id="userRoleText" class="text-xs font-bold text-gray-700">User</p>
-                        <p class="text-[10px] text-green-600">● Online</p>
+                        <p id="connectionStatus" class="text-[10px] text-gray-400">● Offline</p>
                     </div>
-                    <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
+                    <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center shadow-sm">
                         <i class="fas fa-power-off"></i>
                     </button>
                 </div>
@@ -113,18 +117,18 @@
         <main id="classDetailPage" class="hidden flex-1 p-4 max-w-6xl mx-auto w-full fade-in">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
                 <div>
-                    <button onclick="navTo('dashboard')" class="text-xs text-gray-500 hover:text-islamic-600 mb-1 flex items-center">
-                        <i class="fas fa-arrow-left mr-1"></i> Kembali ke Dashboard
+                    <button onclick="navTo('dashboard')" class="text-xs text-gray-500 hover:text-islamic-600 mb-1 flex items-center font-bold">
+                        <i class="fas fa-arrow-left mr-1"></i> KEMBALI KE DASHBOARD
                     </button>
                     <h1 id="detailClassName" class="text-2xl font-bold text-islamic-800">Nama Kelas</h1>
                 </div>
-                <div class="flex items-center bg-gray-50 p-2 rounded-lg border border-gray-200 w-full md:w-auto">
-                    <span class="text-xs text-gray-500 mr-2 font-bold px-2">TANGGAL:</span>
+                <div class="flex items-center bg-gray-50 p-2 rounded-lg border border-gray-200 w-full md:w-auto shadow-sm">
+                    <span class="text-xs text-gray-500 mr-2 font-bold px-2">TANGGAL DATA:</span>
                     <input type="date" id="globalDateInput" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-islamic-500 focus:border-islamic-500 block p-1.5" onchange="handleDateChange(this.value)">
                 </div>
             </div>
 
-            <div class="flex space-x-2 mb-6 overflow-x-auto pb-1 scrollbar-hide border-b">
+            <div class="flex space-x-2 mb-6 overflow-x-auto pb-1 scrollbar-hide border-b border-gray-200">
                 <button onclick="switchTab('absensi')" id="tab-absensi" class="tab-btn active-tab px-5 py-2 text-sm font-semibold border-b-2 border-islamic-600 text-islamic-600 transition-all">Absensi</button>
                 <button onclick="switchTab('hafalan')" id="tab-hafalan" class="tab-btn px-5 py-2 text-sm font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700 transition-all">Hafalan</button>
                 <button onclick="switchTab('materi')" id="tab-materi" class="tab-btn px-5 py-2 text-sm font-semibold text-gray-500 border-b-2 border-transparent hover:text-gray-700 transition-all">Jurnal Materi</button>
@@ -134,7 +138,7 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
                     <div class="p-4 border-b bg-gray-50 flex justify-between items-center">
                         <h3 class="font-bold text-gray-700 flex items-center"><i class="far fa-check-circle mr-2"></i> Presensi Harian</h3>
-                        <button id="addStudentBtn" onclick="prepareAddStudent()" class="text-xs bg-gray-800 text-white px-3 py-1.5 rounded hover:bg-gray-700 transition">
+                        <button id="addStudentBtn" onclick="prepareAddStudent()" class="text-xs bg-gray-800 text-white px-3 py-1.5 rounded hover:bg-gray-700 transition shadow-sm">
                             <i class="fas fa-user-plus mr-1"></i> Santri Baru
                         </button>
                     </div>
@@ -178,7 +182,7 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="p-4 border-b bg-gray-50 flex justify-between items-center">
                         <h3 class="font-bold text-gray-700">Setoran Hafalan Tanggal Ini</h3>
-                        <button id="addHafalanBtn" onclick="prepareAddHafalan()" class="text-xs bg-islamic-600 text-white px-3 py-1.5 rounded hover:bg-islamic-700">
+                        <button id="addHafalanBtn" onclick="prepareAddHafalan()" class="text-xs bg-islamic-600 text-white px-3 py-1.5 rounded hover:bg-islamic-700 shadow-sm">
                             <i class="fas fa-plus mr-1"></i> Input Hafalan
                         </button>
                     </div>
@@ -192,8 +196,7 @@
                                     <th class="px-4 py-3 text-center action-col">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="hafalanTableBody">
-                                </tbody>
+                            <tbody id="hafalanTableBody"></tbody>
                         </table>
                     </div>
                     <div id="hafalanEmptyState" class="p-6 text-center text-gray-400 hidden">
@@ -215,96 +218,97 @@
     </div>
 
     <div id="classModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-sm p-6 fade-in">
-            <h3 class="font-bold text-lg mb-4">Data Kelas</h3>
-            <input type="text" id="inputClassName" class="w-full border rounded p-2 mb-4" placeholder="Nama Kelas">
+        <div class="bg-white rounded-2xl w-full max-w-sm p-6 fade-in shadow-2xl">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">Data Kelas</h3>
+            <input type="text" id="inputClassName" class="w-full border rounded-lg p-3 mb-4 focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="Nama Kelas">
             <div class="flex justify-end gap-2">
-                <button onclick="closeModal('classModal')" class="px-4 py-2 text-gray-500 rounded hover:bg-gray-100">Batal</button>
-                <button onclick="saveClass()" class="px-4 py-2 bg-islamic-600 text-white rounded">Simpan</button>
+                <button onclick="closeModal('classModal')" class="px-4 py-2 text-gray-500 rounded hover:bg-gray-100 font-medium">Batal</button>
+                <button onclick="saveClass()" class="px-4 py-2 bg-islamic-600 text-white rounded shadow hover:bg-islamic-700 font-medium">Simpan</button>
             </div>
         </div>
     </div>
+
     <div id="studentModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-sm p-6 fade-in">
-            <h3 class="font-bold text-lg mb-4">Data Santri</h3>
-            <input type="text" id="inputStudentName" class="w-full border rounded p-2 mb-4" placeholder="Nama Santri">
+        <div class="bg-white rounded-2xl w-full max-w-sm p-6 fade-in shadow-2xl">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">Data Santri</h3>
+            <input type="text" id="inputStudentName" class="w-full border rounded-lg p-3 mb-4 focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="Nama Santri">
             <div class="flex justify-end gap-2">
-                <button onclick="closeModal('studentModal')" class="px-4 py-2 text-gray-500 rounded hover:bg-gray-100">Batal</button>
-                <button onclick="saveStudent()" class="px-4 py-2 bg-islamic-600 text-white rounded">Simpan</button>
+                <button onclick="closeModal('studentModal')" class="px-4 py-2 text-gray-500 rounded hover:bg-gray-100 font-medium">Batal</button>
+                <button onclick="saveStudent()" class="px-4 py-2 bg-islamic-600 text-white rounded shadow hover:bg-islamic-700 font-medium">Simpan</button>
             </div>
         </div>
     </div>
+
     <div id="materiModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md p-6 fade-in">
-            <h3 class="font-bold text-lg mb-4">Input Materi</h3>
-            <input type="text" id="inputMateriTitle" class="w-full border rounded p-2 mb-2" placeholder="Judul / Mapel">
-            <textarea id="inputMateriDesc" rows="3" class="w-full border rounded p-2 mb-4" placeholder="Isi materi..."></textarea>
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 fade-in shadow-2xl">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">Input Materi</h3>
+            <input type="text" id="inputMateriTitle" class="w-full border rounded-lg p-3 mb-2 focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="Judul / Mapel">
+            <textarea id="inputMateriDesc" rows="3" class="w-full border rounded-lg p-3 mb-4 focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="Isi materi..."></textarea>
             <div class="flex justify-end gap-2">
-                <button onclick="closeModal('materiModal')" class="px-4 py-2 text-gray-500 rounded hover:bg-gray-100">Batal</button>
-                <button onclick="saveMateri()" class="px-4 py-2 bg-islamic-600 text-white rounded">Simpan</button>
+                <button onclick="closeModal('materiModal')" class="px-4 py-2 text-gray-500 rounded hover:bg-gray-100 font-medium">Batal</button>
+                <button onclick="saveMateri()" class="px-4 py-2 bg-islamic-600 text-white rounded shadow hover:bg-islamic-700 font-medium">Simpan</button>
             </div>
         </div>
     </div>
+
     <div id="hafalanModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-sm p-6 fade-in">
+        <div class="bg-white rounded-2xl w-full max-w-sm p-6 fade-in shadow-2xl">
             <h3 class="font-bold text-lg mb-4 text-islamic-800">Input Hafalan</h3>
-            
             <label class="text-xs font-bold text-gray-500">Pilih Santri</label>
-            <select id="inputHafalanStudent" class="w-full border rounded p-2 mb-3 bg-white"></select>
-            
+            <select id="inputHafalanStudent" class="w-full border rounded-lg p-2.5 mb-3 bg-white focus:ring-2 focus:ring-islamic-500"></select>
             <label class="text-xs font-bold text-gray-500">Hafalan (Surah & Ayat)</label>
-            <input type="text" id="inputHafalanSurah" class="w-full border rounded p-2 mb-3" placeholder="Misal: Al-Baqarah 1-10">
-            
+            <input type="text" id="inputHafalanSurah" class="w-full border rounded-lg p-2.5 mb-3" placeholder="Misal: Al-Baqarah 1-10">
             <label class="text-xs font-bold text-gray-500">Catatan / Predikat</label>
-            <input type="text" id="inputHafalanNote" class="w-full border rounded p-2 mb-4" placeholder="Misal: Lancar, Tajwid kurang">
-            
+            <input type="text" id="inputHafalanNote" class="w-full border rounded-lg p-2.5 mb-4" placeholder="Misal: Lancar, Tajwid kurang">
             <div class="flex justify-end gap-2">
-                <button onclick="closeModal('hafalanModal')" class="px-4 py-2 text-gray-500 rounded hover:bg-gray-100">Batal</button>
-                <button onclick="saveHafalan()" class="px-4 py-2 bg-islamic-600 text-white rounded">Simpan</button>
+                <button onclick="closeModal('hafalanModal')" class="px-4 py-2 text-gray-500 rounded hover:bg-gray-100 font-medium">Batal</button>
+                <button onclick="saveHafalan()" class="px-4 py-2 bg-islamic-600 text-white rounded shadow hover:bg-islamic-700 font-medium">Simpan</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- KONFIGURASI DATABASE ---
-        // GANTI LINK DI BAWAH INI SETELAH ANDA MEMBUAT GOOGLE APPS SCRIPT
-        const GOOGLE_SCRIPT_URL = "URL_GOOGLE_APPS_SCRIPT_ANDA_DISINI"; 
+        // ==========================================
+        //  PENTING: TEMPEL URL APPS SCRIPT DI SINI!
+        // ==========================================
+        const GOOGLE_SCRIPT_URL = "TEMPEL_URL_PANJANG_DARI_TAHAP_1_DISINI"; 
 
         const state = {
             role: 'ustadz',
             currentClassId: null,
-            editingClassId: null, editingStudentId: null, editingMateriId: null, editingHafalanId: null,
+            editingClassId: null, editingStudentId: null, editingMateriId: null,
             selectedDate: new Date().toISOString().split('T')[0]
         };
 
         let db = {
-            classes: [
-                {id: 1, name: "Kelas 1 Awwaliyah"},
-                {id: 2, name: "Kelas 2 Wustho"}
-            ],
+            classes: [],
             students: [],
             attendanceRecap: {},
             materi: [],
-            hafalan: [] // New: Array untuk menyimpan data hafalan
+            hafalan: []
         };
 
-        // --- INIT ---
         window.onload = function() {
             document.getElementById('globalDateInput').value = state.selectedDate;
             
-            // 1. Coba load dari Google Sheet
+            // Cek Loading Data
             fetch(GOOGLE_SCRIPT_URL)
             .then(res => res.json())
             .then(data => {
                 if(data && data.classes) {
                     db = data;
-                    console.log("Data loaded from Cloud");
+                    document.getElementById('connectionStatus').innerHTML = '<span class="text-green-600">● Online (Database)</span>';
+                    console.log("Database connected successfully.");
+                } else {
+                    // Jika data kosong, inisialisasi default
+                    document.getElementById('connectionStatus').innerHTML = '<span class="text-blue-600">● Database Baru</span>';
                 }
                 finishLoading();
             })
             .catch(err => {
-                console.log("Load Local Data");
-                const local = localStorage.getItem('pesantrenDB_v3');
+                console.log("Gagal koneksi atau Offline:", err);
+                document.getElementById('connectionStatus').innerHTML = '<span class="text-orange-500">● Mode Offline (Lokal)</span>';
+                const local = localStorage.getItem('pesantrenDB_v4');
                 if(local) db = JSON.parse(local);
                 finishLoading();
             });
@@ -316,7 +320,7 @@
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
                 document.getElementById('loginPage').classList.remove('hidden');
-            }, 2000);
+            }, 3000); // 3 detik loading biar video sempat main
         }
 
         function updateClock() {
@@ -326,18 +330,25 @@
         }
 
         function saveData() {
-            // Save Local
-            localStorage.setItem('pesantrenDB_v3', JSON.stringify(db));
-            // Save Cloud
-            if(GOOGLE_SCRIPT_URL !== "https://script.google.com/macros/s/AKfycbyZ6DYrhUDuQxHm1MA0wHEIUjPpbDxdwxEQGqFHeTRA5YY9JQSGB_kg9VEpLCw7IM6VPg/exec") {
+            localStorage.setItem('pesantrenDB_v4', JSON.stringify(db));
+            
+            if(GOOGLE_SCRIPT_URL.includes("script.google.com")) {
+                document.getElementById('connectionStatus').innerText = "● Menyimpan...";
                 fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify(db)
-                }).catch(e => console.log("Sync error", e));
+                })
+                .then(res => res.json())
+                .then(d => {
+                    document.getElementById('connectionStatus').innerHTML = '<span class="text-green-600">● Tersimpan</span>';
+                })
+                .catch(e => {
+                    document.getElementById('connectionStatus').innerHTML = '<span class="text-red-500">● Gagal Simpan</span>';
+                });
             }
         }
 
-        // --- AUTH ---
+        // --- AUTH & NAV ---
         function handleLogin(role) {
             state.role = role;
             document.getElementById('loginPage').classList.add('hidden');
@@ -345,19 +356,21 @@
             document.getElementById('userRoleText').innerText = role === 'ustadz' ? 'Ustadz' : 'Wali Santri';
             
             const isUstadz = role === 'ustadz';
-            const display = isUstadz ? 'inline-block' : 'none';
-            ['addClassBtn','addStudentBtn','addMateriBtn','addHafalanBtn'].forEach(id => {
+            // Tampilkan tombol tambah hanya untuk Ustadz
+            const ustadzOnlyElements = ['addClassBtn','addStudentBtn','addMateriBtn','addHafalanBtn'];
+            ustadzOnlyElements.forEach(id => {
                 const el = document.getElementById(id);
-                if(el) el.style.display = isUstadz ? 'flex' : 'none';
-                if(el && id !== 'addClassBtn') el.style.display = display; // btn class is flex
+                if(el) el.style.display = isUstadz ? (id === 'addClassBtn' ? 'flex' : 'inline-block') : 'none';
             });
 
+            // Tampilkan kolom aksi (Edit/Hapus) hanya untuk Ustadz
             const style = document.createElement('style');
             style.innerHTML = isUstadz ? `.action-col { display: table-cell; }` : `.action-col { display: none; }`;
             document.head.appendChild(style);
             
             renderClasses();
         }
+
         function logout() { location.reload(); }
         function navTo(p) { 
             if(p==='dashboard') {
@@ -372,23 +385,47 @@
             }
         }
 
-        // --- CLASS LOGIC ---
+        // --- CLASS LOGIC (DIPERBAIKI: TOMBOL EDIT MUNCUL TERUS) ---
         function renderClasses() {
             const c = document.getElementById('classList'); c.innerHTML='';
+            
+            if(db.classes.length === 0) {
+                c.innerHTML = '<p class="text-gray-400 col-span-3 text-center py-10">Belum ada kelas. Silakan tambah kelas baru.</p>';
+            }
+
             db.classes.forEach(x => {
                 const count = db.students.filter(s => s.classId === x.id).length;
-                const actions = state.role === 'ustadz' ? 
-                    `<button onclick="editClass(${x.id})" class="absolute top-2 right-2 text-gray-300 hover:text-blue-500"><i class="fas fa-pen"></i></button>` : '';
+                
+                // TOMBOL EDIT & HAPUS (Hanya Ustadz)
+                let actionButtons = '';
+                if(state.role === 'ustadz') {
+                    actionButtons = `
+                    <div class="absolute top-3 right-3 flex space-x-1">
+                        <button onclick="editClass(${x.id})" class="bg-white text-blue-500 hover:bg-blue-50 p-2 rounded-lg shadow-sm border border-gray-100 transition z-10" title="Edit Nama">
+                            <i class="fas fa-pen text-xs"></i>
+                        </button>
+                        <button onclick="deleteClass(${x.id})" class="bg-white text-red-500 hover:bg-red-50 p-2 rounded-lg shadow-sm border border-gray-100 transition z-10" title="Hapus Kelas">
+                            <i class="fas fa-trash text-xs"></i>
+                        </button>
+                    </div>`;
+                }
+
                 c.innerHTML += `
-                <div class="bg-white p-5 rounded-2xl border shadow-sm hover:shadow-md relative group">
-                    ${actions}
-                    <div onclick="openClass(${x.id})" class="cursor-pointer flex items-center">
-                        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center text-xl mr-3"><i class="fas fa-school"></i></div>
-                        <div><h3 class="font-bold text-gray-800">${x.name}</h3><p class="text-xs text-gray-500">${count} Santri</p></div>
+                <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all relative group overflow-hidden">
+                    ${actionButtons}
+                    <div onclick="openClass(${x.id})" class="cursor-pointer flex items-center mt-2">
+                        <div class="w-14 h-14 bg-islamic-50 text-islamic-600 rounded-2xl flex items-center justify-center text-2xl mr-4 shadow-sm">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-lg leading-tight">${x.name}</h3>
+                            <p class="text-xs text-gray-400 mt-1">${count} Santri</p>
+                        </div>
                     </div>
                 </div>`;
             });
         }
+        
         function openClass(id) {
             state.currentClassId = id;
             document.getElementById('detailClassName').innerText = db.classes.find(x=>x.id===id).name;
@@ -397,23 +434,64 @@
             switchTab('absensi');
             renderStudents(); renderMateri(); renderHafalan();
         }
-        function prepareAddClass() { state.editingClassId=null; document.getElementById('inputClassName').value=''; openModal('classModal'); }
-        function editClass(id) { state.editingClassId=id; document.getElementById('inputClassName').value=db.classes.find(x=>x.id===id).name; openModal('classModal'); }
+
+        // --- CRUD KELAS ---
+        function prepareAddClass() { 
+            state.editingClassId=null; 
+            document.getElementById('inputClassName').value=''; 
+            openModal('classModal'); 
+        }
+        function editClass(id) { 
+            // Cegah event bubbling (klik tombol tidak membuka kelas)
+            event.stopPropagation();
+            state.editingClassId=id; 
+            const cls = db.classes.find(x=>x.id===id);
+            if(cls) {
+                document.getElementById('inputClassName').value = cls.name; 
+                openModal('classModal'); 
+            }
+        }
         function saveClass() {
             const n = document.getElementById('inputClassName').value;
-            if(!n) return;
-            if(state.editingClassId) db.classes.find(x=>x.id===state.editingClassId).name=n;
-            else db.classes.push({id:Date.now(), name:n});
-            saveData(); renderClasses(); closeModal('classModal');
+            if(!n) return alert("Nama kelas tidak boleh kosong");
+            
+            if(state.editingClassId) {
+                // EDIT MODE
+                const cls = db.classes.find(x=>x.id===state.editingClassId);
+                if(cls) cls.name = n;
+            } else {
+                // ADD MODE
+                db.classes.push({id:Date.now(), name:n});
+            }
+            saveData(); 
+            renderClasses(); 
+            closeModal('classModal');
+        }
+        function deleteClass(id) {
+            event.stopPropagation();
+            if(confirm("Hapus kelas ini? Semua data santri di dalamnya juga akan terhapus.")) {
+                db.classes = db.classes.filter(x => x.id !== id);
+                db.students = db.students.filter(s => s.classId !== id);
+                saveData();
+                renderClasses();
+            }
         }
 
         // --- STUDENT LOGIC ---
         function prepareAddStudent() { state.editingStudentId=null; document.getElementById('inputStudentName').value=''; openModal('studentModal'); }
+        function editStudent(id) {
+            state.editingStudentId = id;
+            const s = db.students.find(x => x.id === id);
+            document.getElementById('inputStudentName').value = s.name;
+            openModal('studentModal');
+        }
         function saveStudent() {
             const n = document.getElementById('inputStudentName').value;
             if(!n) return;
-            if(state.editingStudentId) db.students.find(x=>x.id===state.editingStudentId).name=n;
-            else { 
+            if(state.editingStudentId) {
+                const s = db.students.find(x=>x.id===state.editingStudentId);
+                if(s) s.name = n;
+            } else { 
                 const nid=Date.now(); 
                 db.students.push({id:nid, classId:state.currentClassId, name:n, attendance:{}});
                 db.attendanceRecap[nid] = {H:0,I:0,S:0,A:0};
@@ -426,30 +504,42 @@
             const students = db.students.filter(s=>s.classId===state.currentClassId);
             const dt = state.selectedDate;
 
+            if(students.length === 0) {
+                tb.innerHTML = '<tr><td colspan="6" class="text-center p-4 text-gray-400">Belum ada santri</td></tr>';
+            }
+
             students.forEach(s => {
                 if(!db.attendanceRecap[s.id]) db.attendanceRecap[s.id]={H:0,I:0,S:0,A:0};
                 const st = s.attendance ? s.attendance[dt] : null;
                 const r = db.attendanceRecap[s.id];
                 const dis = state.role==='walisantri'?'disabled':'';
                 
-                // Absensi Row
+                // Row Absensi
                 tb.innerHTML += `
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="px-4 py-3 font-medium">${s.name}</td>
-                    ${['H','I','S','A'].map(k=>`<td class="text-center"><input type="radio" name="att_${s.id}" value="${k}" onchange="updAtt(${s.id},'${k}')" ${st===k?'checked':''} ${dis} class="cursor-pointer"></td>`).join('')}
-                    <td class="text-center action-col"><button onclick="delSt(${s.id})" class="text-red-500"><i class="fas fa-trash"></i></button></td>
+                <tr class="border-b hover:bg-gray-50 transition">
+                    <td class="px-4 py-3 font-medium text-gray-700">${s.name}</td>
+                    ${['H','I','S','A'].map(k=>`<td class="text-center"><input type="radio" name="att_${s.id}" value="${k}" onchange="updAtt(${s.id},'${k}')" ${st===k?'checked':''} ${dis} class="cursor-pointer accent-islamic-600 w-4 h-4"></td>`).join('')}
+                    <td class="text-center action-col py-3">
+                        <button onclick="editStudent(${s.id})" class="text-blue-500 hover:bg-blue-50 p-1.5 rounded mr-1"><i class="fas fa-pen"></i></button>
+                        <button onclick="delSt(${s.id})" class="text-red-500 hover:bg-red-50 p-1.5 rounded"><i class="fas fa-trash"></i></button>
+                    </td>
                 </tr>`;
 
-                // Recap Row
+                // Row Rekap
                 const tot = r.H+r.I+r.S+r.A; const p = tot?Math.round((r.H/tot)*100):0;
                 rb.innerHTML += `
                 <tr class="border-b hover:bg-gray-50">
                     <td class="px-4 py-3 font-medium">${s.name}</td>
-                    <td class="text-center font-bold text-green-600">${r.H}</td>
+                    <td class="text-center font-bold text-green-600 bg-green-50 rounded">${r.H}</td>
                     <td class="text-center text-blue-600">${r.I}</td>
                     <td class="text-center text-yellow-600">${r.S}</td>
                     <td class="text-center text-red-600">${r.A}</td>
-                    <td class="px-4 py-3 text-center text-xs">${p}%</td>
+                    <td class="px-4 py-3 text-center text-xs">
+                         <div class="w-full bg-gray-200 rounded-full h-1.5 mb-1">
+                            <div class="bg-islamic-600 h-1.5 rounded-full" style="width: ${p}%"></div>
+                        </div>
+                        ${p}%
+                    </td>
                 </tr>`;
             });
         }
@@ -463,85 +553,53 @@
             s.attendance[dt]=val;
             saveData(); renderStudents();
         }
-        function delSt(id) { if(confirm("Hapus?")) { db.students=db.students.filter(x=>x.id!==id); saveData(); renderStudents(); }}
+        function delSt(id) { if(confirm("Hapus santri ini?")) { db.students=db.students.filter(x=>x.id!==id); saveData(); renderStudents(); }}
 
-        // --- HAFALAN LOGIC (BARU) ---
+        // --- HAFALAN & MATERI (Singkat agar muat) ---
         function renderHafalan() {
-            const tbody = document.getElementById('hafalanTableBody');
-            tbody.innerHTML = '';
+            const tb = document.getElementById('hafalanTableBody'); tb.innerHTML = '';
+            const ids = db.students.filter(s => s.classId === state.currentClassId).map(s => s.id);
+            const list = db.hafalan.filter(h => ids.includes(h.studentId) && h.date === state.selectedDate);
             
-            // Filter Hafalan berdasarkan Kelas & Tanggal
-            const classStudentIds = db.students.filter(s => s.classId === state.currentClassId).map(s => s.id);
-            const list = db.hafalan.filter(h => classStudentIds.includes(h.studentId) && h.date === state.selectedDate);
+            document.getElementById('hafalanEmptyState').className = list.length ? 'hidden' : 'p-6 text-center text-gray-400';
 
-            if(list.length === 0) {
-                document.getElementById('hafalanEmptyState').classList.remove('hidden');
-            } else {
-                document.getElementById('hafalanEmptyState').classList.add('hidden');
-                list.forEach(h => {
-                    const studentName = db.students.find(s => s.id == h.studentId)?.name || 'Unknown';
-                    tbody.innerHTML += `
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="px-4 py-3 font-medium">${studentName}</td>
-                        <td class="px-4 py-3 text-islamic-700 font-semibold">${h.surah}</td>
-                        <td class="px-4 py-3 text-gray-500 italic">${h.note}</td>
-                        <td class="px-4 py-3 text-center action-col">
-                             <button onclick="delHafalan(${h.id})" class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>`;
-                });
-            }
+            list.forEach(h => {
+                const sName = db.students.find(s => s.id == h.studentId)?.name || 'Unknown';
+                tb.innerHTML += `
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="px-4 py-3 font-medium">${sName}</td>
+                    <td class="px-4 py-3 text-islamic-700 font-semibold">${h.surah}</td>
+                    <td class="px-4 py-3 text-gray-500 italic">${h.note}</td>
+                    <td class="px-4 py-3 text-center action-col">
+                         <button onclick="delHaf(${h.id})" class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>`;
+            });
         }
-
         function prepareAddHafalan() {
-            const sel = document.getElementById('inputHafalanStudent');
-            sel.innerHTML = '';
-            // Isi dropdown hanya dengan santri di kelas ini
+            const sel = document.getElementById('inputHafalanStudent'); sel.innerHTML = '';
             db.students.filter(s => s.classId === state.currentClassId).forEach(s => {
                 sel.innerHTML += `<option value="${s.id}">${s.name}</option>`;
             });
-
-            document.getElementById('inputHafalanSurah').value = '';
-            document.getElementById('inputHafalanNote').value = '';
-            openModal('hafalanModal');
+            document.getElementById('inputHafalanSurah').value = ''; document.getElementById('inputHafalanNote').value = ''; openModal('hafalanModal');
         }
-
         function saveHafalan() {
             const sid = parseInt(document.getElementById('inputHafalanStudent').value);
             const surah = document.getElementById('inputHafalanSurah').value;
             const note = document.getElementById('inputHafalanNote').value;
-
-            if(!surah) return alert("Isi surat/ayat hafalan");
-
-            db.hafalan.push({
-                id: Date.now(),
-                studentId: sid,
-                date: state.selectedDate,
-                surah: surah,
-                note: note
-            });
-
-            saveData();
-            renderHafalan();
-            closeModal('hafalanModal');
+            if(!surah) return;
+            db.hafalan.push({ id: Date.now(), studentId: sid, date: state.selectedDate, surah: surah, note: note });
+            saveData(); renderHafalan(); closeModal('hafalanModal');
         }
+        function delHaf(id) { if(confirm("Hapus?")) { db.hafalan=db.hafalan.filter(h=>h.id!==id); saveData(); renderHafalan(); }}
 
-        function delHafalan(id) {
-            if(confirm("Hapus data hafalan ini?")) {
-                db.hafalan = db.hafalan.filter(h => h.id !== id);
-                saveData();
-                renderHafalan();
-            }
-        }
-
-        // --- MATERI LOGIC ---
         function renderMateri() {
             const c = document.getElementById('materiList'); c.innerHTML='';
             db.materi.filter(m=>m.classId===state.currentClassId && m.date===state.selectedDate).forEach(m=>{
-                const btn = state.role==='ustadz'? `<button onclick="delMat(${m.id})" class="text-red-400 ml-4"><i class="fas fa-trash"></i></button>` : '';
+                const btn = state.role==='ustadz'? `<button onclick="delMat(${m.id})" class="text-red-400 ml-4 hover:bg-red-50 p-1 rounded"><i class="fas fa-trash"></i></button>` : '';
                 c.innerHTML += `
-                <div class="bg-white p-4 rounded border flex justify-between">
-                    <div><h4 class="font-bold text-islamic-700">${m.title}</h4><p class="text-sm text-gray-600">${m.desc}</p></div>
+                <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex justify-between items-start">
+                    <div><h4 class="font-bold text-islamic-700">${m.title}</h4><p class="text-sm text-gray-600 mt-1">${m.desc}</p></div>
                     ${btn}
                 </div>`;
             });
