@@ -78,7 +78,16 @@
                     <i class="fas fa-chevron-right ml-auto text-gray-300 group-hover:text-blue-500 transition"></i>
                 </button>
             </div>
-            <div class="mt-8 text-xs text-gray-400">© 2025 Madrasah Diniyyah Nurul Yusuf.</div>
+
+            <div class="flex justify-center items-center gap-6 mt-10 mb-2">
+                <a href="https://www.instagram.com/madin.nurulyusuf?igsh=bTdwYjI4cGh6ZGNx" target="_blank" class="text-pink-600 hover:scale-125 transition-transform"><i class="fab fa-instagram text-2xl"></i></a>
+                <a href="https://www.tiktok.com/@madin.nurul.yusuf?_r=1&_t=ZS-93MMG32ammI" target="_blank" class="text-black hover:scale-125 transition-transform"><i class="fab fa-tiktok text-2xl"></i></a>
+                <a href="https://youtube.com/@madinnurulyusuf?si=3vzKB5zmu6kRf_eR" target="_blank" class="text-red-600 hover:scale-125 transition-transform"><i class="fab fa-youtube text-2xl"></i></a>
+                <a href="https://sites.google.com/view/madin-nurulyusuf/" target="_blank" class="text-blue-500 hover:scale-125 transition-transform"><i class="fas fa-globe text-2xl"></i></a>
+                <a href="mailto:madinnurulyusuf@gmail.com" class="text-red-500 hover:scale-125 transition-transform"><i class="fas fa-envelope text-2xl"></i></a>
+            </div>
+            
+            <div class="mt-4 text-xs text-gray-400">© 2025 Madrasah Diniyyah Nurul Yusuf.</div>
         </div>
     </section>
 
@@ -101,8 +110,8 @@
                         <div id="headerDate" class="text-[9px] lg:text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-0.5">...</div>
                         <div id="headerClock" class="text-xl lg:text-2xl font-mono font-extrabold text-islamic-800 leading-none font-variant-numeric-tabular">00:00:00</div>
                     </div>
-                    <div id="runningTextContainer" class="w-full max-w-md bg-islamic-600 text-white px-4 py-1.5 rounded-full text-sm shadow-sm overflow-hidden hidden lg:block">
-                        <marquee id="marqueeText" behavior="scroll" direction="left" scrollamount="5">Welcome...</marquee>
+                    <div id="runningTextContainer" class="w-full max-w-md bg-islamic-600 text-white px-4 py-1.5 rounded-full text-sm shadow-sm overflow-hidden hidden lg:flex justify-center items-center">
+                        <div id="marqueeText" class="font-bold text-center w-full">Welcome...</div>
                     </div>
                 </div>
 
@@ -116,8 +125,8 @@
                     </button>
                 </div>
             </div>
-            <div class="lg:hidden mt-2 bg-islamic-600 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm shadow-sm overflow-hidden w-full">
-                <marquee id="marqueeTextMobile" behavior="scroll" direction="left" scrollamount="4">Welcome...</marquee>
+            <div class="lg:hidden mt-2 bg-islamic-600 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm shadow-sm overflow-hidden w-full flex justify-center items-center">
+                <div id="marqueeTextMobile" class="font-bold text-center w-full">Welcome...</div>
             </div>
         </header>
 
@@ -495,10 +504,16 @@
             const isUstadz = role === 'ustadz';
             document.getElementById('userRoleText').innerText = isUstadz ? 'Ustadz & Ustadzah' : 'Wali Santri';
             
-            // Atur Running Text
+            // Atur Running Text (DIPERBARUI: Posisi Tengah)
             const marqueeText = isUstadz ? "أهلاً وسهلاً أستاذ وأستاذة" : "Ahlan wa Sahlan Walisantri";
-            document.getElementById('marqueeText').innerText = marqueeText;
-            document.getElementById('marqueeTextMobile').innerText = marqueeText;
+            
+            const elMarquee = document.getElementById('marqueeText');
+            elMarquee.innerText = marqueeText;
+            elMarquee.style.textAlign = 'center';
+
+            const elMarqueeMobile = document.getElementById('marqueeTextMobile');
+            elMarqueeMobile.innerText = marqueeText;
+            elMarqueeMobile.style.textAlign = 'center';
 
             // Tampilkan/Sembunyikan Tombol Khusus Ustadz
             const ustadzOnlyIds = ['addClassBtn','addStudentBtn','addMateriBtn','addHafalanBtn'];
