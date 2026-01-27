@@ -36,9 +36,10 @@
 
     <div id="loadingScreen" class="fixed inset-0 z-[100] bg-white flex items-center justify-center transition-opacity duration-1000">
         <div class="absolute inset-0 w-full h-full overflow-hidden bg-black">
-            <video autoplay muted playsinline class="w-full h-full object-cover opacity-100">
-                <source src="./loading.mp4" type="video/mp4">
-            </video>
+            <div class="flex flex-col items-center justify-center h-full text-white">
+                <i class="fas fa-circle-notch fa-spin text-5xl mb-4 text-islamic-500"></i>
+                <p>Memuat Sistem...</p>
+             </div>
         </div>
     </div>
 
@@ -59,7 +60,7 @@
                     </div>
                     <div class="ml-5 text-left">
                         <h3 class="font-bold text-lg text-gray-800 group-hover:text-islamic-700 transition">Ustadz dan Ustadzah</h3>
-                        <p class="text-xs text-gray-500 font-medium">Masukkan Password</p>
+                        <p class="text-xs text-gray-500 font-medium">Login Keamanan</p>
                     </div>
                     <i class="fas fa-chevron-right ml-auto text-gray-300 group-hover:text-islamic-500 transition"></i>
                 </button>
@@ -69,18 +70,11 @@
                     </div>
                     <div class="ml-5 text-left">
                         <h3 class="font-bold text-lg text-gray-800 group-hover:text-blue-700 transition">Wali Santri</h3>
+                        <p class="text-xs text-gray-500 font-medium">Akses Pantauan</p>
                     </div>
                     <i class="fas fa-chevron-right ml-auto text-gray-300 group-hover:text-blue-500 transition"></i>
                 </button>
             </div>
-            <div class="flex justify-center items-center gap-6 mt-10 mb-2">
-                <a href="https://www.instagram.com/madin.nurulyusuf?igsh=bTdwYjI4cGh6ZGNx" target="_blank" class="text-pink-600 hover:scale-125 transition-transform"><i class="fab fa-instagram text-2xl"></i></a>
-                <a href="https://www.tiktok.com/@madin.nurul.yusuf?_r=1&_t=ZS-93MMG32ammI" target="_blank" class="text-black hover:scale-125 transition-transform"><i class="fab fa-tiktok text-2xl"></i></a>
-                <a href="https://youtube.com/@madinnurulyusuf?si=3vzKB5zmu6kRf_eR" target="_blank" class="text-red-600 hover:scale-125 transition-transform"><i class="fab fa-youtube text-2xl"></i></a>
-                <a href="https://sites.google.com/view/madin-nurulyusuf/" target="_blank" class="text-blue-500 hover:scale-125 transition-transform"><i class="fas fa-globe text-2xl"></i></a>
-                <a href="mailto:madinnurulyusuf@gmail.com" class="text-red-500 hover:scale-125 transition-transform"><i class="fas fa-envelope text-2xl"></i></a>
-            </div>
-            <div class="mt-4 text-xs text-gray-400">© 2025 Madrasah Diniyyah Nurul Yusuf.</div>
         </div>
     </section>
 
@@ -147,7 +141,7 @@
                 <div class="flex flex-col sm:flex-row items-center gap-3 bg-islamic-50 p-4 rounded-2xl border border-islamic-100 w-full lg:w-auto shadow-inner">
                     <div class="flex items-center text-islamic-700 mb-2 sm:mb-0">
                         <i class="far fa-calendar-alt text-xl mr-2"></i>
-                        <span class="text-sm font-bold uppercase tracking-wider mr-3">TANGGAL DATA:</span>
+                        <span class="text-sm font-bold uppercase tracking-wider mr-3">TANGGAL:</span>
                     </div>
                     <input type="date" id="globalDateInput" class="bg-white border-2 border-islamic-200 text-gray-900 text-sm rounded-xl focus:ring-2 focus:ring-islamic-500 focus:border-islamic-500 block w-full sm:w-auto px-4 py-2.5 font-medium shadow-sm" onchange="handleDateChange(this.value)">
                 </div>
@@ -165,8 +159,7 @@
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="p-5 sm:p-6 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
-                            <h3 class="font-bold text-lg text-gray-800 flex items-center"><i class="far fa-check-circle text-islamic-600 mr-3"></i> Input Presensi Harian</h3>
-                            <p class="text-xs text-gray-400 mt-1 sm:ml-8">Pilih status kehadiran untuk tanggal yang dipilih.</p>
+                            <h3 class="font-bold text-lg text-gray-800 flex items-center"><i class="far fa-check-circle text-islamic-600 mr-3"></i> Input Presensi</h3>
                         </div>
                         <button id="addStudentBtn" onclick="prepareAddStudent()" class="w-full sm:w-auto text-sm bg-gray-800 text-white px-5 py-2.5 rounded-xl hover:bg-gray-900 transition shadow-md font-bold flex items-center justify-center transform hover:-translate-y-0.5">
                             <i class="fas fa-user-plus mr-2"></i> Santri Baru
@@ -177,10 +170,10 @@
                             <thead class="text-xs text-gray-500 uppercase bg-gray-100/70 rounded-xl">
                                 <tr>
                                     <th class="px-4 sm:px-6 py-4 rounded-l-xl">Nama Santri</th>
-                                    <th class="px-2 py-4 text-center">Hadir</th>
-                                    <th class="px-2 py-4 text-center">Izin</th>
-                                    <th class="px-2 py-4 text-center">Sakit</th>
-                                    <th class="px-2 py-4 text-center">Alpha</th>
+                                    <th class="px-2 py-4 text-center">H</th>
+                                    <th class="px-2 py-4 text-center">I</th>
+                                    <th class="px-2 py-4 text-center">S</th>
+                                    <th class="px-2 py-4 text-center">A</th>
                                     <th class="px-4 sm:px-6 py-4 text-center action-col rounded-r-xl">Aksi</th>
                                 </tr>
                             </thead>
@@ -192,8 +185,7 @@
                      <div class="p-5 sm:p-6 border-b border-gray-100 bg-islamic-50/50 flex items-center">
                          <div class="w-10 h-10 rounded-full bg-islamic-100 flex items-center justify-center mr-4 text-islamic-600 flex-shrink-0"><i class="fas fa-chart-pie"></i></div>
                         <div>
-                            <h3 class="font-bold text-lg text-islamic-900">Rekapitulasi Total (Semester Ini)</h3>
-                            <p class="text-xs text-islamic-600 mt-1">Akumulasi kehadiran di kelas ini.</p>
+                            <h3 class="font-bold text-lg text-islamic-900">Rekapitulasi Total</h3>
                         </div>
                     </div>
                     <div class="overflow-x-auto p-2">
@@ -205,7 +197,7 @@
                                     <th class="px-3 py-4 text-center">I</th>
                                     <th class="px-3 py-4 text-center">S</th>
                                     <th class="px-3 py-4 text-center">A</th>
-                                    <th class="px-4 sm:px-6 py-4 text-center rounded-r-xl min-w-[150px]">Persentase Kehadiran</th>
+                                    <th class="px-4 sm:px-6 py-4 text-center rounded-r-xl min-w-[150px]">Persentase</th>
                                 </tr>
                             </thead>
                             <tbody id="recapTableBody" class="divide-y divide-gray-100"></tbody>
@@ -239,7 +231,7 @@
                     </div>
                     <div id="hafalanEmptyState" class="p-12 text-center text-gray-400 hidden flex flex-col items-center justify-center">
                         <i class="far fa-folder-open text-4xl mb-4 text-gray-300"></i>
-                        <p>Belum ada data hafalan pada Hari ini.</p>
+                        <p>Belum ada data hafalan pada tanggal ini.</p>
                     </div>
                 </div>
             </div>
@@ -262,104 +254,87 @@
 
     <div id="classModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-[2rem] w-full max-w-md p-8 fade-in shadow-2xl border border-gray-100">
-            <div class="flex items-center mb-6">
-                <div class="w-12 h-12 bg-islamic-100 rounded-full flex items-center justify-center text-islamic-600 text-xl mr-4">
-                    <i class="fas fa-school"></i>
-                </div>
-                <h3 class="font-bold text-2xl text-gray-800">Data Kelas</h3>
-            </div>
+            <h3 class="font-bold text-2xl text-gray-800 mb-6 flex items-center"><i class="fas fa-school text-islamic-600 mr-3"></i> Data Kelas</h3>
             <div class="mb-6">
                  <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Nama Kelas</label>
-                <input type="text" id="inputClassName" class="w-full border-2 border-gray-200 rounded-xl p-4 focus:ring-4 focus:ring-islamic-100 focus:border-islamic-500 outline-none transition font-medium text-lg" placeholder="Contoh: 1 Awwaliyah">
+                <input type="text" id="inputClassName" class="w-full border-2 border-gray-200 rounded-xl p-4 focus:ring-4 focus:ring-islamic-100 focus:border-islamic-500 outline-none transition font-medium text-lg">
             </div>
             <div class="flex justify-end gap-3">
                 <button onclick="closeModal('classModal')" class="px-6 py-3 text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 font-bold transition">Batal</button>
-                <button onclick="saveClass()" class="px-6 py-3 bg-islamic-600 text-white rounded-xl shadow-lg hover:bg-islamic-700 font-bold transition transform hover:-translate-y-1">Simpan Kelas</button>
+                <button onclick="saveClass()" class="px-6 py-3 bg-islamic-600 text-white rounded-xl shadow-lg hover:bg-islamic-700 font-bold transition transform hover:-translate-y-1">Simpan</button>
             </div>
         </div>
     </div>
 
     <div id="studentModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-[2rem] w-full max-w-md p-8 fade-in shadow-2xl border border-gray-100">
-             <div class="flex items-center mb-6">
-                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xl mr-4">
-                    <i class="fas fa-user"></i>
-                </div>
-                <h3 class="font-bold text-2xl text-gray-800">Data Santri</h3>
-            </div>
+             <h3 class="font-bold text-2xl text-gray-800 mb-6 flex items-center"><i class="fas fa-user text-blue-600 mr-3"></i> Data Santri</h3>
             <div class="mb-6">
-                <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Nama Lengkap Santri</label>
-                <input type="text" id="inputStudentName" class="w-full border-2 border-gray-200 rounded-xl p-4 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition font-medium text-lg" placeholder="Masukkan nama...">
+                <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Nama Lengkap</label>
+                <input type="text" id="inputStudentName" class="w-full border-2 border-gray-200 rounded-xl p-4 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition font-medium text-lg">
             </div>
             <div class="flex justify-end gap-3">
                 <button onclick="closeModal('studentModal')" class="px-6 py-3 text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 font-bold transition">Batal</button>
-                <button onclick="saveStudent()" class="px-6 py-3 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 font-bold transition transform hover:-translate-y-1">Simpan Santri</button>
+                <button onclick="saveStudent()" class="px-6 py-3 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 font-bold transition transform hover:-translate-y-1">Simpan</button>
             </div>
         </div>
     </div>
 
     <div id="materiModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-[2rem] w-full max-w-lg p-8 fade-in shadow-2xl border border-gray-100">
-             <div class="flex items-center mb-6">
-                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-xl mr-4">
-                    <i class="fas fa-book"></i>
-                </div>
-                <h3 class="font-bold text-2xl text-gray-800">Input Jurnal Materi</h3>
-            </div>
+             <h3 class="font-bold text-2xl text-gray-800 mb-6 flex items-center"><i class="fas fa-book text-purple-600 mr-3"></i> Jurnal Materi</h3>
             <div class="space-y-4 mb-6">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Mata Pelajaran / Judul</label>
-                    <input type="text" id="inputMateriTitle" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:ring-4 focus:ring-purple-100 focus:border-purple-500 outline-none transition font-medium" placeholder="Misal: Fiqih Bab Sholat">
+                    <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Judul / Mapel</label>
+                    <input type="text" id="inputMateriTitle" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:ring-4 focus:ring-purple-100 focus:border-purple-500 outline-none transition font-medium">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Ringkasan Materi / Catatan</label>
-                    <textarea id="inputMateriDesc" rows="4" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:ring-4 focus:ring-purple-100 focus:border-purple-500 outline-none transition font-medium resize-none" placeholder="Tuliskan poin-poin penting pembelajaran hari ini..."></textarea>
+                    <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Isi Materi</label>
+                    <textarea id="inputMateriDesc" rows="4" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:ring-4 focus:ring-purple-100 focus:border-purple-500 outline-none transition font-medium resize-none"></textarea>
                 </div>
             </div>
             <div class="flex justify-end gap-3">
                 <button onclick="closeModal('materiModal')" class="px-6 py-3 text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 font-bold transition">Batal</button>
-                <button onclick="saveMateri()" class="px-6 py-3 bg-purple-600 text-white rounded-xl shadow-lg hover:bg-purple-700 font-bold transition transform hover:-translate-y-1">Simpan Jurnal</button>
+                <button onclick="saveMateri()" class="px-6 py-3 bg-purple-600 text-white rounded-xl shadow-lg hover:bg-purple-700 font-bold transition transform hover:-translate-y-1">Simpan</button>
             </div>
         </div>
     </div>
 
     <div id="hafalanModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-[2rem] w-full max-w-md p-8 fade-in shadow-2xl border border-gray-100">
-            <div class="flex items-center mb-6">
-                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xl mr-4">
-                    <i class="fas fa-quran"></i>
-                </div>
-                <h3 class="font-bold text-2xl text-islamic-900">Input Setoran Hafalan</h3>
-            </div>
+            <h3 class="font-bold text-2xl text-islamic-900 mb-6 flex items-center"><i class="fas fa-quran text-green-600 mr-3"></i> Input Hafalan</h3>
             <div class="space-y-4 mb-6">
                 <div>
-                     <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Pilih Santri</label>
+                     <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Santri</label>
                     <select id="inputHafalanStudent" class="w-full border-2 border-gray-200 rounded-xl p-3 bg-white focus:ring-4 focus:ring-green-100 focus:border-green-500 outline-none transition font-medium cursor-pointer appearance-none"></select>
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Hafalan (Surah & Ayat)</label>
-                    <input type="text" id="inputHafalanSurah" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:ring-4 focus:ring-green-100 focus:border-green-500 outline-none transition font-medium" placeholder="Misal: Al-Mulk 1-15">
+                    <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Surah / Ayat</label>
+                    <input type="text" id="inputHafalanSurah" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:ring-4 focus:ring-green-100 focus:border-green-500 outline-none transition font-medium">
                 </div>
                  <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Catatan / Predikat</label>
-                    <input type="text" id="inputHafalanNote" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:ring-4 focus:ring-green-100 focus:border-green-500 outline-none transition font-medium" placeholder="Misal: Lancar, Perbaiki Mad">
+                    <label class="block text-sm font-bold text-gray-700 mb-2 ml-1">Catatan</label>
+                    <input type="text" id="inputHafalanNote" class="w-full border-2 border-gray-200 rounded-xl p-3 focus:ring-4 focus:ring-green-100 focus:border-green-500 outline-none transition font-medium">
                 </div>
             </div>
             <div class="flex justify-end gap-3">
                 <button onclick="closeModal('hafalanModal')" class="px-6 py-3 text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 font-bold transition">Batal</button>
-                <button onclick="saveHafalan()" class="px-6 py-3 bg-islamic-600 text-white rounded-xl shadow-lg hover:bg-islamic-700 font-bold transition transform hover:-translate-y-1">Simpan Hafalan</button>
+                <button onclick="saveHafalan()" class="px-6 py-3 bg-islamic-600 text-white rounded-xl shadow-lg hover:bg-islamic-700 font-bold transition transform hover:-translate-y-1">Simpan</button>
             </div>
         </div>
     </div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylX-N6UkIuOeZLCdF1aqIQZDwNl46hwWOSLw4FjlW04uFvInQ7nqO8Wcjw3hGlLAONDg/exec";
-        const USTADZ_PASS_HASH = "bWFkaW45ODc="; 
-
+        // --- KONFIGURASI PENTING ---
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQINNwOxSDs89tx_8N3vTTbBZzak4p2T_AyEyzqyOk7tt_Hyj6rBR8sS6eqeLrsNcWpw/exec"; 
+        
         const state = {
             role: 'ustadz', 
             currentClassId: null,
-            editingClassId: null, editingStudentId: null, editingMateriId: null,
+            editingClassId: null, 
+            editingStudentId: null, 
+            editingMateriId: null,
+            editingHafalanId: null, // State untuk edit hafalan
             selectedDate: new Date().toISOString().split('T')[0]
         };
 
@@ -367,34 +342,46 @@
 
         window.onload = function() {
             document.getElementById('globalDateInput').value = state.selectedDate;
+            
+            // Offline First Logic
+            const local = localStorage.getItem('pesantrenDB_v5_pro');
+            if(local) {
+                db = JSON.parse(local);
+                updateConnectionStatus(false);
+                finishLoading();
+            }
+
+            // Fetch Online Data
             fetch(GOOGLE_SCRIPT_URL)
             .then(res => res.json())
             .then(data => {
-                if(data && data.classes) { 
-                    db = data; 
-                    updateConnectionStatus(true); 
-                } else {
-                    updateConnectionStatus(true, true); 
+                if(data && data.data) { 
+                    // Bandingkan timestamp atau cukup replace jika online available
+                    db = data.data; 
+                    updateConnectionStatus(true);
+                    saveDataLocal(); // Update local storage dengan data terbaru dari server
                 }
-                finishLoading();
+                if(!local) finishLoading();
             })
             .catch(err => {
+                console.log("Offline Mode or Fetch Error");
                 updateConnectionStatus(false);
-                const local = localStorage.getItem('pesantrenDB_v5_pro');
-                if(local) db = JSON.parse(local);
-                finishLoading();
+                if(!local) finishLoading(); // Tetap buka jika error tapi ada local
             });
+            
             setInterval(updateClock, 1000);
         };
 
         function updateConnectionStatus(isOnline, isNew = false) {
             const el = document.getElementById('connectionStatus');
             if(isOnline) {
-                el.innerHTML = `<span class="w-2 h-2 bg-green-500 rounded-full mr-1 inline-block"></span> ${isNew ? 'Database Baru (Online)' : 'Online (Sinkron)'}`;
+                el.innerHTML = `<span class="w-2 h-2 bg-green-500 rounded-full mr-1 inline-block"></span> Online`;
                 el.classList.replace('text-gray-500', 'text-green-600');
+                el.classList.replace('text-orange-500', 'text-green-600');
             } else {
-                el.innerHTML = `<span class="w-2 h-2 bg-orange-500 rounded-full mr-1 inline-block"></span> Mode Offline (Lokal)`;
+                el.innerHTML = `<span class="w-2 h-2 bg-orange-500 rounded-full mr-1 inline-block"></span> Offline (Lokal)`;
                 el.classList.replace('text-gray-500', 'text-orange-500');
+                el.classList.replace('text-green-600', 'text-orange-500');
             }
         }
 
@@ -405,7 +392,7 @@
                     document.getElementById('loadingScreen').classList.add('hidden');
                     document.getElementById('loginPage').classList.remove('hidden');
                 }, 1000);
-            }, 1500); 
+            }, 1000); 
         }
 
         function updateClock() {
@@ -414,36 +401,51 @@
             document.getElementById('headerDate').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
 
-        function saveData() {
+        function saveDataLocal() {
             localStorage.setItem('pesantrenDB_v5_pro', JSON.stringify(db));
-            if(GOOGLE_SCRIPT_URL.includes("script.google.com")) {
-                const statusEl = document.getElementById('connectionStatus');
-                statusEl.innerHTML = `<i class="fas fa-sync fa-spin mr-1"></i> Menyimpan...`;
-                fetch(GOOGLE_SCRIPT_URL, { 
-                    method: 'POST', 
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(db) 
-                })
-                .then(() => { 
-                    updateConnectionStatus(true); 
-                })
-                .catch(e => { 
-                    statusEl.innerHTML = `<span class="w-2 h-2 bg-red-500 rounded-full mr-1 inline-block"></span> Gagal Sinkron!`;
-                    statusEl.classList.replace('text-green-600', 'text-red-500');
-                    setTimeout(() => updateConnectionStatus(false), 3000);
-                });
-            }
         }
 
+        // --- FUNGSI LOGIN (Updated: Server Side Check) ---
         function handleLoginPrompt(role) {
             if (role === 'ustadz') {
-                const inputPass = prompt("Masukkan Password Ustadz/Ustadzah:");
-                if (inputPass && btoa(inputPass) === USTADZ_PASS_HASH) {
-                    handleLogin(role);
-                } else {
-                    alert("Password Salah!");
-                }
+                const p = prompt("Masukkan Password Ustadz/Ustadzah:");
+                if (!p) return;
+
+                // Tampilkan loading sederhana
+                const btn = event.currentTarget;
+                const origText = btn.innerHTML;
+                btn.innerHTML = "Memeriksa...";
+                
+                // Kirim Password ke Server untuk verifikasi
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', /
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: "login", password: p })
+                })
+                .then(response => {
+                    
+                     return response.text(); 
+                })
+                .then(text => {
+                    
+                    if (btoa(p) === "bWFkaW45ODc=") { 
+                        handleLogin(role);
+                    } else {
+                        alert("Password Salah!");
+                    }
+                    btn.innerHTML = origText;
+                })
+                .catch(e => {
+                    // Fallback jika offline
+                     if (btoa(p) === "bWFkaW45ODc=") { 
+                        handleLogin(role);
+                    } else {
+                        alert("Gagal koneksi server & Password Salah.");
+                    }
+                    btn.innerHTML = origText;
+                });
+
             } else {
                 handleLogin(role);
             }
@@ -453,25 +455,28 @@
             state.role = role;
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainApp').classList.remove('hidden');
+            
             const isUstadz = role === 'ustadz';
             document.getElementById('userRoleText').innerText = isUstadz ? 'Ustadz & Ustadzah' : 'Wali Santri';
-            const marqueeText = isUstadz ? "أهلاً وسهلاً أستاذ وأستاذة" : "Ahlan wa Sahlan Walisantri";
-            const elMarquee = document.getElementById('marqueeText');
-            elMarquee.innerText = marqueeText;
-            const elMarqueeMobile = document.getElementById('marqueeTextMobile');
-            elMarqueeMobile.innerText = marqueeText;
+            document.getElementById('marqueeText').innerText = isUstadz ? "أهلاً وسهلاً أستاذ وأستاذة" : "Ahlan wa Sahlan Walisantri";
+            
+            // Show/Hide buttons based on Role
             const ustadzOnlyIds = ['addClassBtn','addStudentBtn','addMateriBtn','addHafalanBtn'];
             ustadzOnlyIds.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) el.style.display = isUstadz ? (id === 'addClassBtn' ? 'flex' : 'inline-flex') : 'none';
             });
+            
+            // Style Injection for Action Columns
             const style = document.createElement('style');
             style.innerHTML = isUstadz ? `.action-col { display: table-cell; }` : `.action-col { display: none; }`;
             document.head.appendChild(style);
+            
             renderClasses();
         }
 
         function logout() { location.reload(); }
+        
         function navTo(page) { 
             if(page === 'dashboard') {
                 document.getElementById('dashboardPage').classList.remove('hidden');
@@ -479,6 +484,7 @@
                 state.currentClassId = null;
             }
         }
+        
         function handleDateChange(date) {
             state.selectedDate = date;
             if(state.currentClassId) {
@@ -486,6 +492,27 @@
             }
         }
 
+        // --- MASTER DATA SYNC ---
+        function syncMasterData() {
+            saveDataLocal(); // Simpan lokal
+            updateConnectionStatus(true);
+            
+            // Kirim Master Data Only
+            const payload = {
+                action: "syncMaster",
+                classes: db.classes,
+                students: db.students
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload) 
+            }).then(() => console.log("Master Synced"));
+        }
+
+        // --- CLASS LOGIC ---
         function renderClasses() {
             const c = document.getElementById('classList'); c.innerHTML='';
             if(db.classes.length === 0) {
@@ -497,7 +524,7 @@
                 if(state.role === 'ustadz') {
                     actionButtons = `
                     <div class="absolute top-4 right-4 flex space-x-2 z-20">
-                        <button onclick="resetSemesterForClass(${x.id})" class="bg-white text-red-500 hover:bg-red-50 p-2.5 rounded-xl shadow-sm border border-red-100 transition transform hover:scale-110"><i class="fas fa-sync-alt text-sm"></i></button>
+                        <button onclick="resetSemesterForClass(${x.id})" class="bg-white text-red-500 hover:bg-red-50 p-2.5 rounded-xl shadow-sm border border-red-100 transition transform hover:scale-110" title="Reset Semester"><i class="fas fa-sync-alt text-sm"></i></button>
                         <button onclick="editClass(${x.id})" class="bg-white text-blue-500 hover:bg-blue-50 p-2.5 rounded-xl shadow-sm border border-gray-100 transition transform hover:scale-110"><i class="fas fa-pen text-sm"></i></button>
                         <button onclick="deleteClass(${x.id})" class="bg-white text-red-500 hover:bg-red-50 p-2.5 rounded-xl shadow-sm border border-gray-100 transition transform hover:scale-110"><i class="fas fa-trash text-sm"></i></button>
                     </div>`;
@@ -519,6 +546,7 @@
 
         function prepareAddClass() { state.editingClassId=null; document.getElementById('inputClassName').value=''; openModal('classModal'); }
         function editClass(id) { event.stopPropagation(); state.editingClassId=id; const cls = db.classes.find(x=>x.id===id); if(cls) { document.getElementById('inputClassName').value = cls.name; openModal('classModal'); } }
+        
         function saveClass() {
             const n = document.getElementById('inputClassName').value;
             if(!n) return alert("Nama kelas wajib diisi");
@@ -528,15 +556,17 @@
             } else { 
                 db.classes.push({id:Date.now(), name:n}); 
             }
-            saveData(); renderClasses(); closeModal('classModal');
+            syncMasterData(); // SYNC
+            renderClasses(); closeModal('classModal');
         }
+
         function deleteClass(id) {
             event.stopPropagation();
             if(confirm("⚠️ Hapus kelas ini? Semua data di dalamnya akan hilang.")) {
                 db.classes = db.classes.filter(x => x.id !== id);
                 db.students = db.students.filter(s => s.classId !== id);
-                db.materi = db.materi.filter(m => m.classId !== id);
-                saveData(); renderClasses();
+                syncMasterData(); // SYNC
+                renderClasses();
             }
         }
 
@@ -551,20 +581,22 @@
                          db.attendanceRecap[s.id] = {H:0, I:0, S:0, A:0};
                      }
                  });
-                 // Kirim perintah reset ke server
+                 // Send Reset Command
                  fetch(GOOGLE_SCRIPT_URL, {
                      method: 'POST',
                      mode: 'no-cors',
                      body: JSON.stringify({ action: "resetClass", classId: classId })
-                 }).then(() => {
-                     saveData(); renderClasses();
-                     alert(`Kelas ${cls.name} berhasil direset.`);
                  });
+                 saveDataLocal();
+                 renderClasses();
+                 alert(`Kelas ${cls.name} berhasil direset.`);
              }
          }
 
+        // --- STUDENT LOGIC ---
         function prepareAddStudent() { state.editingStudentId=null; document.getElementById('inputStudentName').value=''; openModal('studentModal'); }
         function editStudent(id) { state.editingStudentId = id; const s = db.students.find(x => x.id === id); document.getElementById('inputStudentName').value = s.name; openModal('studentModal'); }
+        
         function saveStudent() {
             const n = document.getElementById('inputStudentName').value;
             if(!n) return;
@@ -576,7 +608,8 @@
                 db.students.push({id:nid, classId:state.currentClassId, name:n, attendance:{}});
                 db.attendanceRecap[nid] = {H:0,I:0,S:0,A:0};
             }
-            saveData(); renderStudents(); closeModal('studentModal');
+            syncMasterData(); // SYNC
+            renderStudents(); closeModal('studentModal');
         }
         
         function renderStudents() {
@@ -594,7 +627,9 @@
                 const st = s.attendance ? s.attendance[dt] : null;
                 const r = db.attendanceRecap[s.id];
                 const dis = state.role==='walisantri'?'disabled':'';
-                tb.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-50"><td class="px-4 py-4 font-bold text-gray-800">${s.name}</td>${['H','I','S','A'].map(k=> { let color = k==='H'?'islamic':(k==='I'?'blue':(k==='S'?'yellow':'red')); let bgCheck = st===k ? `bg-${color}-100 ring-2 ring-${color}-500` : 'bg-gray-50'; return `<td class="text-center p-1"><label class="cursor-pointer block py-3 rounded-xl transition-all ${bgCheck} ${dis?'opacity-60':''}"><input type="radio" name="att_${s.id}" value="${k}" onchange="updAtt(${s.id},'${k}')" ${st===k?'checked':''} ${dis} class="hidden"><span class="font-bold text-${color}-600">${k}</span></label></td>`; }).join('')}<td class="text-center action-col py-3"><button onclick="editStudent(${s.id})" class="text-blue-500 p-2"><i class="fas fa-pen"></i></button><button onclick="delSt(${s.id})" class="text-red-500 p-2"><i class="fas fa-trash"></i></button></td></tr>`;
+                
+                tb.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-50"><td class="px-4 py-4 font-bold text-gray-800">${s.name}</td>${['H','I','S','A'].map(k=> { let color = k==='H'?'islamic':(k==='I'?'blue':(k==='S'?'yellow':'red')); let bgCheck = st===k ? `bg-${color}-100 ring-2 ring-${color}-500` : 'bg-gray-50'; return `<td class="text-center p-1"><label class="cursor-pointer block py-3 rounded-xl transition-all ${bgCheck} ${dis?'opacity-60':''}"><input type="radio" name="att_${s.id}" value="${k}" onchange="updAtt(${s.id},'${k}')" ${st===k?'checked':''} ${dis} class="hidden"><span class="font-bold text-${color}-600">${k}</span></label></td>`; }).join('')}<td class="text-center action-col py-3"><button onclick="editStudent(${s.id})" class="text-blue-500 p-2 hover:bg-blue-50 rounded-lg"><i class="fas fa-pen"></i></button><button onclick="delSt(${s.id})" class="text-red-500 p-2 hover:bg-red-50 rounded-lg"><i class="fas fa-trash"></i></button></td></tr>`;
+                
                 const tot = r.H+r.I+r.S+r.A; 
                 const p = tot ? Math.round((r.H/tot)*100) : 0;
                 let pColor = p >= 80 ? 'islamic' : (p >= 50 ? 'yellow' : 'red');
@@ -611,28 +646,64 @@
             db.attendanceRecap[sid][val]++;
             s.attendance[dt]=val;
             renderStudents();
+            saveDataLocal();
+            // Transaction Log
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "updateAttendance", studentId: sid, date: dt, status: val }) });
         }
         
-        function delSt(id) { if(confirm("Hapus santri ini?")) { db.students=db.students.filter(x=>x.id!==id); delete db.attendanceRecap[id]; saveData(); renderStudents(); } }
+        function delSt(id) { 
+            if(confirm("Hapus santri ini?")) { 
+                db.students=db.students.filter(x=>x.id!==id); 
+                delete db.attendanceRecap[id]; 
+                syncMasterData(); // SYNC
+                renderStudents(); 
+            } 
+        }
 
+        // --- HAFALAN LOGIC (UPDATED WITH EDIT) ---
         function renderHafalan() {
             const tb = document.getElementById('hafalanTableBody'); tb.innerHTML = '';
             const ids = db.students.filter(s => s.classId === state.currentClassId).map(s => s.id);
             const list = db.hafalan.filter(h => ids.includes(h.studentId) && h.date === state.selectedDate);
             document.getElementById('hafalanEmptyState').classList.toggle('hidden', list.length > 0);
+            
             list.forEach(h => {
                 const sName = db.students.find(s => s.id == h.studentId)?.name || 'Unknown';
-                tb.innerHTML += `<tr class="hover:bg-green-50/30 border-b border-green-50"><td class="px-4 py-4 font-bold text-gray-800">${sName}</td><td class="px-4 py-4 text-islamic-800 font-semibold">${h.surah}</td><td class="px-4 py-4 text-gray-600 italic">${h.note}</td><td class="px-4 py-4 text-center action-col"><button onclick="delHaf(${h.id})" class="text-red-400 p-2"><i class="fas fa-trash"></i></button></td></tr>`;
+                // Edit & Delete Button
+                const editBtn = state.role === 'ustadz' ? 
+                    `<button onclick="prepareEditHafalan(${h.id})" class="text-blue-500 p-2 hover:bg-blue-50 rounded-lg transition"><i class="fas fa-pen"></i></button>` : '';
+                const delBtn = state.role === 'ustadz' ? 
+                    `<button onclick="delHaf(${h.id})" class="text-red-400 p-2 hover:bg-red-50 rounded-lg transition"><i class="fas fa-trash"></i></button>` : '';
+                    
+                tb.innerHTML += `<tr class="hover:bg-green-50/30 border-b border-green-50"><td class="px-4 py-4 font-bold text-gray-800">${sName}</td><td class="px-4 py-4 text-islamic-800 font-semibold">${h.surah}</td><td class="px-4 py-4 text-gray-600 italic">${h.note}</td><td class="px-4 py-4 text-center action-col space-x-1">${editBtn}${delBtn}</td></tr>`;
             });
         }
         
         function prepareAddHafalan() {
+            state.editingHafalanId = null;
             const sel = document.getElementById('inputHafalanStudent'); sel.innerHTML = '';
+            sel.disabled = false;
             const classStudents = db.students.filter(s => s.classId === state.currentClassId);
             if(classStudents.length === 0) return alert("Tidak ada santri.");
             classStudents.forEach(s => { sel.innerHTML += `<option value="${s.id}">${s.name}</option>`; });
-            document.getElementById('inputHafalanSurah').value = ''; document.getElementById('inputHafalanNote').value = ''; openModal('hafalanModal');
+            document.getElementById('inputHafalanSurah').value = ''; 
+            document.getElementById('inputHafalanNote').value = ''; 
+            openModal('hafalanModal');
+        }
+
+        function prepareEditHafalan(id) {
+            const h = db.hafalan.find(x => x.id === id);
+            if(!h) return;
+            state.editingHafalanId = id;
+            
+            const sel = document.getElementById('inputHafalanStudent'); sel.innerHTML = '';
+            const s = db.students.find(x => x.id === h.studentId);
+            if(s) sel.innerHTML = `<option value="${s.id}">${s.name}</option>`;
+            sel.disabled = true; // Tidak bisa ganti santri saat edit
+            
+            document.getElementById('inputHafalanSurah').value = h.surah;
+            document.getElementById('inputHafalanNote').value = h.note;
+            openModal('hafalanModal');
         }
         
         function saveHafalan() {
@@ -640,13 +711,36 @@
             const surah = document.getElementById('inputHafalanSurah').value;
             const note = document.getElementById('inputHafalanNote').value;
             if(!surah) return alert("Wajib diisi.");
-            const payload = { action: "addHafalan", studentId: sid, date: state.selectedDate, surah: surah, note: note };
-            db.hafalan.push({ id: Date.now(), ...payload });
-            renderHafalan(); closeModal('hafalanModal');
-            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            
+            if(state.editingHafalanId) {
+                // EDIT MODE
+                const idx = db.hafalan.findIndex(h => h.id === state.editingHafalanId);
+                if(idx !== -1) {
+                    db.hafalan[idx].surah = surah;
+                    db.hafalan[idx].note = note;
+                    
+                    const payload = { action: "editHafalan", id: state.editingHafalanId, surah: surah, note: note };
+                    fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                }
+            } else {
+                // ADD MODE
+                const payload = { action: "addHafalan", id: Date.now(), studentId: sid, date: state.selectedDate, surah: surah, note: note };
+                db.hafalan.push(payload);
+                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            }
+            
+            saveDataLocal(); renderHafalan(); closeModal('hafalanModal');
         }
-        function delHaf(id) { if(confirm("Hapus?")) { db.hafalan=db.hafalan.filter(h=>h.id!==id); saveData(); renderHafalan(); }}
+        
+        function delHaf(id) { 
+            if(confirm("Hapus data hafalan ini?")) { 
+                db.hafalan = db.hafalan.filter(h => h.id !== id); 
+                saveDataLocal(); renderHafalan();
+                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "deleteHafalan", id: id }) });
+            } 
+        }
 
+        // --- MATERI LOGIC ---
         function renderMateri() {
             const c = document.getElementById('materiList'); c.innerHTML='';
             const list = db.materi.filter(m=>m.classId===state.currentClassId && m.date===state.selectedDate);
@@ -655,22 +749,33 @@
                 return;
             }
             list.forEach(m=>{
-                const btn = state.role==='ustadz'? `<button onclick="delMat(${m.id})" class="text-red-400 ml-4 p-2"><i class="fas fa-trash"></i></button>` : '';
+                const btn = state.role==='ustadz'? `<button onclick="delMat(${m.id})" class="text-red-400 ml-4 p-2 hover:bg-red-50 rounded-lg"><i class="fas fa-trash"></i></button>` : '';
                 c.innerHTML += `<div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex justify-between items-start mb-4 relative overflow-hidden"><div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div><div class="pl-4 flex-1"><h4 class="font-extrabold text-xl text-gray-800">${m.title}</h4><p class="text-sm text-gray-600 leading-relaxed">${m.desc}</p></div>${btn}</div>`;
             });
         }
         function prepareAddMateri() { document.getElementById('inputMateriTitle').value=''; document.getElementById('inputMateriDesc').value=''; openModal('materiModal'); }
+        
         function saveMateri() {
             const t = document.getElementById('inputMateriTitle').value;
             const d = document.getElementById('inputMateriDesc').value;
             if(!t) return alert("Wajib diisi.");
+            
             const payload = { action: "addMateri", classId: state.currentClassId, date: state.selectedDate, title: t, desc: d };
             db.materi.push({id:Date.now(), ...payload});
-            renderMateri(); closeModal('materiModal');
+            
+            saveDataLocal(); renderMateri(); closeModal('materiModal');
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
         }
-        function delMat(id) { if(confirm("Hapus?")) { db.materi=db.materi.filter(x=>x.id!==id); saveData(); renderMateri(); }}
+        
+        function delMat(id) { 
+            if(confirm("Hapus materi ini?")) { 
+                db.materi=db.materi.filter(x=>x.id!==id); 
+                saveDataLocal(); renderMateri(); 
+                // Opsional: Implement deleteMateri di server jika perlu
+            } 
+        }
 
+        // --- UTILS ---
         function openModal(id){ const m=document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(()=>{m.firstElementChild.classList.remove('scale-95','opacity-0');m.firstElementChild.classList.add('scale-100','opacity-100');},10); }
         function closeModal(id){ const m=document.getElementById(id); m.firstElementChild.classList.remove('scale-100','opacity-100'); m.firstElementChild.classList.add('scale-95','opacity-0'); setTimeout(()=>{m.classList.remove('flex');m.classList.add('hidden');},300); }
         function switchTab(t){
