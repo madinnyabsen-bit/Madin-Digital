@@ -29,7 +29,6 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        /* Gaya untuk running text */
         marquee { font-weight: 600; letter-spacing: 0.5px; }
     </style>
 </head>
@@ -47,16 +46,12 @@
         <div class="glass-effect w-full max-w-xl p-10 rounded-[2.5rem] shadow-2xl text-center fade-in relative overflow-hidden">
             <div class="absolute top-0 left-0 w-32 h-32 bg-islamic-100 rounded-br-[4rem] -z-10 opacity-50"></div>
             <div class="absolute bottom-0 right-0 w-32 h-32 bg-islamic-50 rounded-tl-[4rem] -z-10 opacity-50"></div>
-
             <h3 class="text-islamic-700 font-bold tracking-[0.2em] mb-6 text-sm uppercase">KONTROL DIGITAL SANTRI</h3>
-            
             <div class="mx-auto w-56 h-auto mb-6 filter drop-shadow-lg transform hover:scale-105 transition duration-500">
                 <img src="./logo.png" onerror="this.src='https://via.placeholder.com/250x250?text=LOGO+MADIN'" alt="Logo Madin" class="w-full h-full object-contain">
             </div>
-            
             <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3 leading-tight">MADRASAH DINIYYAH TAKMILIYAH<br class="hidden md:block"> NURUL YUSUF</h1>
             <p class="text-gray-600 text-base mb-10 font-medium">Mencetak Generasi Pecinta & Penghafal Al-Qur'an serta Berakhlaqul Karimah</p>
-
             <div class="space-y-4">
                 <button onclick="handleLoginPrompt('ustadz')" class="w-full bg-white border-2 border-islamic-50 hover:border-islamic-500 p-5 rounded-2xl flex items-center transition-all group shadow-md hover:shadow-xl transform hover:-translate-y-1">
                     <div class="w-14 h-14 bg-islamic-100 rounded-2xl flex items-center justify-center text-islamic-600 group-hover:bg-islamic-600 group-hover:text-white transition-colors text-2xl shadow-sm">
@@ -78,7 +73,6 @@
                     <i class="fas fa-chevron-right ml-auto text-gray-300 group-hover:text-blue-500 transition"></i>
                 </button>
             </div>
-
             <div class="flex justify-center items-center gap-6 mt-10 mb-2">
                 <a href="https://www.instagram.com/madin.nurulyusuf?igsh=bTdwYjI4cGh6ZGNx" target="_blank" class="text-pink-600 hover:scale-125 transition-transform"><i class="fab fa-instagram text-2xl"></i></a>
                 <a href="https://www.tiktok.com/@madin.nurul.yusuf?_r=1&_t=ZS-93MMG32ammI" target="_blank" class="text-black hover:scale-125 transition-transform"><i class="fab fa-tiktok text-2xl"></i></a>
@@ -86,7 +80,6 @@
                 <a href="https://sites.google.com/view/madin-nurulyusuf/" target="_blank" class="text-blue-500 hover:scale-125 transition-transform"><i class="fas fa-globe text-2xl"></i></a>
                 <a href="mailto:madinnurulyusuf@gmail.com" class="text-red-500 hover:scale-125 transition-transform"><i class="fas fa-envelope text-2xl"></i></a>
             </div>
-            
             <div class="mt-4 text-xs text-gray-400">© 2025 Madrasah Diniyyah Nurul Yusuf.</div>
         </div>
     </section>
@@ -94,7 +87,6 @@
     <div id="mainApp" class="hidden min-h-screen flex flex-col bg-gray-50">
         <header class="bg-white shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1)] sticky top-0 z-40 px-4 sm:px-6 py-3 border-b border-gray-100">
             <div class="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap justify-between items-center gap-y-4 lg:gap-0">
-                
                 <div class="flex items-center flex-shrink-0">
                     <div class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 mr-3 lg:mr-5 rounded-2xl overflow-hidden flex items-center justify-center bg-islamic-50 border-2 border-islamic-100 shadow-sm p-1.5">
                         <img src="./logo.png" onerror="this.style.display='none'" alt="Logo" class="w-full h-full object-contain">
@@ -104,7 +96,6 @@
                         <p class="text-[10px] md:text-xs text-islamic-700 font-bold tracking-[0.15em] mt-1 hidden sm:block">KONTROL DIGITAL SANTRI</p>
                     </div>
                 </div>
-                
                 <div class="flex flex-col items-center justify-center flex-1 order-last lg:order-none mt-2 lg:mt-0 mx-2 lg:mx-4">
                     <div class="bg-gray-100 px-4 lg:px-6 py-1 lg:py-2 rounded-full border border-gray-200 flex flex-col items-center shadow-inner mb-2 lg:mb-0 w-full sm:w-auto">
                         <div id="headerDate" class="text-[9px] lg:text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-0.5">...</div>
@@ -114,7 +105,6 @@
                         <div id="marqueeText" class="font-bold text-center w-full">Welcome...</div>
                     </div>
                 </div>
-
                 <div class="flex items-center justify-end flex-shrink-0 gap-2 lg:gap-4">
                     <div class="text-right hidden md:block bg-gray-50 px-3 lg:px-4 py-1.5 lg:py-2 rounded-xl border border-gray-100">
                         <p id="userRoleText" class="text-sm font-bold text-gray-800">User Role</p>
@@ -136,14 +126,12 @@
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-800">Dashboard Kelas</h2>
                     <p class="text-sm sm:text-base text-gray-500 mt-1">Pilih kelas untuk mengelola data santri.</p>
                 </div>
-                
                 <div class="flex gap-3 w-full md:w-auto">
                     <button id="addClassBtn" onclick="prepareAddClass()" class="bg-islamic-600 text-white px-6 py-3 rounded-2xl text-sm shadow-lg hover:shadow-islamic-200 hover:bg-islamic-700 transition flex items-center justify-center flex-1 md:flex-none font-bold transform hover:-translate-y-1">
                         <i class="fas fa-plus mr-2"></i> Buat Kelas Baru
                     </button>
                 </div>
             </div>
-            
             <div id="classList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
         </main>
 
@@ -365,56 +353,40 @@
     </div>
 
     <script>
-        // ==========================================
-        //  KONFIGURASI & STATE
-        // ==========================================
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwErC6TI_5BxImMQjpvH7aiHzDRwZUsw5IOQLdByRziDhuUojhW435_GVxDcfHJJEdiwQ/exec";
-        
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylX-N6UkIuOeZLCdF1aqIQZDwNl46hwWOSLw4FjlW04uFvInQ7nqO8Wcjw3hGlLAONDg/exec";
         const USTADZ_PASS_HASH = "bWFkaW45ODc="; 
 
         const state = {
-            role: 'ustadz', // Peran aktif: 'ustadz' atau 'walisantri'
-            currentClassId: null, // ID kelas yang sedang dibuka
-            editingClassId: null, editingStudentId: null, editingMateriId: null, // ID item yang sedang diedit
-            selectedDate: new Date().toISOString().split('T')[0] // Tanggal yang dipilih di datepicker global
+            role: 'ustadz', 
+            currentClassId: null,
+            editingClassId: null, editingStudentId: null, editingMateriId: null,
+            selectedDate: new Date().toISOString().split('T')[0]
         };
 
-        // Struktur Database Lokal (akan disinkronkan)
         let db = { classes: [], students: [], attendanceRecap: {}, materi: [], hafalan: [] };
 
-        // ==========================================
-        //  INISIALISASI & KONEKSI
-        // ==========================================
         window.onload = function() {
-            // Set tanggal hari ini di datepicker
             document.getElementById('globalDateInput').value = state.selectedDate;
-            
-            // Coba ambil data dari Google Sheets
             fetch(GOOGLE_SCRIPT_URL)
             .then(res => res.json())
             .then(data => {
                 if(data && data.classes) { 
-                    db = data; // Gunakan data cloud jika ada
+                    db = data; 
                     updateConnectionStatus(true); 
                 } else {
-                    // Jika format data cloud salah, anggap database baru
                     updateConnectionStatus(true, true); 
                 }
                 finishLoading();
             })
             .catch(err => {
-                console.log("Gagal koneksi ke cloud, beralih ke mode offline:", err);
-                updateConnectionStatus(false); // Mode offline
+                updateConnectionStatus(false);
                 const local = localStorage.getItem('pesantrenDB_v5_pro');
-                if(local) db = JSON.parse(local); // Gunakan data lokal jika ada
+                if(local) db = JSON.parse(local);
                 finishLoading();
             });
-            
-            // Jalankan jam digital
             setInterval(updateClock, 1000);
         };
 
-        // Update status koneksi di header
         function updateConnectionStatus(isOnline, isNew = false) {
             const el = document.getElementById('connectionStatus');
             if(isOnline) {
@@ -426,7 +398,6 @@
             }
         }
 
-        // Selesai loading screen
         function finishLoading() {
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('opacity-0');
@@ -437,39 +408,27 @@
             }, 1500); 
         }
 
-        // Update jam dan tanggal di header
         function updateClock() {
             const now = new Date();
             document.getElementById('headerClock').innerText = now.toLocaleTimeString('id-ID', {timeZone: 'Asia/Jakarta', hour12: false});
             document.getElementById('headerDate').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
 
-        // ==========================================
-        //  FUNGSI PENYIMPANAN DATA (SINKRONISASI)
-        // ==========================================
         function saveData() {
-            // 1. Simpan ke LocalStorage (Cadangan Offline)
             localStorage.setItem('pesantrenDB_v5_pro', JSON.stringify(db));
-            
-            // 2. Coba simpan ke Google Sheets jika online
             if(GOOGLE_SCRIPT_URL.includes("script.google.com")) {
                 const statusEl = document.getElementById('connectionStatus');
                 statusEl.innerHTML = `<i class="fas fa-sync fa-spin mr-1"></i> Menyimpan...`;
-                
                 fetch(GOOGLE_SCRIPT_URL, { 
                     method: 'POST', 
-                    // Gunakan no-cors untuk menghindari masalah CORS sederhana saat POST
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(db) 
                 })
                 .then(() => { 
-                    // Karena no-cors, kita asumsikan berhasil jika tidak error network
                     updateConnectionStatus(true); 
-                    console.log("Data terkirim ke cloud.");
                 })
                 .catch(e => { 
-                    console.error("Gagal simpan ke cloud:", e);
                     statusEl.innerHTML = `<span class="w-2 h-2 bg-red-500 rounded-full mr-1 inline-block"></span> Gagal Sinkron!`;
                     statusEl.classList.replace('text-green-600', 'text-red-500');
                     setTimeout(() => updateConnectionStatus(false), 3000);
@@ -477,21 +436,15 @@
             }
         }
 
-        // ==========================================
-        //  AUTENTIKASI & NAVIGASI
-        // ==========================================
         function handleLoginPrompt(role) {
             if (role === 'ustadz') {
-                
                 const inputPass = prompt("Masukkan Password Ustadz/Ustadzah:");
-                
                 if (inputPass && btoa(inputPass) === USTADZ_PASS_HASH) {
                     handleLogin(role);
                 } else {
                     alert("Password Salah!");
                 }
             } else {
-                // Walisantri langsung masuk
                 handleLogin(role);
             }
         }
@@ -500,38 +453,25 @@
             state.role = role;
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainApp').classList.remove('hidden');
-            
             const isUstadz = role === 'ustadz';
             document.getElementById('userRoleText').innerText = isUstadz ? 'Ustadz & Ustadzah' : 'Wali Santri';
-            
-            // 
             const marqueeText = isUstadz ? "أهلاً وسهلاً أستاذ وأستاذة" : "Ahlan wa Sahlan Walisantri";
-            
             const elMarquee = document.getElementById('marqueeText');
             elMarquee.innerText = marqueeText;
-            elMarquee.style.textAlign = 'center';
-
             const elMarqueeMobile = document.getElementById('marqueeTextMobile');
             elMarqueeMobile.innerText = marqueeText;
-            elMarqueeMobile.style.textAlign = 'center';
-
-            // Tampilkan/Sembunyikan Tombol Khusus Ustadz
             const ustadzOnlyIds = ['addClassBtn','addStudentBtn','addMateriBtn','addHafalanBtn'];
             ustadzOnlyIds.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) el.style.display = isUstadz ? (id === 'addClassBtn' ? 'flex' : 'inline-flex') : 'none';
             });
-
-            // CSS Dinamis untuk menyembunyikan kolom aksi di tabel bagi Walisantri
             const style = document.createElement('style');
             style.innerHTML = isUstadz ? `.action-col { display: table-cell; }` : `.action-col { display: none; }`;
             document.head.appendChild(style);
-            
             renderClasses();
         }
 
         function logout() { location.reload(); }
-        
         function navTo(page) { 
             if(page === 'dashboard') {
                 document.getElementById('dashboardPage').classList.remove('hidden');
@@ -539,97 +479,46 @@
                 state.currentClassId = null;
             }
         }
-        
-        // Handler saat tanggal global diubah
         function handleDateChange(date) {
             state.selectedDate = date;
-            // Jika sedang membuka kelas, refresh data yang bergantung pada tanggal
             if(state.currentClassId) {
                 renderStudents(); renderMateri(); renderHafalan();
             }
         }
 
-        // ==========================================
-        //  LOGIKA KELAS (DASHBOARD)
-        // ==========================================
         function renderClasses() {
             const c = document.getElementById('classList'); c.innerHTML='';
-            // State kosong
             if(db.classes.length === 0) {
-                c.innerHTML = `
-                <div class="col-span-1 sm:col-span-2 lg:col-span-3 flex flex-col items-center justify-center p-10 border-2 border-dashed border-gray-200 rounded-3xl bg-gray-50/50 text-gray-400 text-center">
-                    <i class="fas fa-school text-5xl mb-4 text-gray-300"></i>
-                    <p class="font-bold text-lg">Belum ada kelas.</p>
-                    <p class="text-sm">Silakan buat kelas baru untuk memulai.</p>
-                </div>`;
+                c.innerHTML = `<div class="col-span-1 sm:col-span-2 lg:col-span-3 flex flex-col items-center justify-center p-10 border-2 border-dashed border-gray-200 rounded-3xl bg-gray-50/50 text-gray-400 text-center"><i class="fas fa-school text-5xl mb-4 text-gray-300"></i><p class="font-bold text-lg">Belum ada kelas.</p></div>`;
             }
-
-            // Render kartu kelas
             db.classes.forEach(x => {
                 const count = db.students.filter(s => s.classId === x.id).length;
                 let actionButtons = '';
-                // Tombol Aksi Ustadz (Edit, Hapus, Reset Semester)
                 if(state.role === 'ustadz') {
-                    // PERUBAHAN: Menghapus opacity-0 dan group-hover agar selalu muncul
                     actionButtons = `
                     <div class="absolute top-4 right-4 flex space-x-2 z-20">
-                        <button onclick="resetSemesterForClass(${x.id})" class="bg-white text-red-500 hover:bg-red-50 hover:text-red-600 p-2.5 rounded-xl shadow-sm border border-red-100 transition transform hover:scale-110" title="Reset Semester Kelas Ini">
-                            <i class="fas fa-sync-alt text-sm"></i>
-                        </button>
-                        <button onclick="editClass(${x.id})" class="bg-white text-blue-500 hover:bg-blue-50 hover:text-blue-600 p-2.5 rounded-xl shadow-sm border border-gray-100 transition transform hover:scale-110" title="Edit Nama Kelas">
-                            <i class="fas fa-pen text-sm"></i>
-                        </button>
-                        <button onclick="deleteClass(${x.id})" class="bg-white text-red-500 hover:bg-red-50 hover:text-red-600 p-2.5 rounded-xl shadow-sm border border-gray-100 transition transform hover:scale-110" title="Hapus Kelas">
-                            <i class="fas fa-trash text-sm"></i>
-                        </button>
+                        <button onclick="resetSemesterForClass(${x.id})" class="bg-white text-red-500 hover:bg-red-50 p-2.5 rounded-xl shadow-sm border border-red-100 transition transform hover:scale-110"><i class="fas fa-sync-alt text-sm"></i></button>
+                        <button onclick="editClass(${x.id})" class="bg-white text-blue-500 hover:bg-blue-50 p-2.5 rounded-xl shadow-sm border border-gray-100 transition transform hover:scale-110"><i class="fas fa-pen text-sm"></i></button>
+                        <button onclick="deleteClass(${x.id})" class="bg-white text-red-500 hover:bg-red-50 p-2.5 rounded-xl shadow-sm border border-gray-100 transition transform hover:scale-110"><i class="fas fa-trash text-sm"></i></button>
                     </div>`;
                 }
-
-                c.innerHTML += `
-                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.1)] transition-all duration-300 relative group overflow-hidden cursor-pointer transform hover:-translate-y-1" onclick="openClass(${x.id})">
-                    ${actionButtons}
-                    <div class="flex items-start pr-24"> <div class="w-16 h-16 bg-gradient-to-br from-islamic-50 to-islamic-100 text-islamic-600 rounded-2xl flex items-center justify-center text-3xl mr-5 shadow-sm group-hover:scale-110 transition-transform flex-shrink-0">
-                            <i class="fas fa-chalkboard"></i>
-                        </div>
-                        <div class="flex-1 overflow-hidden">
-                            <h3 class="font-extrabold text-gray-800 text-xl sm:text-2xl leading-tight mb-2 group-hover:text-islamic-700 transition-colors truncate">${x.name}</h3>
-                             <div class="flex items-center text-gray-500 bg-gray-50 w-fit px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider">
-                                <i class="fas fa-user-graduate mr-2 text-islamic-500"></i>
-                                ${count} Santri
-                            </div>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-0 right-0 w-24 h-24 bg-islamic-50 rounded-tl-[3rem] -z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>`;
+                c.innerHTML += `<div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm transition-all relative group overflow-hidden cursor-pointer transform hover:-translate-y-1" onclick="openClass(${x.id})">${actionButtons}<div class="flex items-start pr-24"><div class="w-16 h-16 bg-gradient-to-br from-islamic-50 to-islamic-100 text-islamic-600 rounded-2xl flex items-center justify-center text-3xl mr-5 group-hover:scale-110 transition-transform flex-shrink-0"><i class="fas fa-chalkboard"></i></div><div class="flex-1 overflow-hidden"><h3 class="font-extrabold text-gray-800 text-xl truncate">${x.name}</h3><div class="flex items-center text-gray-500 bg-gray-50 w-fit px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider"><i class="fas fa-user-graduate mr-2 text-islamic-500"></i>${count} Santri</div></div></div></div>`;
             });
         }
         
         function openClass(id) {
-            // Mencegah klik pada kartu jika yang diklik adalah tombol aksi
             if (event.target.closest('button')) return;
-            
             state.currentClassId = id;
             document.getElementById('detailClassName').innerText = db.classes.find(x=>x.id===id).name;
             document.getElementById('dashboardPage').classList.add('hidden');
             document.getElementById('classDetailPage').classList.remove('hidden');
-            // Default buka tab absensi
             switchTab('absensi');
             renderStudents(); renderMateri(); renderHafalan();
             window.scrollTo(0, 0);
         }
 
-        // ==========================================
-        //  CRUD KELAS & RESET SEMESTER
-        // ==========================================
         function prepareAddClass() { state.editingClassId=null; document.getElementById('inputClassName').value=''; openModal('classModal'); }
-        
-        function editClass(id) { 
-            event.stopPropagation(); // Stop event bubbling ke kartu
-            state.editingClassId=id; 
-            const cls = db.classes.find(x=>x.id===id);
-            if(cls) { document.getElementById('inputClassName').value = cls.name; openModal('classModal'); }
-        }
-        
+        function editClass(id) { event.stopPropagation(); state.editingClassId=id; const cls = db.classes.find(x=>x.id===id); if(cls) { document.getElementById('inputClassName').value = cls.name; openModal('classModal'); } }
         function saveClass() {
             const n = document.getElementById('inputClassName').value;
             if(!n) return alert("Nama kelas wajib diisi");
@@ -641,58 +530,41 @@
             }
             saveData(); renderClasses(); closeModal('classModal');
         }
-        
         function deleteClass(id) {
             event.stopPropagation();
-            if(confirm("⚠️ Hapus kelas ini?\n\nSemua data santri, hafalan, dan materi di dalam kelas ini akan HILANG PERMANEN.")) {
-                // Hapus kelas
+            if(confirm("⚠️ Hapus kelas ini? Semua data di dalamnya akan hilang.")) {
                 db.classes = db.classes.filter(x => x.id !== id);
-                // Hapus santri di kelas tsb
                 db.students = db.students.filter(s => s.classId !== id);
-                // Hapus materi di kelas tsb
                 db.materi = db.materi.filter(m => m.classId !== id);
-                // Bersihkan data hafalan santri yang terhapus
-                const studentIdsInClass = db.students.filter(s => s.classId === id).map(s => s.id);
-                db.hafalan = db.hafalan.filter(h => !studentIdsInClass.includes(h.studentId));
-                // Bersihkan rekap kehadiran
-                studentIdsInClass.forEach(sid => delete db.attendanceRecap[sid]);
-
                 saveData(); renderClasses();
             }
         }
 
-        // PERUBAHAN: Fungsi Reset Semester per Kelas
         function resetSemesterForClass(classId) {
              event.stopPropagation();
              if(state.role !== 'ustadz') return;
-
              const cls = db.classes.find(x => x.id === classId);
-             const warning = confirm(`⚠️ PERINGATAN KERAS!\n\nAnda akan mereset semester untuk kelas: ${cls.name}.\n\n1. Semua hitungan kehadiran (H/I/S/A) santri DI KELAS INI akan kembali menjadi 0.\n2. Riwayat absensi harian DI KELAS INI akan dihapus.\n3. Data hafalan dan materi DI KELAS INI tetap aman.\n\nTindakan ini tidak bisa dibatalkan. Lanjutkan?`);
-
-             if(warning) {
-                 // Reset kehadiran hanya untuk santri di kelas ini
+             if(confirm(`⚠️ Reset semester untuk kelas: ${cls.name}? Rekap kehadiran akan kembali ke 0.`)) {
                  db.students.forEach(s => {
                      if (s.classId === classId) {
-                         s.attendance = {}; // Hapus riwayat harian
-                         db.attendanceRecap[s.id] = {H:0, I:0, S:0, A:0}; // Reset counter
+                         s.attendance = {};
+                         db.attendanceRecap[s.id] = {H:0, I:0, S:0, A:0};
                      }
                  });
-                 saveData();
-                 renderClasses(); // Refresh tampilan
-                 alert(`Semester untuk kelas ${cls.name} berhasil di-reset.`);
+                 // Kirim perintah reset ke server
+                 fetch(GOOGLE_SCRIPT_URL, {
+                     method: 'POST',
+                     mode: 'no-cors',
+                     body: JSON.stringify({ action: "resetClass", classId: classId })
+                 }).then(() => {
+                     saveData(); renderClasses();
+                     alert(`Kelas ${cls.name} berhasil direset.`);
+                 });
              }
          }
 
-        // ==========================================
-        //  LOGIKA SANTRI & ABSENSI
-        // ==========================================
         function prepareAddStudent() { state.editingStudentId=null; document.getElementById('inputStudentName').value=''; openModal('studentModal'); }
-        function editStudent(id) {
-            state.editingStudentId = id;
-            const s = db.students.find(x => x.id === id);
-            document.getElementById('inputStudentName').value = s.name;
-            openModal('studentModal');
-        }
+        function editStudent(id) { state.editingStudentId = id; const s = db.students.find(x => x.id === id); document.getElementById('inputStudentName').value = s.name; openModal('studentModal'); }
         function saveStudent() {
             const n = document.getElementById('inputStudentName').value;
             if(!n) return;
@@ -702,7 +574,7 @@
             } else { 
                 const nid=Date.now(); 
                 db.students.push({id:nid, classId:state.currentClassId, name:n, attendance:{}});
-                db.attendanceRecap[nid] = {H:0,I:0,S:0,A:0}; // Inisialisasi rekap
+                db.attendanceRecap[nid] = {H:0,I:0,S:0,A:0};
             }
             saveData(); renderStudents(); closeModal('studentModal');
         }
@@ -712,223 +584,100 @@
             const rb = document.getElementById('recapTableBody'); rb.innerHTML='';
             const students = db.students.filter(s=>s.classId===state.currentClassId);
             const dt = state.selectedDate;
-
             if(students.length === 0) {
-                tb.innerHTML = '<tr><td colspan="6" class="text-center p-8 text-gray-400 italic">Belum ada data santri di kelas ini.</td></tr>';
-                rb.innerHTML = '<tr><td colspan="6" class="text-center p-8 text-gray-400 italic">Belum ada data untuk direkap.</td></tr>';
+                tb.innerHTML = '<tr><td colspan="6" class="text-center p-8 text-gray-400 italic">Belum ada data santri.</td></tr>';
+                rb.innerHTML = '<tr><td colspan="6" class="text-center p-8 text-gray-400 italic">Belum ada data rekap.</td></tr>';
                 return;
             }
-
             students.forEach(s => {
-                // Pastikan objek rekap ada
                 if(!db.attendanceRecap[s.id]) db.attendanceRecap[s.id]={H:0,I:0,S:0,A:0};
-                
-                const st = s.attendance ? s.attendance[dt] : null; // Status hari ini
-                const r = db.attendanceRecap[s.id]; // Data rekap
-                const dis = state.role==='walisantri'?'disabled':''; // Disable input jika walisantri
-                
-                // Render Baris Absensi Harian
-                tb.innerHTML += `
-                <tr class="hover:bg-gray-50 transition border-b border-gray-50">
-                    <td class="px-4 sm:px-6 py-4 font-bold text-gray-800">${s.name}</td>
-                    ${['H','I','S','A'].map(k=> {
-                        let color = k==='H'?'islamic':(k==='I'?'blue':(k==='S'?'yellow':'red'));
-                        // Highlight jika dipilih
-                        let bgCheck = st===k ? `bg-${color}-100 ring-2 ring-${color}-500` : 'bg-gray-50';
-                        return `
-                        <td class="text-center p-1">
-                            <label class="cursor-pointer block w-full h-full py-3 rounded-xl transition-all ${bgCheck} hover:bg-${color}-50 ${dis ? 'opacity-60 cursor-not-allowed' : ''}">
-                                <input type="radio" name="att_${s.id}" value="${k}" onchange="updAtt(${s.id},'${k}')" ${st===k?'checked':''} ${dis} class="hidden">
-                                <span class="font-bold text-${color}-600">${k}</span>
-                            </label>
-                        </td>`;
-                    }).join('')}
-                    <td class="text-center action-col py-3">
-                        <div class="flex items-center justify-center space-x-2">
-                            <button onclick="editStudent(${s.id})" class="text-blue-500 hover:bg-blue-50 p-2 rounded-lg transition hover:scale-110" title="Edit Nama"><i class="fas fa-pen"></i></button>
-                            <button onclick="delSt(${s.id})" class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition hover:scale-110" title="Hapus Santri"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>`;
-
-                // Render Baris Rekapitulasi
+                const st = s.attendance ? s.attendance[dt] : null;
+                const r = db.attendanceRecap[s.id];
+                const dis = state.role==='walisantri'?'disabled':'';
+                tb.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-50"><td class="px-4 py-4 font-bold text-gray-800">${s.name}</td>${['H','I','S','A'].map(k=> { let color = k==='H'?'islamic':(k==='I'?'blue':(k==='S'?'yellow':'red')); let bgCheck = st===k ? `bg-${color}-100 ring-2 ring-${color}-500` : 'bg-gray-50'; return `<td class="text-center p-1"><label class="cursor-pointer block py-3 rounded-xl transition-all ${bgCheck} ${dis?'opacity-60':''}"><input type="radio" name="att_${s.id}" value="${k}" onchange="updAtt(${s.id},'${k}')" ${st===k?'checked':''} ${dis} class="hidden"><span class="font-bold text-${color}-600">${k}</span></label></td>`; }).join('')}<td class="text-center action-col py-3"><button onclick="editStudent(${s.id})" class="text-blue-500 p-2"><i class="fas fa-pen"></i></button><button onclick="delSt(${s.id})" class="text-red-500 p-2"><i class="fas fa-trash"></i></button></td></tr>`;
                 const tot = r.H+r.I+r.S+r.A; 
-                const p = tot ? Math.round((r.H/tot)*100) : 0; // Hitung persentase kehadiran
+                const p = tot ? Math.round((r.H/tot)*100) : 0;
                 let pColor = p >= 80 ? 'islamic' : (p >= 50 ? 'yellow' : 'red');
-                
-                rb.innerHTML += `
-                <tr class="hover:bg-gray-50 transition border-b border-gray-50">
-                    <td class="px-4 sm:px-6 py-4 font-bold text-gray-800">${s.name}</td>
-                    <td class="text-center font-bold text-islamic-700 bg-islamic-50/50 rounded-lg mx-1">${r.H}</td>
-                    <td class="text-center font-bold text-blue-600 bg-blue-50/30 rounded-lg mx-1">${r.I}</td>
-                    <td class="text-center font-bold text-yellow-600 bg-yellow-50/30 rounded-lg mx-1">${r.S}</td>
-                    <td class="text-center font-bold text-red-600 bg-red-50/30 rounded-lg mx-1">${r.A}</td>
-                    <td class="px-4 sm:px-6 py-4 text-center">
-                        <div class="flex items-center justify-center">
-                             <div class="w-full bg-gray-200 rounded-full h-2.5 mr-3 max-w-[100px]">
-                                <div class="bg-${pColor}-500 h-2.5 rounded-full transition-all duration-500" style="width: ${p}%"></div>
-                            </div>
-                            <span class="font-bold text-sm text-${pColor}-700">${p}%</span>
-                        </div>
-                    </td>
-                </tr>`;
+                rb.innerHTML += `<tr class="hover:bg-gray-50 border-b border-gray-50"><td class="px-4 py-4 font-bold text-gray-800">${s.name}</td><td class="text-center font-bold text-islamic-700">${r.H}</td><td class="text-center font-bold text-blue-600">${r.I}</td><td class="text-center font-bold text-yellow-600">${r.S}</td><td class="text-center font-bold text-red-600">${r.A}</td><td class="px-4 py-4"><div class="flex items-center justify-center"><div class="w-full bg-gray-200 rounded-full h-2.5 max-w-[100px] mr-2"><div class="bg-${pColor}-500 h-2.5 rounded-full" style="width: ${p}%"></div></div><span class="font-bold text-xs">${p}%</span></div></td></tr>`;
             });
         }
         
-        // Update Absensi (Real-time recap update)
         function updAtt(sid, val) {
             const dt = state.selectedDate;
             const s = db.students.find(x=>x.id===sid);
             if(!s.attendance) s.attendance={};
-            
-            // Kurangi counter status lama jika ada
             const old = s.attendance[dt];
             if(old && db.attendanceRecap[sid][old]>0) db.attendanceRecap[sid][old]--;
-            
-            // Tambah counter status baru
             db.attendanceRecap[sid][val]++;
             s.attendance[dt]=val;
-            
-            saveData(); renderStudents(); // Simpan dan refresh tabel
+            renderStudents();
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "updateAttendance", studentId: sid, date: dt, status: val }) });
         }
         
-        function delSt(id) { 
-            if(confirm("Hapus santri ini? Data rekap kehadirannya juga akan terhapus permanen.")) { 
-                db.students=db.students.filter(x=>x.id!==id); 
-                delete db.attendanceRecap[id];
-                // Hapus juga data hafalan terkait
-                db.hafalan = db.hafalan.filter(h => h.studentId !== id);
-                saveData(); renderStudents(); 
-            }
-        }
+        function delSt(id) { if(confirm("Hapus santri ini?")) { db.students=db.students.filter(x=>x.id!==id); delete db.attendanceRecap[id]; saveData(); renderStudents(); } }
 
-        // ==========================================
-        //  LOGIKA HAFALAN & MATERI
-        // ==========================================
         function renderHafalan() {
             const tb = document.getElementById('hafalanTableBody'); tb.innerHTML = '';
-            // Ambil ID santri di kelas ini
             const ids = db.students.filter(s => s.classId === state.currentClassId).map(s => s.id);
-            // Filter hafalan berdasarkan santri kelas ini dan tanggal terpilih
             const list = db.hafalan.filter(h => ids.includes(h.studentId) && h.date === state.selectedDate);
-            
             document.getElementById('hafalanEmptyState').classList.toggle('hidden', list.length > 0);
-            
             list.forEach(h => {
                 const sName = db.students.find(s => s.id == h.studentId)?.name || 'Unknown';
-                tb.innerHTML += `
-                <tr class="hover:bg-green-50/30 transition border-b border-green-50">
-                    <td class="px-4 sm:px-6 py-4 font-bold text-gray-800">${sName}</td>
-                    <td class="px-4 sm:px-6 py-4 text-islamic-800 font-semibold bg-islamic-50/30 rounded-lg">${h.surah}</td>
-                    <td class="px-4 sm:px-6 py-4 text-gray-600 italic">${h.note}</td>
-                    <td class="px-4 sm:px-6 py-4 text-center action-col">
-                         <button onclick="delHaf(${h.id})" class="text-red-400 hover:bg-red-50 hover:text-red-600 p-2 rounded-lg transition hover:scale-110" title="Hapus Hafalan"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>`;
+                tb.innerHTML += `<tr class="hover:bg-green-50/30 border-b border-green-50"><td class="px-4 py-4 font-bold text-gray-800">${sName}</td><td class="px-4 py-4 text-islamic-800 font-semibold">${h.surah}</td><td class="px-4 py-4 text-gray-600 italic">${h.note}</td><td class="px-4 py-4 text-center action-col"><button onclick="delHaf(${h.id})" class="text-red-400 p-2"><i class="fas fa-trash"></i></button></td></tr>`;
             });
         }
         
         function prepareAddHafalan() {
             const sel = document.getElementById('inputHafalanStudent'); sel.innerHTML = '';
             const classStudents = db.students.filter(s => s.classId === state.currentClassId);
-            if(classStudents.length === 0) return alert("Tidak ada santri di kelas ini. Tambahkan santri dulu.");
-            
-            // Isi dropdown dengan santri kelas ini
-            classStudents.forEach(s => {
-                sel.innerHTML += `<option value="${s.id}">${s.name}</option>`;
-            });
+            if(classStudents.length === 0) return alert("Tidak ada santri.");
+            classStudents.forEach(s => { sel.innerHTML += `<option value="${s.id}">${s.name}</option>`; });
             document.getElementById('inputHafalanSurah').value = ''; document.getElementById('inputHafalanNote').value = ''; openModal('hafalanModal');
         }
         
         function saveHafalan() {
-            const sidVal = document.getElementById('inputHafalanStudent').value;
-            if(!sidVal) return alert("Pilih santri terlebih dahulu.");
-            const sid = parseInt(sidVal);
+            const sid = parseInt(document.getElementById('inputHafalanStudent').value);
             const surah = document.getElementById('inputHafalanSurah').value;
             const note = document.getElementById('inputHafalanNote').value;
-            if(!surah) return alert("Surah/Ayat wajib diisi.");
-            
-            db.hafalan.push({ id: Date.now(), studentId: sid, date: state.selectedDate, surah: surah, note: note });
-            saveData(); renderHafalan(); closeModal('hafalanModal');
+            if(!surah) return alert("Wajib diisi.");
+            const payload = { action: "addHafalan", studentId: sid, date: state.selectedDate, surah: surah, note: note };
+            db.hafalan.push({ id: Date.now(), ...payload });
+            renderHafalan(); closeModal('hafalanModal');
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
         }
-        function delHaf(id) { if(confirm("Hapus setoran hafalan ini?")) { db.hafalan=db.hafalan.filter(h=>h.id!==id); saveData(); renderHafalan(); }}
+        function delHaf(id) { if(confirm("Hapus?")) { db.hafalan=db.hafalan.filter(h=>h.id!==id); saveData(); renderHafalan(); }}
 
         function renderMateri() {
             const c = document.getElementById('materiList'); c.innerHTML='';
             const list = db.materi.filter(m=>m.classId===state.currentClassId && m.date===state.selectedDate);
-            
             if(list.length === 0) {
-                c.innerHTML = `
-                <div class="text-center p-8 border-2 border-dashed border-gray-200 rounded-3xl bg-gray-50/50 text-gray-400 flex flex-col items-center">
-                    <i class="fas fa-book text-4xl mb-3 text-blue-200"></i>
-                    <p class="font-bold">Belum ada jurnal materi.</p>
-                    <p class="text-sm">Klik "Input Materi" untuk menambah catatan hari ini.</p>
-                </div>`;
+                c.innerHTML = `<div class="text-center p-8 border-2 border-dashed border-gray-200 rounded-3xl bg-gray-50/50 text-gray-400 flex flex-col items-center"><i class="fas fa-book text-4xl mb-3 text-blue-200"></i><p class="font-bold">Belum ada jurnal materi.</p></div>`;
                 return;
             }
-
             list.forEach(m=>{
-                const btn = state.role==='ustadz'? `
-                <button onclick="delMat(${m.id})" class="text-red-400 ml-4 hover:bg-red-50 p-2 rounded-lg transition hover:scale-110 hover:text-red-600 flex-shrink-0" title="Hapus Materi">
-                    <i class="fas fa-trash"></i>
-                </button>` : '';
-                c.innerHTML += `
-                <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-[0_4px_15px_-5px_rgba(0,0,0,0.05)] flex justify-between items-start hover:shadow-md transition relative overflow-hidden group">
-                    <div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
-                    <div class="pl-4 flex-1">
-                        <div class="flex items-center mb-2 flex-wrap">
-                             <span class="bg-blue-100 text-blue-700 text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider mr-2 mb-1 sm:mb-0">Jurnal</span>
-                            <h4 class="font-extrabold text-xl text-gray-800">${m.title}</h4>
-                        </div>
-                        <p class="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">${m.desc}</p>
-                    </div>
-                    ${btn}
-                </div>`;
+                const btn = state.role==='ustadz'? `<button onclick="delMat(${m.id})" class="text-red-400 ml-4 p-2"><i class="fas fa-trash"></i></button>` : '';
+                c.innerHTML += `<div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex justify-between items-start mb-4 relative overflow-hidden"><div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div><div class="pl-4 flex-1"><h4 class="font-extrabold text-xl text-gray-800">${m.title}</h4><p class="text-sm text-gray-600 leading-relaxed">${m.desc}</p></div>${btn}</div>`;
             });
         }
         function prepareAddMateri() { document.getElementById('inputMateriTitle').value=''; document.getElementById('inputMateriDesc').value=''; openModal('materiModal'); }
         function saveMateri() {
             const t = document.getElementById('inputMateriTitle').value;
             const d = document.getElementById('inputMateriDesc').value;
-            if(!t) return alert("Judul materi wajib diisi.");
-            db.materi.push({id:Date.now(), classId:state.currentClassId, date:state.selectedDate, title:t, desc:d});
-            saveData(); renderMateri(); closeModal('materiModal');
+            if(!t) return alert("Wajib diisi.");
+            const payload = { action: "addMateri", classId: state.currentClassId, date: state.selectedDate, title: t, desc: d };
+            db.materi.push({id:Date.now(), ...payload});
+            renderMateri(); closeModal('materiModal');
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
         }
-        function delMat(id) { if(confirm("Hapus jurnal materi ini?")) { db.materi=db.materi.filter(x=>x.id!==id); saveData(); renderMateri(); }}
+        function delMat(id) { if(confirm("Hapus?")) { db.materi=db.materi.filter(x=>x.id!==id); saveData(); renderMateri(); }}
 
-        // ==========================================
-        //  UTILITAS (Modal & Tabs)
-        // ==========================================
-        function openModal(id){ 
-            const m=document.getElementById(id); 
-            m.classList.remove('hidden'); 
-            m.classList.add('flex'); 
-            // Animasi masuk
-            setTimeout(()=>{m.firstElementChild.classList.remove('scale-95','opacity-0');m.firstElementChild.classList.add('scale-100','opacity-100');},10); 
-        }
-        
-        function closeModal(id){ 
-            const m=document.getElementById(id); 
-            // Animasi keluar
-            m.firstElementChild.classList.remove('scale-100','opacity-100');
-            m.firstElementChild.classList.add('scale-95','opacity-0'); 
-            setTimeout(()=>{m.classList.remove('flex');m.classList.add('hidden');},300); 
-        }
-        
+        function openModal(id){ const m=document.getElementById(id); m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(()=>{m.firstElementChild.classList.remove('scale-95','opacity-0');m.firstElementChild.classList.add('scale-100','opacity-100');},10); }
+        function closeModal(id){ const m=document.getElementById(id); m.firstElementChild.classList.remove('scale-100','opacity-100'); m.firstElementChild.classList.add('scale-95','opacity-0'); setTimeout(()=>{m.classList.remove('flex');m.classList.add('hidden');},300); }
         function switchTab(t){
-            // Sembunyikan semua konten tab
             document.querySelectorAll('.tab-content').forEach(e=>e.classList.add('hidden'));
-            // Reset style semua tombol tab
-            document.querySelectorAll('.tab-btn').forEach(e=>{
-                e.classList.remove('active-tab','bg-white','text-islamic-700','shadow-sm'); 
-                e.classList.add('text-gray-500','hover:text-gray-700','hover:bg-gray-50');
-            });
-            // Tampilkan konten tab yang dipilih
+            document.querySelectorAll('.tab-btn').forEach(e=>{ e.classList.remove('active-tab','bg-white','text-islamic-700','shadow-sm'); e.classList.add('text-gray-500'); });
             document.getElementById('content-'+t).classList.remove('hidden');
-            // Highlight tombol tab yang dipilih
-            const b = document.getElementById('tab-'+t); 
-            b.classList.add('active-tab','bg-white','text-islamic-700','shadow-sm'); 
-            b.classList.remove('text-gray-500','hover:text-gray-700','hover:bg-gray-50');
+            const b = document.getElementById('tab-'+t); b.classList.add('active-tab','bg-white','text-islamic-700','shadow-sm'); b.classList.remove('text-gray-500');
         }
     </script>
 </body>
