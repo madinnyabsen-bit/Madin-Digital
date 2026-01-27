@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Madin Digital - Nurul Yusuf</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -18,136 +16,93 @@
                 extend: {
                     colors: {
                         islamic: {
-                            50: '#f2f8f6',
-                            100: '#e1efeb',
-                            500: '#10b981', // Emerald
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
                             600: '#059669',
                             800: '#065f46',
                             900: '#064e3b',
-                            gold: '#fbbf24'
+                            gold: '#d97706'
                         }
                     },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
                         arabic: ['Amiri', 'serif']
                     }
                 }
             }
         }
     </script>
-
     <style>
-        /* Glassmorphism & Animations */
-        .glass {
+        .glass-effect {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        .glass-dark {
-            background: rgba(6, 78, 59, 0.95);
-            backdrop-filter: blur(10px);
-        }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
-        
-        /* Loading Animation */
-        .loader {
-            border-top-color: #10b981;
-            -webkit-animation: spinner 1.5s linear infinite;
-            animation: spinner 1.5s linear infinite;
-        }
-        @keyframes spinner {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive Table */
-        .table-responsive {
-            display: block;
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        /* Action Column Logic */
         .action-col { display: none; }
+        
+        /* Animasi Loading */
+        #loadingScreen { transition: opacity 1s ease-out, visibility 1s; }
+        .fade-out { opacity: 0; visibility: hidden; }
     </style>
 </head>
-<body class="bg-islamic-50 text-gray-800 antialiased selection:bg-islamic-500 selection:text-white overflow-hidden">
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-islamic-500 selection:text-white">
 
-    <div id="loadingScreen" class="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center transition-opacity duration-1000">
-        <div class="relative w-full h-full max-w-md md:max-w-2xl aspect-[9/16] md:aspect-video bg-black">
-            <video id="loadingVideo" autoplay muted playsinline class="w-full h-full object-contain">
-                <source src="./loading.mp4" type="video/mp4">
-                Browser Anda tidak mendukung tag video.
-            </video>
-            <div class="absolute bottom-10 w-full text-center text-white/80 text-sm animate-pulse">
-                Memuat Sistem Madin Digital...
-            </div>
-        </div>
+    <div id="loadingScreen" class="fixed inset-0 z-[100] bg-black flex items-center justify-center">
+        <video autoplay muted playsinline class="w-full h-full object-contain md:object-cover">
+            <source src="./loading.mp4" type="video/mp4">
+            Memuat Sistem...
+        </video>
     </div>
 
-    <div id="loginPage" class="fixed inset-0 z-50 flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1596920395724-4f0e470b1062?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center hidden">
-        <div class="absolute inset-0 bg-islamic-900/80 backdrop-blur-sm"></div>
-        
-        <div class="relative w-full max-w-md p-8 mx-4 glass rounded-3xl shadow-2xl transform transition-all duration-500 hover:scale-[1.01]">
+    <div id="loginPage" class="fixed inset-0 z-50 flex items-center justify-center bg-islamic-50 hidden">
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md mx-4 border border-islamic-100">
             <div class="text-center mb-8">
-                <img src="./logo.png" alt="Logo" class="w-24 h-24 mx-auto mb-4 drop-shadow-lg rounded-full bg-white p-2">
-                <h1 class="text-3xl font-bold text-islamic-900 font-arabic mb-1">Madin Nurul Yusuf</h1>
+                <img src="./logo.png" alt="Logo" class="w-20 h-20 mx-auto mb-4 rounded-full shadow-md">
+                <h1 class="text-2xl font-bold text-islamic-900 font-arabic">Madin Nurul Yusuf</h1>
                 <p class="text-gray-500 text-sm">Sistem Manajemen Digital Pesantren</p>
             </div>
 
             <div class="space-y-4">
-                <button onclick="handleLogin('ustadz')" class="w-full group relative px-6 py-4 bg-gradient-to-r from-islamic-600 to-islamic-500 text-white rounded-xl shadow-lg hover:shadow-islamic-500/30 transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="p-2 bg-white/20 rounded-lg group-hover:bg-white/30 transition">
-                                <i class="fas fa-user-tie text-xl"></i>
-                            </div>
-                            <div class="text-left">
-                                <span class="block font-bold text-lg">Login Ustadz</span>
-                                <span class="text-xs text-islamic-100 opacity-80">Akses Penuh (Edit/Input)</span>
-                            </div>
+                <button onclick="handleLoginPrompt()" class="w-full flex items-center justify-between p-4 bg-islamic-600 text-white rounded-xl hover:bg-islamic-700 transition shadow-lg shadow-islamic-500/30">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-shield text-xl mr-3"></i>
+                        <div class="text-left">
+                            <span class="block font-bold">Login Ustadz</span>
+                            <span class="text-xs opacity-90">Akses Penuh (Edit/Input)</span>
                         </div>
-                        <i class="fas fa-chevron-right opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all"></i>
                     </div>
+                    <i class="fas fa-chevron-right"></i>
                 </button>
 
-                <button onclick="handleLogin('wali')" class="w-full group relative px-6 py-4 bg-white border-2 border-islamic-100 text-islamic-800 rounded-xl hover:bg-islamic-50 transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="p-2 bg-islamic-100 rounded-lg group-hover:bg-white transition">
-                                <i class="fas fa-users text-xl text-islamic-600"></i>
-                            </div>
-                            <div class="text-left">
-                                <span class="block font-bold text-lg">Wali Santri</span>
-                                <span class="text-xs text-gray-500">Mode Lihat Data (Read Only)</span>
-                            </div>
+                <button onclick="handleLogin('wali')" class="w-full flex items-center justify-between p-4 bg-white border-2 border-islamic-100 text-islamic-800 rounded-xl hover:bg-islamic-50 transition">
+                    <div class="flex items-center">
+                        <i class="fas fa-users text-xl mr-3 text-islamic-600"></i>
+                        <div class="text-left">
+                            <span class="block font-bold">Wali Santri</span>
+                            <span class="text-xs text-gray-500">Mode Lihat Data</span>
                         </div>
-                        <i class="fas fa-chevron-right text-islamic-300 group-hover:text-islamic-600"></i>
                     </div>
+                    <i class="fas fa-chevron-right text-islamic-300"></i>
                 </button>
             </div>
 
-            <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+            <div class="mt-8 text-center border-t pt-4">
                 <p class="text-xs text-gray-400 mb-3">&copy; 2024 Madin Digital v5.0 Pro</p>
                 
-                <div class="flex justify-center space-x-5">
-                    <a href="https://sites.google.com/view/madin-nurulyusuf/" target="_blank" class="text-gray-400 hover:text-islamic-600 transition transform hover:scale-110" title="Website">
+                <div class="flex justify-center space-x-4">
+                    <a href="https://sites.google.com/view/madin-nurulyusuf/" target="_blank" class="text-gray-400 hover:text-islamic-600 transition transform hover:scale-110">
                         <i class="fas fa-globe fa-lg"></i>
                     </a>
-                    <a href="mailto:madinnurulyusuf@gmail.com" class="text-gray-400 hover:text-red-500 transition transform hover:scale-110" title="Email">
+                    <a href="mailto:madinnurulyusuf@gmail.com" class="text-gray-400 hover:text-red-500 transition transform hover:scale-110">
                         <i class="fas fa-envelope fa-lg"></i>
                     </a>
-                    <a href="https://www.instagram.com/madin.nurulyusuf?igsh=bTdwYjI4cGh6ZGNx" target="_blank" class="text-gray-400 hover:text-pink-600 transition transform hover:scale-110" title="Instagram">
+                    <a href="https://www.instagram.com/madin.nurulyusuf?igsh=bTdwYjI4cGh6ZGNx" target="_blank" class="text-gray-400 hover:text-pink-600 transition transform hover:scale-110">
                         <i class="fab fa-instagram fa-lg"></i>
                     </a>
-                    <a href="https://youtube.com/@madinnurulyusuf?si=3vzKB5zmu6kRf_eR" target="_blank" class="text-gray-400 hover:text-red-600 transition transform hover:scale-110" title="YouTube">
+                    <a href="https://youtube.com/@madinnurulyusuf?si=3vzKB5zmu6kRf_eR" target="_blank" class="text-gray-400 hover:text-red-600 transition transform hover:scale-110">
                         <i class="fab fa-youtube fa-lg"></i>
                     </a>
-                    <a href="https://www.tiktok.com/@madin.nurul.yusuf?_r=1&_t=ZS-93MMG32ammI" target="_blank" class="text-gray-400 hover:text-black transition transform hover:scale-110" title="TikTok">
+                    <a href="https://www.tiktok.com/@madin.nurul.yusuf?_r=1&_t=ZS-93MMG32ammI" target="_blank" class="text-gray-400 hover:text-black transition transform hover:scale-110">
                         <i class="fab fa-tiktok fa-lg"></i>
                     </a>
                 </div>
@@ -155,449 +110,291 @@
         </div>
     </div>
 
-    <div id="app" class="hidden h-screen flex flex-col md:flex-row bg-islamic-50">
+    <div id="app" class="hidden min-h-screen flex flex-col md:flex-row">
         
-        <aside class="md:w-64 bg-white border-r border-gray-200 flex flex-col shadow-lg z-20">
-            <div class="p-6 border-b border-gray-100 flex items-center space-x-3 bg-islamic-50">
-                <img src="./logo.png" class="w-10 h-10 rounded-full bg-white p-1 shadow-sm">
+        <aside class="w-full md:w-64 bg-white border-r border-gray-200 flex flex-col md:h-screen sticky top-0 z-40">
+            <div class="p-4 border-b border-gray-100 flex items-center space-x-3 bg-islamic-50">
+                <img src="./logo.png" class="w-8 h-8 rounded-full">
                 <div>
-                    <h2 class="font-bold text-islamic-800">Madin Admin</h2>
-                    <p id="roleDisplay" class="text-xs text-islamic-500 font-semibold uppercase tracking-wider">Loading...</p>
+                    <h2 class="font-bold text-islamic-900 text-sm">Madin Admin</h2>
+                    <p id="roleDisplay" class="text-[10px] text-islamic-600 uppercase font-bold tracking-wider">Loading...</p>
                 </div>
             </div>
 
-            <nav class="flex-1 overflow-y-auto p-4 space-y-2">
-                <button onclick="switchPage('dashboard')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition active-nav">
-                    <i class="fas fa-th-large w-6"></i>
-                    <span class="font-medium">Dashboard</span>
+            <nav class="flex-1 overflow-y-auto p-2 space-y-1">
+                <button onclick="switchPage('dashboard')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition flex items-center">
+                    <i class="fas fa-home w-8 text-center"></i> Dashboard
                 </button>
-                <button onclick="switchPage('absensi')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition">
-                    <i class="fas fa-calendar-check w-6"></i>
-                    <span class="font-medium">Absensi Harian</span>
+                <button onclick="switchPage('absensi')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition flex items-center">
+                    <i class="fas fa-calendar-check w-8 text-center"></i> Absensi
                 </button>
-                <button onclick="switchPage('hafalan')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition">
-                    <i class="fas fa-quran w-6"></i>
-                    <span class="font-medium">Setoran Hafalan</span>
+                <button onclick="switchPage('hafalan')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition flex items-center">
+                    <i class="fas fa-quran w-8 text-center"></i> Hafalan
                 </button>
-                <button onclick="switchPage('materi')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition">
-                    <i class="fas fa-book-open w-6"></i>
-                    <span class="font-medium">Jurnal Materi</span>
+                <button onclick="switchPage('materi')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition flex items-center">
+                    <i class="fas fa-book w-8 text-center"></i> Materi
                 </button>
                 
-                <div id="adminMenu" class="hidden pt-4 mt-4 border-t border-gray-100">
-                    <p class="px-4 text-xs font-bold text-gray-400 uppercase mb-2">Manajemen</p>
-                    <button onclick="switchPage('dataSantri')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition">
-                        <i class="fas fa-users-cog w-6"></i>
-                        <span class="font-medium">Data Santri</span>
+                <div id="adminMenu" class="hidden pt-4 mt-2 border-t">
+                    <p class="px-4 text-xs text-gray-400 mb-2 uppercase">Admin</p>
+                    <button onclick="switchPage('dataSantri')" class="nav-item w-full text-left px-4 py-3 rounded-lg text-gray-600 hover:bg-islamic-50 hover:text-islamic-700 transition flex items-center">
+                        <i class="fas fa-users-cog w-8 text-center"></i> Data Santri
                     </button>
                 </div>
             </nav>
 
-            <div class="p-4 border-t border-gray-100 bg-gray-50">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="text-xs text-gray-500" id="syncStatus">
-                        <i class="fas fa-circle text-green-500 mr-1"></i> Online
-                    </div>
-                    <div class="text-xs font-mono text-gray-400" id="clock">00:00</div>
+            <div class="p-4 border-t bg-gray-50">
+                <div class="flex justify-between items-center text-xs text-gray-500 mb-3">
+                    <span id="syncStatus">Check Connection...</span>
+                    <span id="clock" class="font-mono">00:00</span>
                 </div>
-                <button onclick="logout()" class="w-full flex items-center justify-center space-x-2 bg-white border border-red-200 text-red-500 py-2 rounded-lg hover:bg-red-50 transition text-sm font-medium">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Keluar</span>
-                </button>
+                <button onclick="location.reload()" class="w-full py-2 border border-red-200 text-red-500 rounded hover:bg-red-50 text-sm">Keluar</button>
             </div>
         </aside>
 
-        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
-            <header class="md:hidden bg-white h-16 flex items-center justify-between px-4 shadow-sm z-10">
-                <div class="flex items-center space-x-3">
-                    <img src="./logo.png" class="w-8 h-8">
-                    <span class="font-bold text-islamic-800">Madin Digital</span>
+        <main class="flex-1 p-4 md:p-8 overflow-y-auto h-screen bg-gray-50">
+            
+            <section id="page-dashboard" class="space-y-6">
+                <header class="flex justify-between items-end mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+                        <p class="text-gray-500 text-sm" id="currentDateDisplay"></p>
+                    </div>
+                </header>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="text-gray-500 text-xs uppercase mb-1">Total Santri</div>
+                        <div class="text-2xl font-bold text-islamic-600" id="dashTotalSantri">0</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="text-gray-500 text-xs uppercase mb-1">Hadir Hari Ini</div>
+                        <div class="text-2xl font-bold text-blue-600" id="dashHadir">0</div>
+                    </div>
                 </div>
-                <button onclick="document.querySelector('aside').classList.toggle('-translate-x-full'); document.querySelector('aside').classList.toggle('absolute');" class="text-gray-600">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </header>
 
-            <div id="contentArea" class="flex-1 overflow-y-auto p-4 md:p-8 pb-24">
-                
-                <section id="page-dashboard" class="space-y-6">
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <h1 class="text-2xl font-bold text-gray-800">Assalamu'alaikum,</h1>
-                            <p class="text-gray-500">Ringkasan aktivitas Madin hari ini.</p>
-                        </div>
-                        <div class="hidden md:block">
-                            <span class="bg-islamic-100 text-islamic-700 px-4 py-2 rounded-full text-sm font-semibold">
-                                <i class="far fa-calendar-alt mr-2"></i> <span id="currentDateDisplay"></span>
-                            </span>
-                        </div>
+                <h3 class="font-bold text-gray-700 mt-6 mb-4">Pilih Kelas</h3>
+                <div id="classGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            </section>
+
+            <section id="page-absensi" class="hidden space-y-4">
+                <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
+                    <div>
+                        <h2 class="font-bold text-lg">Absensi</h2>
+                        <p class="text-sm text-gray-500" id="absensiClassName">-</p>
                     </div>
+                    <input type="date" id="absensiDate" class="border rounded px-2 py-1 text-sm">
+                </div>
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 text-gray-500 border-b">
+                            <tr><th class="p-4">Nama</th><th class="p-4 text-center">Status</th></tr>
+                        </thead>
+                        <tbody id="absensiTableBody" class="divide-y"></tbody>
+                    </table>
+                </div>
+            </section>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-gradient-to-br from-islamic-500 to-islamic-600 rounded-2xl p-6 text-white shadow-lg shadow-islamic-500/20">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="text-islamic-100 text-sm font-medium mb-1">Total Santri</p>
-                                    <h3 class="text-3xl font-bold" id="dashTotalSantri">0</h3>
-                                </div>
-                                <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-                                    <i class="fas fa-user-graduate text-xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="text-gray-400 text-sm font-medium mb-1">Kehadiran Hari Ini</p>
-                                    <h3 class="text-3xl font-bold text-gray-800" id="dashHadir">0%</h3>
-                                </div>
-                                <div class="p-3 bg-blue-50 text-blue-500 rounded-xl">
-                                    <i class="fas fa-chart-pie text-xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="text-gray-400 text-sm font-medium mb-1">Setoran Hafalan</p>
-                                    <h3 class="text-3xl font-bold text-gray-800" id="dashHafalan">0</h3>
-                                </div>
-                                <div class="p-3 bg-orange-50 text-orange-500 rounded-xl">
-                                    <i class="fas fa-star text-xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 class="text-lg font-bold text-gray-700 mt-8">Pilih Kelas</h3>
-                    <div id="classGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        </div>
-                </section>
-
-                <section id="page-absensi" class="hidden space-y-6">
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-0 z-10">
-                        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                            <div>
-                                <h2 class="text-xl font-bold text-gray-800 flex items-center">
-                                    <i class="fas fa-calendar-check text-islamic-500 mr-2"></i> Absensi Kelas
-                                </h2>
-                                <p class="text-sm text-gray-500" id="absensiClassName">-</p>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <input type="date" id="absensiDate" class="border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-islamic-500 outline-none">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 text-gray-500 text-sm uppercase">
-                                <tr>
-                                    <th class="px-6 py-4">Nama Santri</th>
-                                    <th class="px-6 py-4 text-center">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="absensiTableBody" class="divide-y divide-gray-100">
-                                </tbody>
-                        </table>
-                        <div id="absensiEmptyState" class="hidden p-8 text-center text-gray-400">
-                            <i class="fas fa-inbox text-4xl mb-2"></i>
-                            <p>Tidak ada data siswa di kelas ini.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="page-hafalan" class="hidden space-y-6">
-                    <div class="flex justify-between items-center">
-                        <h2 class="text-xl font-bold text-gray-800">Setoran Hafalan</h2>
-                        <button onclick="openHafalanModal()" class="action-col bg-islamic-500 hover:bg-islamic-600 text-white px-4 py-2 rounded-lg shadow-lg shadow-islamic-500/30 transition flex items-center">
-                            <i class="fas fa-plus mr-2"></i> Input
-                        </button>
-                    </div>
-
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-50 text-gray-500 text-sm uppercase">
-                                <tr>
-                                    <th class="px-6 py-4">Santri</th>
-                                    <th class="px-6 py-4">Surah/Jilid</th>
-                                    <th class="px-6 py-4">Catatan</th>
-                                    <th class="px-6 py-4 text-center action-col">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="hafalanTableBody" class="divide-y divide-gray-100 text-sm"></tbody>
-                        </table>
-                        <div id="hafalanEmptyState" class="hidden p-8 text-center text-gray-400">
-                            <p>Belum ada setoran hari ini.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="page-materi" class="hidden space-y-6">
-                    <div class="flex justify-between items-center">
-                        <h2 class="text-xl font-bold text-gray-800">Jurnal Materi</h2>
-                        <button onclick="document.getElementById('materiModal').classList.remove('hidden')" class="action-col bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow transition">
-                            <i class="fas fa-pen-fancy mr-2"></i> Tulis Jurnal
-                        </button>
-                    </div>
-
-                    <div id="materiList" class="space-y-4">
-                        </div>
-                </section>
-
-                <section id="page-dataSantri" class="hidden space-y-6">
-                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-exclamation-triangle text-yellow-400"></i>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm text-yellow-700">
-                                    Perubahan data santri disini akan disinkronkan ke server. Hati-hati saat mengubah Kelas ID.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-2">
-                        <textarea id="jsonInput" class="w-full h-40 border rounded-lg p-3 font-mono text-xs" placeholder='Paste JSON format: {"classes": [...], "students": [...]}'></textarea>
-                    </div>
-                    <button onclick="saveMasterData()" class="bg-islamic-600 text-white px-6 py-2 rounded-lg hover:bg-islamic-700 w-full font-bold">
-                        <i class="fas fa-save mr-2"></i> Simpan Perubahan ke Server
+            <section id="page-hafalan" class="hidden space-y-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="font-bold text-lg">Setoran Hafalan</h2>
+                    <button onclick="openHafalanModal()" class="action-col bg-islamic-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-islamic-700 shadow">
+                        <i class="fas fa-plus mr-1"></i> Input
                     </button>
-                </section>
-            </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 text-gray-500 border-b">
+                            <tr>
+                                <th class="p-4">Santri</th>
+                                <th class="p-4">Surah</th>
+                                <th class="p-4">Catatan</th>
+                                <th class="p-4 text-center action-col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hafalanTableBody" class="divide-y"></tbody>
+                    </table>
+                    <div id="hafalanEmptyState" class="hidden p-6 text-center text-gray-400 text-sm">Belum ada data.</div>
+                </div>
+            </section>
+
+            <section id="page-materi" class="hidden space-y-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="font-bold text-lg">Jurnal Materi</h2>
+                    <button onclick="document.getElementById('materiModal').classList.remove('hidden')" class="action-col bg-blue-600 text-white px-4 py-2 rounded-lg text-sm shadow">
+                        <i class="fas fa-pen mr-1"></i> Tulis
+                    </button>
+                </div>
+                <div id="materiList" class="space-y-3"></div>
+            </section>
+
+            <section id="page-dataSantri" class="hidden space-y-4">
+                <div class="bg-yellow-50 p-4 rounded text-sm text-yellow-700 border border-yellow-200">
+                    <i class="fas fa-exclamation-triangle mr-2"></i> Edit Master Data (Format JSON)
+                </div>
+                <textarea id="jsonInput" class="w-full h-64 border rounded p-2 text-xs font-mono"></textarea>
+                <button onclick="saveMasterData()" class="w-full bg-islamic-600 text-white py-2 rounded font-bold">Simpan Perubahan ke Server</button>
+            </section>
+
         </main>
     </div>
 
-    <div id="hafalanModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl animate-fade-in-up">
-            <h3 class="text-lg font-bold mb-4 text-gray-800">Input Hafalan</h3>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Santri</label>
-                    <select id="inputHafalanSantri" class="w-full border rounded-lg px-3 py-2 bg-gray-50 focus:bg-white transition"></select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Surah / Pencapaian</label>
-                    <input type="text" id="inputHafalanSurah" class="w-full border rounded-lg px-3 py-2" placeholder="Contoh: An-Naba Ayat 1-10">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Catatan / Nilai</label>
-                    <textarea id="inputHafalanNote" class="w-full border rounded-lg px-3 py-2" rows="2" placeholder="Lancar / Perlu diulang"></textarea>
-                </div>
-                <div class="flex justify-end space-x-2 mt-4">
-                    <button onclick="closeHafalanModal()" class="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Batal</button>
-                    <button id="btnSaveHafalan" onclick="saveHafalan()" class="px-4 py-2 bg-islamic-500 text-white rounded-lg hover:bg-islamic-600 shadow-lg shadow-islamic-500/30">Simpan</button>
+    <div id="hafalanModal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl w-full max-w-sm p-6 shadow-2xl">
+            <h3 class="font-bold mb-4">Input Hafalan</h3>
+            <div class="space-y-3">
+                <select id="inputHafalanSantri" class="w-full border rounded px-3 py-2 text-sm bg-gray-50"></select>
+                <input type="text" id="inputHafalanSurah" class="w-full border rounded px-3 py-2 text-sm" placeholder="Surah / Jilid">
+                <textarea id="inputHafalanNote" class="w-full border rounded px-3 py-2 text-sm" placeholder="Catatan"></textarea>
+                <div class="flex justify-end gap-2 mt-4">
+                    <button onclick="closeHafalanModal()" class="px-3 py-2 text-gray-500 text-sm">Batal</button>
+                    <button id="btnSaveHafalan" onclick="saveHafalan()" class="px-4 py-2 bg-islamic-600 text-white rounded text-sm font-bold">Simpan</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="materiModal" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl">
-            <h3 class="text-lg font-bold mb-4 text-gray-800">Jurnal Materi</h3>
-            <div class="space-y-4">
-                <input type="text" id="inputMateriJudul" class="w-full border rounded-lg px-3 py-2 font-bold" placeholder="Judul Materi / Kitab">
-                <textarea id="inputMateriDesc" class="w-full border rounded-lg px-3 py-2" rows="4" placeholder="Ringkasan materi yang diajarkan..."></textarea>
-                <div class="flex justify-end space-x-2">
-                    <button onclick="document.getElementById('materiModal').classList.add('hidden')" class="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg">Batal</button>
-                    <button onclick="saveMateri()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 shadow-lg shadow-blue-500/30">Posting</button>
+    <div id="materiModal" class="fixed inset-0 z-50 hidden bg-black/50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl w-full max-w-sm p-6">
+            <h3 class="font-bold mb-4">Jurnal Materi</h3>
+            <div class="space-y-3">
+                <input type="text" id="inputMateriJudul" class="w-full border rounded px-3 py-2" placeholder="Judul">
+                <textarea id="inputMateriDesc" class="w-full border rounded px-3 py-2" rows="3" placeholder="Deskripsi"></textarea>
+                <div class="flex justify-end gap-2">
+                    <button onclick="document.getElementById('materiModal').classList.add('hidden')" class="px-3 py-2 text-gray-500 text-sm">Batal</button>
+                    <button onclick="saveMateri()" class="px-4 py-2 bg-blue-600 text-white rounded text-sm">Posting</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        // GANTI URL INI DENGAN DEPLOYMENT ID GOOGLE SCRIPT ANDA YANG TERBARU
+        // --- 1. GANTI URL INI DENGAN DEPLOYMENT ID BARU ANDA ---
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQINNwOxSDs89tx_8N3vTTbBZzak4p2T_AyEyzqyOk7tt_Hyj6rBR8sS6eqeLrsNcWpw/exec'; 
-        
-        // State Management
+
         let db = { classes: [], students: [], attendanceRecap: {}, materi: [], hafalan: [] };
         let state = {
-            role: null, // 'ustadz' | 'wali'
+            role: null, 
             currentClassId: null,
             selectedDate: new Date().toISOString().split('T')[0],
-            isOnline: navigator.onLine,
-            editingHafalanId: null // Untuk melacak ID hafalan yang sedang diedit
+            editingHafalanId: null // TRACKING EDIT
         };
 
-        // --- CORE FUNCTIONS ---
-
         window.onload = function() {
-            // Update UI Date
-            document.getElementById('currentDateDisplay').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('currentDateDisplay').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             document.getElementById('absensiDate').value = state.selectedDate;
 
-            // Offline Check
-            window.addEventListener('online', () => updateStatus(true));
-            window.addEventListener('offline', () => updateStatus(false));
+            // Load Cache
+            const local = localStorage.getItem('pesantrenDB_v5_pro');
+            if(local) db = JSON.parse(local);
 
-            // Load Local Data First
-            const local = localStorage.getItem('pesantrenDB_v6_pro'); // Bump version to clear old cache
-            if(local) {
-                db = JSON.parse(local);
-                console.log("Local Data Loaded");
-            }
-
-            // Fetch Online Data (Background Sync)
+            // Fetch Data
             fetch(GOOGLE_SCRIPT_URL)
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
                     db = data.data;
-                    localStorage.setItem('pesantrenDB_v6_pro', JSON.stringify(db));
-                    console.log("Cloud Data Synced");
-                    // Jika sudah login, refresh tampilan
-                    if(state.role) renderAll();
+                    localStorage.setItem('pesantrenDB_v5_pro', JSON.stringify(db));
+                    if(state.role) renderAll(); 
                 }
             })
-            .catch(err => {
-                console.warn('Sync Failed, using local:', err);
-                updateStatus(false);
-            });
-
-            // Start Loading Sequence (4 Seconds)
-            setTimeout(() => {
-                finishLoadingSequence();
-            }, 3000); // 3 detik loading + 1 detik animasi fadeout = 4 detik total
+            .catch(err => console.log('Offline Mode'));
             
-            // Start Clock
-            setInterval(updateClock, 1000);
+            setInterval(() => {
+                document.getElementById('clock').innerText = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+            }, 1000);
+
+            // LOGIKA LOADING BARU (4 DETIK)
+            setTimeout(() => {
+                const screen = document.getElementById('loadingScreen');
+                screen.classList.add('fade-out'); // Efek CSS
+                setTimeout(() => {
+                    screen.style.display = 'none';
+                    document.getElementById('loginPage').classList.remove('hidden');
+                    // Stop video agar ringan
+                    const v = screen.querySelector('video');
+                    if(v) v.pause();
+                }, 1000);
+            }, 3000); // 3 Detik tampil + 1 Detik fadeout = 4 Detik
         };
 
-        function finishLoadingSequence() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            loadingScreen.classList.add('opacity-0'); // Fade out CSS
-            
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                document.getElementById('loginPage').classList.remove('hidden');
-                
-                // Stop Video to save memory
-                const vid = loadingScreen.querySelector('video');
-                if(vid) vid.pause();
-            }, 1000); // Wait for transition
+        // --- 2. LOGIN AMAN (SERVER SIDE) ---
+        function handleLoginPrompt() {
+            Swal.fire({
+                title: 'Login Ustadz',
+                input: 'password',
+                inputPlaceholder: 'Masukkan Password',
+                showCancelButton: true,
+                confirmButtonText: 'Masuk',
+                confirmButtonColor: '#059669',
+                showLoaderOnConfirm: true,
+                preConfirm: (password) => {
+                    return fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({ action: 'login', password: password })
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error(response.statusText);
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status !== 'success') throw new Error('Password Salah');
+                        return data;
+                    })
+                    .catch(error => Swal.showValidationMessage(`${error}`));
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) handleLogin('ustadz');
+            });
         }
-
-        // --- AUTH & ROLES (SERVER SIDE LOGIN) ---
 
         function handleLogin(role) {
             state.role = role;
-
-            if (role === 'ustadz') {
-                // Gunakan SweetAlert untuk input password
-                Swal.fire({
-                    title: 'Login Ustadz',
-                    input: 'password',
-                    inputPlaceholder: 'Masukkan Password',
-                    showCancelButton: true,
-                    confirmButtonText: 'Login',
-                    confirmButtonColor: '#10b981',
-                    showLoaderOnConfirm: true,
-                    preConfirm: (password) => {
-                        return fetch(GOOGLE_SCRIPT_URL, {
-                            method: 'POST',
-                            body: JSON.stringify({ action: 'login', password: password })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(response.statusText)
-                            }
-                            return response.json()
-                        })
-                        .then(data => {
-                            if (data.status === 'error') {
-                                Swal.showValidationMessage(`Password Salah!`)
-                            }
-                            return data
-                        })
-                        .catch(error => {
-                            Swal.showValidationMessage(`Request failed: ${error}`)
-                        })
-                    },
-                    allowOutsideClick: () => !Swal.isLoading()
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        finalizeLogin('ustadz');
-                    }
-                })
-            } else {
-                // Wali Santri (Tanpa Password)
-                finalizeLogin('wali');
-            }
-        }
-
-        function finalizeLogin(role) {
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
             
-            // Apply Role UI
-            const styles = document.createElement('style');
+            // Inject CSS untuk menyembunyikan/menampilkan tombol edit
+            const style = document.createElement('style');
             if (role === 'ustadz') {
-                styles.innerHTML = `.action-col { display: table-cell; }`;
-                document.getElementById('roleDisplay').textContent = "USTADZ (ADMIN)";
+                style.innerHTML = `.action-col { display: table-cell !important; }`;
+                document.getElementById('roleDisplay').innerText = "USTADZ (ADMIN)";
                 document.getElementById('adminMenu').classList.remove('hidden');
             } else {
-                styles.innerHTML = `.action-col { display: none !important; }`;
-                document.getElementById('roleDisplay').textContent = "WALI SANTRI";
+                style.innerHTML = `.action-col { display: none !important; }`;
+                document.getElementById('roleDisplay').innerText = "WALI SANTRI";
                 document.getElementById('adminMenu').classList.add('hidden');
             }
-            document.head.appendChild(styles);
+            document.head.appendChild(style);
 
             renderDashboard();
         }
 
-        function logout() {
-            localStorage.removeItem('pesantrenDB_v6_pro'); // Clear cache on logout optional
-            location.reload();
-        }
-
         // --- NAVIGATION ---
         function switchPage(pageId) {
-            document.querySelectorAll('main > div > section').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
-            
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('bg-islamic-50', 'text-islamic-700'));
-            event.currentTarget.classList.add('bg-islamic-50', 'text-islamic-700');
             
             if (pageId === 'dashboard') renderDashboard();
             else if (pageId === 'absensi' && state.currentClassId) renderAbsensi();
             else if (pageId === 'hafalan' && state.currentClassId) renderHafalan();
             else if (pageId === 'materi' && state.currentClassId) renderMateri();
+            else if (pageId === 'dataSantri') document.getElementById('jsonInput').value = JSON.stringify({classes: db.classes, students: db.students}, null, 2);
         }
 
-        // --- RENDER FUNCTIONS ---
-
         function renderDashboard() {
-            // Stats
             document.getElementById('dashTotalSantri').innerText = db.students.length;
-            // Hitung % Kehadiran Hari Ini
-            const todayLog = db.attendanceRecap ? Object.values(db.attendanceRecap).reduce((acc, curr) => acc + (curr.H || 0), 0) : 0; 
-            // Simple logic placeholder, real implementation needs filtering by date from raw logs if available locally
-            document.getElementById('dashHadir').innerText = (todayLog > 0) ? "Active" : "Wait"; 
-            document.getElementById('dashHafalan').innerText = db.hafalan.filter(h => h.date === state.selectedDate).length;
-
             const grid = document.getElementById('classGrid');
             grid.innerHTML = '';
-            
-            if (!db.classes || db.classes.length === 0) {
-                grid.innerHTML = '<p class="text-gray-500">Belum ada data kelas.</p>';
-                return;
-            }
-
             db.classes.forEach(c => {
+                const count = db.students.filter(s => s.classId == c.id).length;
                 grid.innerHTML += `
-                    <div onclick="selectClass('${c.id}', '${c.name}')" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-islamic-200 cursor-pointer transition transform hover:-translate-y-1 group">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="font-bold text-lg text-gray-800 group-hover:text-islamic-600 transition">${c.name}</h3>
-                            <span class="bg-islamic-50 text-islamic-600 text-xs px-2 py-1 rounded-lg font-bold">${c.level}</span>
+                    <div onclick="selectClass('${c.id}', '${c.name}')" class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md cursor-pointer transition">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-gray-800">${c.name}</h3>
+                            <span class="bg-islamic-50 text-islamic-700 text-xs px-2 py-1 rounded font-bold">${c.level}</span>
                         </div>
-                        <div class="flex items-center justify-between text-sm text-gray-500">
-                            <span><i class="fas fa-user-graduate mr-2"></i> ${db.students.filter(s => s.classId == c.id).length} Santri</span>
-                            <i class="fas fa-arrow-right opacity-0 group-hover:opacity-100 transition text-islamic-500"></i>
-                        </div>
+                        <p class="text-xs text-gray-500">${count} Santri</p>
                     </div>
                 `;
             });
@@ -607,149 +404,99 @@
             state.currentClassId = id;
             document.getElementById('absensiClassName').innerText = name;
             switchPage('absensi');
-            renderAbsensi();
         }
 
         function renderAbsensi() {
             const tb = document.getElementById('absensiTableBody');
             tb.innerHTML = '';
-            const students = db.students.filter(s => s.classId === state.currentClassId);
-            
-            if (students.length === 0) {
-                document.getElementById('absensiEmptyState').classList.remove('hidden');
-                return;
-            }
-            document.getElementById('absensiEmptyState').classList.add('hidden');
-
-            students.forEach(s => {
+            const list = db.students.filter(s => s.classId === state.currentClassId);
+            list.forEach(s => {
                 const status = (s.attendance && s.attendance[state.selectedDate]) ? s.attendance[state.selectedDate] : '-';
-                // Button Logic for Ustadz
-                let actions = '';
+                let content = '';
+                
                 if(state.role === 'ustadz') {
-                    actions = `
-                        <div class="flex justify-center space-x-1">
-                            <button onclick="setAbsen('${s.id}', 'H')" class="${status==='H'?'bg-green-500 text-white':'bg-gray-100 text-gray-400'} p-2 rounded-lg hover:bg-green-600 transition">H</button>
-                            <button onclick="setAbsen('${s.id}', 'I')" class="${status==='I'?'bg-blue-500 text-white':'bg-gray-100 text-gray-400'} p-2 rounded-lg hover:bg-blue-600 transition">I</button>
-                            <button onclick="setAbsen('${s.id}', 'S')" class="${status==='S'?'bg-yellow-500 text-white':'bg-gray-100 text-gray-400'} p-2 rounded-lg hover:bg-yellow-600 transition">S</button>
-                            <button onclick="setAbsen('${s.id}', 'A')" class="${status==='A'?'bg-red-500 text-white':'bg-gray-100 text-gray-400'} p-2 rounded-lg hover:bg-red-600 transition">A</button>
+                    content = `
+                        <div class="flex space-x-1 justify-center">
+                            <button onclick="setAbsen('${s.id}','H')" class="w-8 h-8 rounded ${status=='H'?'bg-green-500 text-white':'bg-gray-100 text-gray-400'} font-bold">H</button>
+                            <button onclick="setAbsen('${s.id}','I')" class="w-8 h-8 rounded ${status=='I'?'bg-blue-500 text-white':'bg-gray-100 text-gray-400'} font-bold">I</button>
+                            <button onclick="setAbsen('${s.id}','S')" class="w-8 h-8 rounded ${status=='S'?'bg-yellow-500 text-white':'bg-gray-100 text-gray-400'} font-bold">S</button>
+                            <button onclick="setAbsen('${s.id}','A')" class="w-8 h-8 rounded ${status=='A'?'bg-red-500 text-white':'bg-gray-100 text-gray-400'} font-bold">A</button>
                         </div>
                     `;
                 } else {
-                    const badgeColor = {'H':'green','I':'blue','S':'yellow','A':'red','-':'gray'}[status];
-                    actions = `<span class="px-3 py-1 rounded-full text-xs font-bold bg-${badgeColor}-100 text-${badgeColor}-600">${status === '-' ? 'Belum Absen' : status}</span>`;
+                    const color = {H:'green', I:'blue', S:'yellow', A:'red', '-': 'gray'}[status];
+                    content = `<span class="px-2 py-1 bg-${color}-100 text-${color}-600 rounded text-xs font-bold">${status}</span>`;
                 }
-
-                tb.innerHTML += `
-                    <tr class="hover:bg-gray-50 border-b border-gray-50 transition">
-                        <td class="px-6 py-4 font-medium text-gray-700">${s.name}</td>
-                        <td class="px-6 py-4 text-center">${actions}</td>
-                    </tr>
-                `;
+                
+                tb.innerHTML += `<tr class="hover:bg-gray-50"><td class="p-4 font-medium">${s.name}</td><td class="p-4 text-center">${content}</td></tr>`;
             });
         }
 
-        function setAbsen(sId, status) {
-            // Update Local
-            const sIdx = db.students.findIndex(s => s.id == sId);
-            if (!db.students[sIdx].attendance) db.students[sIdx].attendance = {};
-            db.students[sIdx].attendance[state.selectedDate] = status;
-            
-            renderAbsensi(); // Re-render UI immediately
-
-            // Send to Server
-            sendData({
-                action: 'updateAttendance',
-                studentId: sId,
-                date: state.selectedDate,
-                status: status
-            });
+        function setAbsen(id, val) {
+            const s = db.students.find(x => x.id == id);
+            if(!s.attendance) s.attendance = {};
+            s.attendance[state.selectedDate] = val;
+            renderAbsensi();
+            sendData({ action: 'updateAttendance', studentId: id, date: state.selectedDate, status: val });
         }
 
-        // --- HAFALAN LOGIC (FIXED) ---
-
+        // --- 3. FIX HAFALAN (EDIT & DELETE) ---
         function renderHafalan() {
-            const tb = document.getElementById('hafalanTableBody');
-            tb.innerHTML = '';
+            const tb = document.getElementById('hafalanTableBody'); tb.innerHTML = '';
+            const ids = db.students.filter(s => s.classId === state.currentClassId).map(s => s.id);
+            const list = db.hafalan.filter(h => ids.includes(h.studentId) && h.date === state.selectedDate);
             
-            // Filter Hafalan berdasarkan Kelas & Tanggal
-            const classStudentIds = db.students.filter(s => s.classId === state.currentClassId).map(s => s.id);
-            const list = db.hafalan.filter(h => classStudentIds.includes(h.studentId) && h.date === state.selectedDate);
+            document.getElementById('hafalanEmptyState').classList.toggle('hidden', list.length > 0);
             
-            if (list.length === 0) {
-                document.getElementById('hafalanEmptyState').classList.remove('hidden');
-            } else {
-                document.getElementById('hafalanEmptyState').classList.add('hidden');
-            }
-
             list.forEach(h => {
                 const sName = db.students.find(s => s.id == h.studentId)?.name || 'Unknown';
+                // FIX: Menambahkan tanda kutip '' pada ID agar dibaca string
+                const editBtn = `<button onclick="prepareEditHafalan('${h.id}')" class="text-blue-500 p-2 hover:bg-blue-50 rounded"><i class="fas fa-pen"></i></button>`;
+                const delBtn = `<button onclick="delHaf('${h.id}')" class="text-red-500 p-2 hover:bg-red-50 rounded"><i class="fas fa-trash"></i></button>`;
                 
-                // --- PERBAIKAN TOMBOL EDIT & HAPUS ---
-                // Menggunakan ID sebagai string dengan tanda kutip ('${h.id}')
-                const editBtn = `
-                    <button onclick="prepareEditHafalan('${h.id}')" class="text-blue-500 hover:text-blue-700 p-2 bg-blue-50 rounded-lg transition" title="Edit">
-                        <i class="fas fa-pen"></i>
-                    </button>
-                `;
-                const delBtn = `
-                    <button onclick="delHaf('${h.id}')" class="text-red-500 hover:text-red-700 p-2 bg-red-50 rounded-lg transition" title="Hapus">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                `;
-
                 tb.innerHTML += `
-                    <tr class="hover:bg-green-50/30 border-b border-green-50 transition">
-                        <td class="px-6 py-4 font-bold text-gray-800">${sName}</td>
-                        <td class="px-6 py-4 text-islamic-800 font-semibold font-arabic text-lg">${h.surah}</td>
-                        <td class="px-6 py-4 text-gray-600 italic text-sm">${h.note}</td>
-                        <td class="px-6 py-4 text-center action-col space-x-2">
-                            ${editBtn}
-                            ${delBtn}
-                        </td>
-                    </tr>
-                `;
+                    <tr class="hover:bg-gray-50 border-b">
+                        <td class="p-4 font-bold text-gray-700">${sName}</td>
+                        <td class="p-4 text-islamic-800 font-arabic text-lg">${h.surah}</td>
+                        <td class="p-4 text-gray-500 italic">${h.note}</td>
+                        <td class="p-4 text-center action-col space-x-1">${editBtn}${delBtn}</td>
+                    </tr>`;
             });
         }
 
         function openHafalanModal() {
-            // Reset Form untuk Input Baru
-            state.editingHafalanId = null; 
+            state.editingHafalanId = null; // Reset Mode Edit
             document.getElementById('btnSaveHafalan').innerText = "Simpan";
             document.getElementById('inputHafalanSurah').value = '';
             document.getElementById('inputHafalanNote').value = '';
-
-            // Isi Dropdown Siswa
-            const sel = document.getElementById('inputHafalanSantri');
-            sel.innerHTML = '';
+            
+            const sel = document.getElementById('inputHafalanSantri'); sel.innerHTML = '';
+            sel.disabled = false;
             db.students.filter(s => s.classId === state.currentClassId).forEach(s => {
                 sel.innerHTML += `<option value="${s.id}">${s.name}</option>`;
             });
-            
             document.getElementById('hafalanModal').classList.remove('hidden');
         }
-        
+
         function closeHafalanModal() {
             document.getElementById('hafalanModal').classList.add('hidden');
         }
 
-        // --- FUNGSI EDIT HAFALAN ---
         function prepareEditHafalan(id) {
             const h = db.hafalan.find(item => String(item.id) === String(id));
-            if (!h) return;
+            if(!h) return;
 
-            state.editingHafalanId = id; // Set Mode Edit
+            state.editingHafalanId = id; // Set ID yang diedit
             
-            // Pre-fill Form
-            const sel = document.getElementById('inputHafalanSantri');
-            sel.innerHTML = '';
-            const sName = db.students.find(s => s.id == h.studentId)?.name || 'Siswa';
-            sel.innerHTML = `<option value="${h.studentId}" selected>${sName}</option>`;
-            sel.disabled = true; // Tidak boleh ganti siswa saat edit
+            const sel = document.getElementById('inputHafalanSantri'); sel.innerHTML = '';
+            const sName = db.students.find(s => s.id == h.studentId)?.name;
+            sel.innerHTML = `<option value="${h.studentId}">${sName}</option>`;
+            sel.disabled = true; // Kunci nama santri
 
             document.getElementById('inputHafalanSurah').value = h.surah;
             document.getElementById('inputHafalanNote').value = h.note;
-            document.getElementById('btnSaveHafalan').innerText = "Update Data";
-
+            document.getElementById('btnSaveHafalan').innerText = "Update";
+            
             document.getElementById('hafalanModal').classList.remove('hidden');
         }
 
@@ -758,206 +505,79 @@
             const surah = document.getElementById('inputHafalanSurah').value;
             const note = document.getElementById('inputHafalanNote').value;
 
-            if (!surah) return alert('Isi surah/pencapaian!');
-
-            if (state.editingHafalanId) {
-                // --- MODE UPDATE ---
-                const index = db.hafalan.findIndex(h => String(h.id) === String(state.editingHafalanId));
-                if (index !== -1) {
-                    db.hafalan[index].surah = surah;
-                    db.hafalan[index].note = note;
+            if(state.editingHafalanId) {
+                // LOGIKA EDIT
+                const idx = db.hafalan.findIndex(h => String(h.id) === String(state.editingHafalanId));
+                if(idx !== -1) {
+                    db.hafalan[idx].surah = surah;
+                    db.hafalan[idx].note = note;
                 }
-
-                sendData({
-                    action: 'editHafalan',
-                    id: state.editingHafalanId,
-                    surah: surah,
-                    note: note
-                });
-                state.editingHafalanId = null; // Reset
-                document.getElementById('inputHafalanSantri').disabled = false;
+                sendData({ action: 'editHafalan', id: state.editingHafalanId, surah: surah, note: note });
             } else {
-                // --- MODE BARU ---
-                const newId = 'haf_' + Date.now();
-                const newEntry = {
-                    id: newId,
-                    studentId: sId,
-                    date: state.selectedDate,
-                    surah: surah,
-                    note: note
-                };
-                db.hafalan.push(newEntry);
-                
-                sendData({
-                    action: 'addHafalan',
-                    ...newEntry
-                });
+                // LOGIKA BARU
+                const newItem = { id: 'haf_'+Date.now(), studentId: sId, date: state.selectedDate, surah: surah, note: note };
+                db.hafalan.push(newItem);
+                sendData({ action: 'addHafalan', ...newItem });
             }
-
             closeHafalanModal();
             renderHafalan();
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: 'Data hafalan tersimpan.',
-                timer: 1500,
-                showConfirmButton: false
-            });
         }
 
         function delHaf(id) {
-            Swal.fire({
-                title: 'Hapus Hafalan?',
-                text: "Data yang dihapus tidak bisa dikembalikan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#d1d5db',
-                confirmButtonText: 'Ya, Hapus!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Update Local
-                    db.hafalan = db.hafalan.filter(h => String(h.id) !== String(id));
-                    renderHafalan();
-                    
-                    // Send to Server
-                    sendData({
-                        action: 'deleteHafalan',
-                        id: id
-                    });
-
-                    Swal.fire(
-                        'Terhapus!',
-                        'Data hafalan telah dihapus.',
-                        'success'
-                    )
-                }
-            })
+            if(confirm('Hapus hafalan ini?')) {
+                db.hafalan = db.hafalan.filter(h => String(h.id) !== String(id));
+                renderHafalan();
+                sendData({ action: 'deleteHafalan', id: id });
+            }
         }
 
-        // --- MATERI LOGIC ---
-
+        // --- MATERI ---
         function renderMateri() {
-            const list = document.getElementById('materiList');
-            list.innerHTML = '';
-            const data = db.materi.filter(m => m.classId === state.currentClassId);
-
-            if(data.length === 0) {
-                list.innerHTML = `<p class="text-center text-gray-400 py-8">Belum ada jurnal materi.</p>`;
-                return;
-            }
-
-            data.forEach(m => {
+            const list = document.getElementById('materiList'); list.innerHTML = '';
+            db.materi.filter(m => m.classId === state.currentClassId).forEach(m => {
                 list.innerHTML += `
-                    <div class="bg-white p-4 rounded-xl border-l-4 border-blue-500 shadow-sm">
-                        <div class="flex justify-between">
-                            <h4 class="font-bold text-gray-800">${m.title}</h4>
-                            <span class="text-xs text-gray-400">${m.date}</span>
-                        </div>
-                        <p class="text-gray-600 mt-2 text-sm">${m.desc}</p>
-                    </div>
-                `;
+                    <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500 shadow-sm">
+                        <div class="flex justify-between"><h4 class="font-bold">${m.title}</h4><span class="text-xs text-gray-400">${m.date}</span></div>
+                        <p class="text-sm text-gray-600 mt-1">${m.desc}</p>
+                    </div>`;
             });
         }
-
         function saveMateri() {
             const title = document.getElementById('inputMateriJudul').value;
             const desc = document.getElementById('inputMateriDesc').value;
-            
-            if(!title) return;
-
-            const newMateri = {
-                id: 'mat_' + Date.now(),
-                classId: state.currentClassId,
-                date: state.selectedDate,
-                title: title,
-                desc: desc
-            };
-
-            db.materi.unshift(newMateri); // Add to top
-            renderMateri();
+            const item = { id: 'mat_'+Date.now(), classId: state.currentClassId, date: state.selectedDate, title: title, desc: desc };
+            db.materi.unshift(item);
             document.getElementById('materiModal').classList.add('hidden');
-
-            sendData({
-                action: 'addMateri',
-                ...newMateri
-            });
-        }
-
-        // --- DATA SYNC & UTILS ---
-
-        function sendData(payload) {
-            if (!navigator.onLine) {
-                // Queue logic could go here
-                console.warn('Offline: Data saved locally only');
-                localStorage.setItem('pesantrenDB_v6_pro', JSON.stringify(db));
-                return;
-            }
-
-            // Show Mini Loader
-            const syncStatus = document.getElementById('syncStatus');
-            syncStatus.innerHTML = '<i class="fas fa-sync fa-spin text-blue-500"></i> Syncing...';
-
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log('Server Response:', data);
-                if(data.status === 'success') {
-                    syncStatus.innerHTML = '<i class="fas fa-check text-green-500"></i> Saved';
-                    setTimeout(() => updateStatus(true), 2000);
-                } else {
-                    syncStatus.innerHTML = '<i class="fas fa-exclamation-triangle text-red-500"></i> Error';
-                }
-            })
-            .catch(err => {
-                console.error('Send Error:', err);
-                syncStatus.innerHTML = '<i class="fas fa-wifi text-red-500"></i> Offline';
-            });
-            
-            // Always save local backup
-            localStorage.setItem('pesantrenDB_v6_pro', JSON.stringify(db));
-        }
-
-        function updateStatus(isOnline) {
-            state.isOnline = isOnline;
-            const el = document.getElementById('syncStatus');
-            if(isOnline) el.innerHTML = '<i class="fas fa-circle text-green-500 mr-1"></i> Online';
-            else el.innerHTML = '<i class="fas fa-wifi text-red-500 mr-1"></i> Offline';
-        }
-
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+            renderMateri();
+            sendData({ action: 'addMateri', ...item });
         }
 
         function saveMasterData() {
             try {
-                const raw = document.getElementById('jsonInput').value;
-                const parsed = JSON.parse(raw);
-                if(parsed.classes && parsed.students) {
-                    // Update Local
-                    db.classes = parsed.classes;
-                    db.students = parsed.students;
-                    localStorage.setItem('pesantrenDB_v6_pro', JSON.stringify(db));
-                    
-                    // Send to Server
-                    sendData({
-                        action: 'syncMaster',
-                        classes: parsed.classes,
-                        students: parsed.students
-                    });
-                    
-                    alert('Master Data Updated!');
-                } else {
-                    alert('Invalid JSON Format');
-                }
-            } catch(e) {
-                alert('Error Parsing JSON: ' + e.message);
-            }
+                const parsed = JSON.parse(document.getElementById('jsonInput').value);
+                db.classes = parsed.classes; db.students = parsed.students;
+                localStorage.setItem('pesantrenDB_v5_pro', JSON.stringify(db));
+                sendData({ action: 'syncMaster', classes: db.classes, students: db.students });
+                alert('Data Tersimpan!');
+            } catch(e) { alert('Format JSON Salah'); }
+        }
+
+        function sendData(payload) {
+            const statusEl = document.getElementById('syncStatus');
+            statusEl.innerText = 'Syncing...';
+            statusEl.className = 'text-blue-500';
+            
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
+            .then(res => res.json())
+            .then(d => {
+                statusEl.innerText = 'Online';
+                statusEl.className = 'text-green-500';
+            })
+            .catch(e => {
+                statusEl.innerText = 'Offline (Saved Locally)';
+                statusEl.className = 'text-orange-500';
+                localStorage.setItem('pesantrenDB_v5_pro', JSON.stringify(db));
+            });
         }
     </script>
 </body>
