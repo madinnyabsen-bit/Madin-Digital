@@ -31,7 +31,6 @@
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         marquee { font-weight: 600; letter-spacing: 0.5px; }
         
-        /* Tambahan Spinner Kecil untuk Status */
         .loader-spin { border: 2px solid #f3f3f3; border-top: 2px solid #16a34a; border-radius: 50%; width: 14px; height: 14px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -363,8 +362,8 @@
         // ==========================================
         //  KONFIGURASI & STATE
         // ==========================================
-        // GANTI URL 
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3L878q7KDR8nDVVhbibNEIIAlrHfOHI9-9wrP2PEN1KG1g2RPxTLw61zYIpVkdlwWCA/exec";
+        //  URL DENGAN DEPLOYMENT TERBARU 
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2ueV0tZMjxjDQ4X4TeB_eIX1bxtdHkjuL4ZJSjhvlliR4WW6n1M7ztT9-NNJK3gUK9Q/exec";
         
         const USTADZ_PASS_HASH = "bWFkaW45ODc="; 
 
@@ -372,7 +371,7 @@
             role: 'ustadz', 
             currentClassId: null, 
             editingClassId: null, editingStudentId: null, editingMateriId: null,
-            editingHafalanId: null, // NEW: State untuk edit hafalan
+            editingHafalanId: null, 
             selectedDate: new Date().toISOString().split('T')[0]
         };
 
@@ -383,7 +382,7 @@
         // ==========================================
         window.onload = function() {
             document.getElementById('globalDateInput').value = state.selectedDate;
-            refreshData(); // Panggil fungsi refresh yang sudah diupdate
+            refreshData(); 
             setInterval(updateClock, 1000);
         };
 
@@ -417,10 +416,9 @@
         }
 
         // ==========================================
-        //  FUNGSI KOMUNIKASI SERVER (CRUD BARU)
+        //  FUNGSI KOMUNIKASI SERVER (UPDATED)
         // ==========================================
         
-        // 1. GET ALL DATA
         function refreshData() {
             fetch(GOOGLE_SCRIPT_URL)
             .then(res => res.json())
@@ -429,11 +427,9 @@
                     db = resp.data;
                     updateConnectionStatus(true, 'Terhubung');
                 } else {
-                    db = resp.data || db; // Fallback
                     updateConnectionStatus(true, 'Data Baru');
                 }
                 finishLoading();
-                // Jika sedang di dalam kelas, refresh tampilan juga
                 if(state.currentClassId) { renderStudents(); renderHafalan(); renderMateri(); }
             })
             .catch(err => {
@@ -445,19 +441,14 @@
             });
         }
 
-        // 2. GENERIC SENDER (Untuk mengirim Action ke GAS)
         function sendRequest(payload) {
-            // Update UI status
             const statusEl = document.getElementById('connectionStatus');
             statusEl.innerHTML = `<span class="loader-spin mr-1"></span> Menyimpan...`;
 
-            // Simpan Lokal dulu (Optimistic UI)
             localStorage.setItem('pesantrenDB_v5_pro', JSON.stringify(db));
 
-            // Kirim ke Server
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                // PENTING: redirect follow agar bisa baca response JSON dari GAS
                 redirect: "follow", 
                 headers: { "Content-Type": "text/plain;charset=utf-8" },
                 body: JSON.stringify(payload)
@@ -476,23 +467,12 @@
             });
         }
 
-        // Fungsi SYNC MASTER (Kelas & Santri) - Masih pakai cara lama (overwrite) karena logic complex
-        function syncMasterData() {
-             const payload = {
-                 action: "syncMaster",
-                 classes: db.classes,
-                 students: db.students
-             };
-             sendRequest(payload);
-        }
-
         // ==========================================
-        //  LOGIN & NAVIGASI (TETAP SAMA)
+        //  LOGIN & NAVIGASI
         // ==========================================
         function handleLoginPrompt(role) {
             if (role === 'ustadz') {
                 const inputPass = prompt("Masukkan Password Ustadz/Ustadzah:");
-                // Cek ke Server untuk Login Aman
                 if(inputPass) {
                      fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
@@ -505,7 +485,6 @@
                          else alert("Password Salah!");
                      })
                      .catch(() => {
-                         // Fallback offline (tidak aman tapi UX jalan)
                          if(btoa(inputPass) === USTADZ_PASS_HASH) handleLogin(role);
                          else alert("Gagal koneksi server untuk verifikasi.");
                      });
@@ -557,7 +536,7 @@
         }
 
         // ==========================================
-        //  LOGIC KELAS
+        //  LOGIC KELAS (FIX RACE CONDITION)
         // ==========================================
         function renderClasses() {
             const c = document.getElementById('classList'); c.innerHTML='';
@@ -565,18 +544,18 @@
                 c.innerHTML = `<div class="col-span-3 text-center p-10 text-gray-400">Belum ada kelas.</div>`;
             }
             db.classes.forEach(x => {
-                const count = db.students.filter(s => s.classId === x.id).length;
+                const count = db.students.filter(s => String(s.classId) === String(x.id)).length;
                 let actionButtons = '';
                 if(state.role === 'ustadz') {
                     actionButtons = `
                     <div class="absolute top-4 right-4 flex space-x-2 z-20">
-                        <button onclick="resetSemesterForClass(${x.id})" class="bg-white text-red-500 p-2 rounded-xl shadow-sm hover:scale-110 transition"><i class="fas fa-sync-alt"></i></button>
-                        <button onclick="editClass(${x.id})" class="bg-white text-blue-500 p-2 rounded-xl shadow-sm hover:scale-110 transition"><i class="fas fa-pen"></i></button>
-                        <button onclick="deleteClass(${x.id})" class="bg-white text-red-500 p-2 rounded-xl shadow-sm hover:scale-110 transition"><i class="fas fa-trash"></i></button>
+                        <button onclick="resetSemesterForClass('${x.id}')" class="bg-white text-red-500 p-2 rounded-xl shadow-sm hover:scale-110 transition"><i class="fas fa-sync-alt"></i></button>
+                        <button onclick="editClass('${x.id}')" class="bg-white text-blue-500 p-2 rounded-xl shadow-sm hover:scale-110 transition"><i class="fas fa-pen"></i></button>
+                        <button onclick="deleteClass('${x.id}')" class="bg-white text-red-500 p-2 rounded-xl shadow-sm hover:scale-110 transition"><i class="fas fa-trash"></i></button>
                     </div>`;
                 }
                 c.innerHTML += `
-                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-lg transition relative group overflow-hidden cursor-pointer transform hover:-translate-y-1" onclick="openClass(${x.id})">
+                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-lg transition relative group overflow-hidden cursor-pointer transform hover:-translate-y-1" onclick="openClass('${x.id}')">
                     ${actionButtons}
                     <div class="flex items-start pr-24"> 
                         <div class="w-16 h-16 bg-islamic-50 text-islamic-600 rounded-2xl flex items-center justify-center text-3xl mr-5"><i class="fas fa-chalkboard"></i></div>
@@ -592,7 +571,7 @@
         function openClass(id) {
             if (event.target.closest('button')) return;
             state.currentClassId = id;
-            document.getElementById('detailClassName').innerText = db.classes.find(x=>x.id===id).name;
+            document.getElementById('detailClassName').innerText = db.classes.find(x=>String(x.id)===String(id)).name;
             document.getElementById('dashboardPage').classList.add('hidden');
             document.getElementById('classDetailPage').classList.remove('hidden');
             switchTab('absensi');
@@ -600,52 +579,79 @@
         }
 
         function prepareAddClass() { state.editingClassId=null; document.getElementById('inputClassName').value=''; openModal('classModal'); }
-        function editClass(id) { event.stopPropagation(); state.editingClassId=id; document.getElementById('inputClassName').value = db.classes.find(x=>x.id===id).name; openModal('classModal'); }
+        function editClass(id) { event.stopPropagation(); state.editingClassId=id; document.getElementById('inputClassName').value = db.classes.find(x=>String(x.id)===String(id)).name; openModal('classModal'); }
+        
         function saveClass() {
             const n = document.getElementById('inputClassName').value;
             if(!n) return;
-            if(state.editingClassId) { db.classes.find(x=>x.id===state.editingClassId).name = n; } 
-            else { db.classes.push({id:Date.now(), name:n}); }
-            syncMasterData(); renderClasses(); closeModal('classModal');
+            
+            if(state.editingClassId) {
+                // EDIT EXISTING
+                const idx = db.classes.findIndex(x=>String(x.id)===String(state.editingClassId));
+                if(idx !== -1) db.classes[idx].name = n;
+                sendRequest({ action: "editClass", id: state.editingClassId, name: n });
+            } else { 
+                // ADD NEW
+                const newId = generateId('CLS');
+                db.classes.push({id: newId, name: n}); 
+                sendRequest({ action: "addClass", id: newId, name: n });
+            }
+            renderClasses(); closeModal('classModal');
         }
+
         function deleteClass(id) {
             event.stopPropagation();
             if(confirm("Hapus kelas?")) {
-                db.classes = db.classes.filter(x => x.id !== id);
-                db.students = db.students.filter(s => s.classId !== id);
-                syncMasterData(); renderClasses();
+                db.classes = db.classes.filter(x => String(x.id) !== String(id));
+                db.students = db.students.filter(s => String(s.classId) !== String(id));
+                sendRequest({ action: "deleteClass", id: id });
+                renderClasses();
             }
         }
+
         function resetSemesterForClass(classId) {
              event.stopPropagation();
              if(confirm("Reset Semester? Absensi harian akan dihapus.")) {
                  sendRequest({ action: "resetClass", classId: classId });
-                 // Lokal update
-                 db.students.forEach(s => { if(s.classId==classId) { s.attendance={}; db.attendanceRecap[s.id]={H:0,I:0,S:0,A:0}; }});
+                 db.students.forEach(s => { 
+                     if(String(s.classId) == String(classId)) { 
+                         s.attendance={}; 
+                         db.attendanceRecap[s.id]={H:0,I:0,S:0,A:0}; 
+                     }
+                 });
                  renderStudents();
              }
         }
 
         // ==========================================
-        //  LOGIC SANTRI
+        //  LOGIC SANTRI (FIX RACE CONDITION)
         // ==========================================
         function prepareAddStudent() { state.editingStudentId=null; document.getElementById('inputStudentName').value=''; openModal('studentModal'); }
-        function editStudent(id) { state.editingStudentId = id; document.getElementById('inputStudentName').value = db.students.find(x => x.id === id).name; openModal('studentModal'); }
+        function editStudent(id) { state.editingStudentId = id; document.getElementById('inputStudentName').value = db.students.find(x => String(x.id) === String(id)).name; openModal('studentModal'); }
+        
         function saveStudent() {
             const n = document.getElementById('inputStudentName').value;
             if(!n) return;
-            if(state.editingStudentId) { db.students.find(x=>x.id===state.editingStudentId).name = n; } 
-            else { 
-                const nid=Date.now(); 
-                db.students.push({id:nid, classId:state.currentClassId, name:n, attendance:{}});
-                db.attendanceRecap[nid] = {H:0,I:0,S:0,A:0};
+            
+            if(state.editingStudentId) {
+                // EDIT
+                const s = db.students.find(x=>String(x.id)===String(state.editingStudentId));
+                if(s) s.name = n;
+                sendRequest({ action: "editStudent", id: state.editingStudentId, name: n });
+            } else { 
+                // ADD NEW
+                const newId = generateId('STU'); 
+                db.students.push({id: newId, classId: state.currentClassId, name: n, attendance:{}});
+                db.attendanceRecap[newId] = {H:0,I:0,S:0,A:0};
+                sendRequest({ action: "addStudent", id: newId, classId: state.currentClassId, name: n });
             }
-            syncMasterData(); renderStudents(); closeModal('studentModal');
+            renderStudents(); closeModal('studentModal');
         }
+
         function renderStudents() {
             const tb = document.getElementById('attendanceTableBody'); tb.innerHTML='';
             const rb = document.getElementById('recapTableBody'); rb.innerHTML='';
-            const students = db.students.filter(s=>s.classId===state.currentClassId);
+            const students = db.students.filter(s=>String(s.classId)===String(state.currentClassId));
             const dt = state.selectedDate;
 
             if(students.length===0) { tb.innerHTML='<tr><td colspan="6" class="p-4 text-center text-gray-400">Kosong</td></tr>'; return; }
@@ -657,18 +663,16 @@
                 const tot = r.H+r.I+r.S+r.A; 
                 const p = tot ? Math.round((r.H/tot)*100) : 0;
                 
-                // Row Absensi
                 tb.innerHTML += `
                 <tr class="hover:bg-gray-50 border-b border-gray-50">
                     <td class="px-6 py-4 font-bold text-gray-800">${s.name}</td>
                     ${['H','I','S','A'].map(k=> {
                         let c = k==='H'?'green':(k==='I'?'blue':(k==='S'?'yellow':'red'));
-                        return `<td class="text-center p-1"><button onclick="updAtt(${s.id},'${k}')" class="w-8 h-8 rounded-lg font-bold text-xs ${st===k ? `bg-${c}-500 text-white shadow-md` : `bg-gray-100 text-gray-400 hover:bg-gray-200`}">${k}</button></td>`;
+                        return `<td class="text-center p-1"><button onclick="updAtt('${s.id}','${k}')" class="w-8 h-8 rounded-lg font-bold text-xs ${st===k ? `bg-${c}-500 text-white shadow-md` : `bg-gray-100 text-gray-400 hover:bg-gray-200`}">${k}</button></td>`;
                     }).join('')}
-                    <td class="text-center action-col"><button onclick="editStudent(${s.id})" class="text-blue-500 mx-1"><i class="fas fa-pen"></i></button><button onclick="delSt(${s.id})" class="text-red-500 mx-1"><i class="fas fa-trash"></i></button></td>
+                    <td class="text-center action-col"><button onclick="editStudent('${s.id}')" class="text-blue-500 mx-1"><i class="fas fa-pen"></i></button><button onclick="delSt('${s.id}')" class="text-red-500 mx-1"><i class="fas fa-trash"></i></button></td>
                 </tr>`;
 
-                // Row Rekap
                 rb.innerHTML += `
                 <tr class="hover:bg-gray-50 border-b border-gray-50">
                     <td class="px-6 py-4 font-bold">${s.name}</td>
@@ -682,38 +686,35 @@
         }
         function updAtt(sid, val) {
             const dt = state.selectedDate;
-            const s = db.students.find(x=>x.id===sid);
+            const s = db.students.find(x=>String(x.id)===String(sid));
             if(!s.attendance) s.attendance={};
-            // Lokal Logic Recap
             const old = s.attendance[dt];
             if(old && db.attendanceRecap[sid][old]>0) db.attendanceRecap[sid][old]--;
             db.attendanceRecap[sid][val]++;
             s.attendance[dt]=val;
-            
-            renderStudents(); // UI Instant
-            // Send Action
+            renderStudents(); 
             sendRequest({ action: "updateAttendance", studentId: sid, date: dt, status: val });
         }
         function delSt(id) { 
             if(confirm("Hapus santri?")) { 
-                db.students=db.students.filter(x=>x.id!==id); 
-                syncMasterData(); renderStudents(); 
+                db.students=db.students.filter(x=>String(x.id)!==String(id)); 
+                sendRequest({ action: "deleteStudent", id: id });
+                renderStudents(); 
             }
         }
 
         // ==========================================
-        //  LOGIC HAFALAN (CRUD LENGKAP)
+        //  LOGIC HAFALAN
         // ==========================================
         function renderHafalan() {
             const tb = document.getElementById('hafalanTableBody'); tb.innerHTML = '';
-            const ids = db.students.filter(s => s.classId === state.currentClassId).map(s => s.id);
+            const ids = db.students.filter(s => String(s.classId) === String(state.currentClassId)).map(s => String(s.id));
             const list = db.hafalan.filter(h => ids.includes(String(h.studentId)) && h.date === state.selectedDate);
             
             document.getElementById('hafalanEmptyState').classList.toggle('hidden', list.length > 0);
             
             list.forEach(h => {
-                const sName = db.students.find(s => s.id == h.studentId)?.name || 'Unknown';
-                // TOMBOL EDIT & DELETE DITAMBAHKAN DI SINI
+                const sName = db.students.find(s => String(s.id) == String(h.studentId))?.name || 'Unknown';
                 tb.innerHTML += `
                 <tr class="hover:bg-green-50/30 transition border-b border-green-50">
                     <td class="px-6 py-4 font-bold text-gray-800">${sName}</td>
@@ -728,28 +729,26 @@
         }
         
         function prepareAddHafalan() {
-            state.editingHafalanId = null; // Reset Mode Edit
+            state.editingHafalanId = null;
             const sel = document.getElementById('inputHafalanStudent'); sel.innerHTML = '';
-            const classStudents = db.students.filter(s => s.classId === state.currentClassId);
+            const classStudents = db.students.filter(s => String(s.classId) === String(state.currentClassId));
             if(classStudents.length === 0) return alert("Tambahkan santri dulu.");
             classStudents.forEach(s => sel.innerHTML += `<option value="${s.id}">${s.name}</option>`);
             
+            document.getElementById('inputHafalanStudent').disabled = false;
             document.getElementById('inputHafalanSurah').value = ''; 
             document.getElementById('inputHafalanNote').value = ''; 
             openModal('hafalanModal');
         }
 
-        // FUNGSI BARU: EDIT HAFALAN
         function editHafalan(id) {
             const h = db.hafalan.find(x => String(x.id) === String(id));
             if(!h) return;
-            state.editingHafalanId = id; // Set ID yang diedit
-
-            // Populate Form
+            state.editingHafalanId = id;
             const sel = document.getElementById('inputHafalanStudent'); sel.innerHTML = '';
-            const s = db.students.find(x => x.id == h.studentId);
-            sel.innerHTML = `<option value="${s.id}">${s.name}</option>`; // Kunci di siswa tsb (simplifikasi)
-            sel.disabled = true; // Tidak boleh ganti siswa saat edit
+            const s = db.students.find(x => String(x.id) == String(h.studentId));
+            sel.innerHTML = `<option value="${s.id}">${s.name}</option>`;
+            sel.disabled = true;
 
             document.getElementById('inputHafalanSurah').value = h.surah;
             document.getElementById('inputHafalanNote').value = h.note;
@@ -762,24 +761,21 @@
             const note = document.getElementById('inputHafalanNote').value;
             if(!surah) return alert("Isi hafalan.");
 
-            document.getElementById('inputHafalanStudent').disabled = false; // Enable lagi
+            document.getElementById('inputHafalanStudent').disabled = false; 
 
             if (state.editingHafalanId) {
-                // LOGIC EDIT
                 const idx = db.hafalan.findIndex(h => String(h.id) === String(state.editingHafalanId));
                 if(idx !== -1) {
                     db.hafalan[idx].surah = surah;
                     db.hafalan[idx].note = note;
                 }
-                renderHafalan();
                 sendRequest({ action: "editHafalan", id: state.editingHafalanId, surah: surah, note: note });
             } else {
-                // LOGIC ADD BARU
                 const newId = generateId('HFL');
                 db.hafalan.push({ id: newId, studentId: sid, date: state.selectedDate, surah: surah, note: note });
-                renderHafalan();
                 sendRequest({ action: "addHafalan", id: newId, studentId: sid, date: state.selectedDate, surah: surah, note: note });
             }
+            renderHafalan();
             closeModal('hafalanModal');
         }
 
@@ -792,11 +788,11 @@
         }
 
         // ==========================================
-        //  LOGIC MATERI (CRUD LENGKAP)
+        //  LOGIC MATERI
         // ==========================================
         function renderMateri() {
             const c = document.getElementById('materiList'); c.innerHTML='';
-            const list = db.materi.filter(m=>m.classId===state.currentClassId && m.date===state.selectedDate);
+            const list = db.materi.filter(m=>String(m.classId)===String(state.currentClassId) && m.date===state.selectedDate);
             if(list.length===0) { c.innerHTML='<div class="text-center p-8 text-gray-400">Belum ada materi.</div>'; return; }
 
             list.forEach(m=>{
