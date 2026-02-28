@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madrasah Diniyyah Nurul Yusuf</title>
+    <title>Madrasah Diniyyah Takmiliyah Nurul Yusuf</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -82,13 +82,13 @@
             </div>
 
             <div class="flex justify-center items-center gap-6 mt-10 mb-2">
-                <a href="https://www.instagram.com/madin.nurulyusuf?igsh=bTdwYjI4cGh6ZGNx" target="_blank" class="text-pink-600 hover:scale-125 transition-transform"><i class="fab fa-instagram text-2xl"></i></a>
+                <a href="https://www.instagram.com/mdt.nurulyusuf?igsh=bTdwYjI4cGh6ZGNx" target="_blank" class="text-pink-600 hover:scale-125 transition-transform"><i class="fab fa-instagram text-2xl"></i></a>
                 <a href="https://www.tiktok.com/@madin.nurul.yusuf?_r=1&_t=ZS-93MMG32ammI" target="_blank" class="text-black hover:scale-125 transition-transform"><i class="fab fa-tiktok text-2xl"></i></a>
                 <a href="https://youtube.com/@madinnurulyusuf?si=3vzKB5zmu6kRf_eR" target="_blank" class="text-red-600 hover:scale-125 transition-transform"><i class="fab fa-youtube text-2xl"></i></a>
                 <a href="https://sites.google.com/view/madin-nurulyusuf/" target="_blank" class="text-blue-500 hover:scale-125 transition-transform"><i class="fas fa-globe text-2xl"></i></a>
                 <a href="mailto:madinnurulyusuf@gmail.com" class="text-red-500 hover:scale-125 transition-transform"><i class="fas fa-envelope text-2xl"></i></a>
             </div>
-            <div class="mt-4 text-xs text-gray-400">© 2025 Madrasah Diniyyah Nurul Yusuf.</div>
+            <div class="mt-4 text-xs text-gray-400">© 2025 Madrasah Diniyyah Takmiliyah Nurul Yusuf.</div>
         </div>
     </section>
 
@@ -101,7 +101,7 @@
                         <img src="./logo.png" onerror="this.style.display='none'" alt="Logo" class="w-full h-full object-contain">
                     </div>
                     <div>
-                        <h1 class="font-bold text-gray-800 text-lg md:text-xl lg:text-2xl leading-tight">MADRASAH DINIYYAH NURUL YUSUF</h1>
+                        <h1 class="font-bold text-gray-800 text-lg md:text-xl lg:text-2xl leading-tight">MADRASAH DINIYYAH TAKMILIYAH NURUL YUSUF</h1>
                         <p class="text-[10px] md:text-xs text-islamic-700 font-bold tracking-[0.15em] mt-1 hidden sm:block">KONTROL DIGITAL SANTRI</p>
                     </div>
                 </div>
@@ -668,7 +668,9 @@
                     <td class="px-6 py-4 font-bold text-gray-800">${s.name}</td>
                     ${['H','I','S','A'].map(k=> {
                         let c = k==='H'?'green':(k==='I'?'blue':(k==='S'?'yellow':'red'));
-                        return `<td class="text-center p-1"><button onclick="updAtt('${s.id}','${k}')" class="w-8 h-8 rounded-lg font-bold text-xs ${st===k ? `bg-${c}-500 text-white shadow-md` : `bg-gray-100 text-gray-400 hover:bg-gray-200`}">${k}</button></td>`;
+                        let clickEvent = state.role === 'ustadz' ? `onclick="updAtt('${s.id}','${k}')"` : 'disabled';
+                        let hoverStyle = state.role === 'ustadz' ? 'hover:bg-gray-200 cursor-pointer' : 'cursor-default opacity-80';
+                        return `<td class="text-center p-1"><button ${clickEvent} class="w-8 h-8 rounded-lg font-bold text-xs ${st===k ? `bg-${c}-500 text-white shadow-md` : `bg-gray-100 text-gray-400 ${hoverStyle}`}">${k}</button></td>`;
                     }).join('')}
                     <td class="text-center action-col"><button onclick="editStudent('${s.id}')" class="text-blue-500 mx-1"><i class="fas fa-pen"></i></button><button onclick="delSt('${s.id}')" class="text-red-500 mx-1"><i class="fas fa-trash"></i></button></td>
                 </tr>`;
@@ -685,6 +687,7 @@
             });
         }
         function updAtt(sid, val) {
+            if (state.role !== 'ustadz') return;
             const dt = state.selectedDate;
             const s = db.students.find(x=>String(x.id)===String(sid));
             if(!s.attendance) s.attendance={};
