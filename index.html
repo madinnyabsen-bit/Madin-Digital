@@ -33,6 +33,27 @@
         
         .loader-spin { border: 2px solid #f3f3f3; border-top: 2px solid #16a34a; border-radius: 50%; width: 14px; height: 14px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- PERINTAH 1: ANIMASI SLIDE-IN FADE & DELAY --- */
+        .slide-right-fade {
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes slideRight {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Utility Delay */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        
+        /* Tambahan untuk angka agar font tetap rapi saat berganti */
+        .count-up { font-variant-numeric: tabular-nums; }
     </style>
 </head>
 <body class="bg-islamic-50 text-gray-800 font-sans antialiased overflow-x-hidden">
@@ -96,7 +117,7 @@
         <header class="bg-white shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1)] sticky top-0 z-40 px-4 sm:px-6 py-3 border-b border-gray-100">
             <div class="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap justify-between items-center gap-y-4 lg:gap-0">
                 
-                <div class="flex items-center flex-shrink-0">
+                <div class="flex items-center flex-shrink-0 slide-right-fade delay-1">
                     <div class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 mr-3 lg:mr-5 rounded-2xl overflow-hidden flex items-center justify-center bg-islamic-50 border-2 border-islamic-100 shadow-sm p-1.5">
                         <img src="./logo.png" onerror="this.style.display='none'" alt="Logo" class="w-full h-full object-contain">
                     </div>
@@ -106,7 +127,7 @@
                     </div>
                 </div>
                 
-                <div class="flex flex-col items-center justify-center flex-1 order-last lg:order-none mt-2 lg:mt-0 mx-2 lg:mx-4">
+                <div class="flex flex-col items-center justify-center flex-1 order-last lg:order-none mt-2 lg:mt-0 mx-2 lg:mx-4 slide-right-fade delay-2">
                     <div class="bg-gray-100 px-4 lg:px-6 py-1 lg:py-2 rounded-full border border-gray-200 flex flex-col items-center shadow-inner mb-2 lg:mb-0 w-full sm:w-auto">
                         <div id="headerDate" class="text-[9px] lg:text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-0.5">...</div>
                         <div id="headerClock" class="text-xl lg:text-2xl font-mono font-extrabold text-islamic-800 leading-none font-variant-numeric-tabular">00:00:00</div>
@@ -116,7 +137,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-end flex-shrink-0 gap-2 lg:gap-4">
+                <div class="flex items-center justify-end flex-shrink-0 gap-2 lg:gap-4 slide-right-fade delay-3">
                     <div class="text-right hidden md:block bg-gray-50 px-3 lg:px-4 py-1.5 lg:py-2 rounded-xl border border-gray-100">
                         <p id="userRoleText" class="text-sm font-bold text-gray-800">User Role</p>
                         <p id="connectionStatus" class="text-[10px] lg:text-[11px] text-gray-500 font-medium flex items-center justify-end"><span class="w-2 h-2 bg-gray-400 rounded-full mr-1 inline-block"></span> Offline</p>
@@ -132,7 +153,7 @@
         </header>
 
         <main id="dashboardPage" class="flex-1 p-4 sm:p-6 max-w-7xl mx-auto w-full fade-in">
-             <div class="flex flex-col md:flex-row justify-between items-center mb-6 sm:mb-8 mt-2 gap-4 bg-white p-5 rounded-3xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100">
+             <div class="flex flex-col md:flex-row justify-between items-center mb-6 sm:mb-8 mt-2 gap-4 bg-white p-5 rounded-3xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border border-gray-100 slide-right-fade delay-1">
                 <div>
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-800">Dashboard Kelas</h2>
                     <p class="text-sm sm:text-base text-gray-500 mt-1">Pilih kelas untuk mengelola data santri.</p>
@@ -149,7 +170,7 @@
         </main>
 
         <main id="classDetailPage" class="hidden flex-1 p-4 sm:p-6 max-w-7xl mx-auto w-full fade-in">
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 sm:mb-8 gap-6 bg-white p-5 sm:p-6 rounded-3xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] border border-gray-100">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 sm:mb-8 gap-6 bg-white p-5 sm:p-6 rounded-3xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] border border-gray-100 slide-right-fade delay-1">
                 <div>
                     <button onclick="navTo('dashboard')" class="mb-3 inline-flex items-center bg-islamic-600 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-md hover:bg-islamic-700 hover:shadow-lg transition transform hover:-translate-x-1">
                         <i class="fas fa-arrow-left mr-2"></i> KEMBALI KE DASHBOARD
@@ -166,7 +187,7 @@
                 </div>
             </div>
 
-            <div class="bg-white p-2 rounded-[2rem] shadow-sm border border-gray-100 mb-8 inline-flex w-full md:w-auto overflow-x-auto scrollbar-hide">
+            <div class="bg-white p-2 rounded-[2rem] shadow-sm border border-gray-100 mb-8 inline-flex w-full md:w-auto overflow-x-auto scrollbar-hide slide-right-fade delay-2">
                 <div class="flex space-x-2 p-1 bg-gray-100 rounded-[1.5rem] w-full md:w-auto whitespace-nowrap">
                     <button onclick="switchTab('absensi')" id="tab-absensi" class="tab-btn active-tab flex-1 md:flex-none px-5 sm:px-6 py-3 text-sm font-bold rounded-2xl transition-all shadow-sm bg-white text-islamic-700">Absensi Harian</button>
                     <button onclick="switchTab('hafalan')" id="tab-hafalan" class="tab-btn flex-1 md:flex-none px-5 sm:px-6 py-3 text-sm font-bold rounded-2xl transition-all text-gray-500 hover:text-gray-700 hover:bg-gray-50">Setoran Hafalan</button>
@@ -175,7 +196,7 @@
             </div>
 
             <div id="content-absensi" class="tab-content block space-y-8">
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden slide-right-fade delay-3">
                     <div class="p-5 sm:p-6 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                         <div>
                             <h3 class="font-bold text-lg text-gray-800 flex items-center"><i class="far fa-check-circle text-islamic-600 mr-3"></i> Input Presensi Harian</h3>
@@ -201,7 +222,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden slide-right-fade delay-4">
                      <div class="p-5 sm:p-6 border-b border-gray-100 bg-islamic-50/50 flex items-center">
                          <div class="w-10 h-10 rounded-full bg-islamic-100 flex items-center justify-center mr-4 text-islamic-600 flex-shrink-0"><i class="fas fa-chart-pie"></i></div>
                         <div>
@@ -362,9 +383,7 @@
         // ==========================================
         //  KONFIGURASI & STATE
         // ==========================================
-        //  URL DENGAN DEPLOYMENT TERBARU 
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2ueV0tZMjxjDQ4X4TeB_eIX1bxtdHkjuL4ZJSjhvlliR4WW6n1M7ztT9-NNJK3gUK9Q/exec";
-        
         const USTADZ_PASS_HASH = "bWFkaW45ODc="; 
 
         const state = {
@@ -376,6 +395,20 @@
         };
 
         let db = { classes: [], students: [], attendanceRecap: {}, materi: [], hafalan: [] };
+
+        // --- PERINTAH 2: FUNGSI ANIMASI ANGKA BERJALAN ---
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
 
         // ==========================================
         //  INIT
@@ -416,9 +449,8 @@
         }
 
         // ==========================================
-        //  FUNGSI KOMUNIKASI SERVER (UPDATED)
+        //  FUNGSI KOMUNIKASI SERVER
         // ==========================================
-        
         function refreshData() {
             fetch(GOOGLE_SCRIPT_URL)
             .then(res => res.json())
@@ -444,7 +476,6 @@
         function sendRequest(payload) {
             const statusEl = document.getElementById('connectionStatus');
             statusEl.innerHTML = `<span class="loader-spin mr-1"></span> Menyimpan...`;
-
             localStorage.setItem('pesantrenDB_v5_pro', JSON.stringify(db));
 
             fetch(GOOGLE_SCRIPT_URL, {
@@ -523,6 +554,7 @@
                 document.getElementById('dashboardPage').classList.remove('hidden');
                 document.getElementById('classDetailPage').classList.add('hidden');
                 state.currentClassId = null;
+                renderClasses();
             }
         }
         function handleDateChange(date) {
@@ -536,14 +568,14 @@
         }
 
         // ==========================================
-        //  LOGIC KELAS (FIX RACE CONDITION)
+        //  LOGIC KELAS (DENGAN ANIMASI)
         // ==========================================
         function renderClasses() {
             const c = document.getElementById('classList'); c.innerHTML='';
             if(db.classes.length === 0) {
                 c.innerHTML = `<div class="col-span-3 text-center p-10 text-gray-400">Belum ada kelas.</div>`;
             }
-            db.classes.forEach(x => {
+            db.classes.forEach((x, index) => {
                 const count = db.students.filter(s => String(s.classId) === String(x.id)).length;
                 let actionButtons = '';
                 if(state.role === 'ustadz') {
@@ -554,8 +586,12 @@
                         <button onclick="deleteClass('${x.id}')" class="bg-white text-red-500 p-2 rounded-xl shadow-sm hover:scale-110 transition"><i class="fas fa-trash"></i></button>
                     </div>`;
                 }
+                
+                // Tambahkan delay otomatis berdasarkan index
+                const delayClass = `delay-${(index % 5) + 1}`;
+
                 c.innerHTML += `
-                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-lg transition relative group overflow-hidden cursor-pointer transform hover:-translate-y-1" onclick="openClass('${x.id}')">
+                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-lg transition relative group overflow-hidden cursor-pointer transform hover:-translate-y-1 slide-right-fade ${delayClass}" onclick="openClass('${x.id}')">
                     ${actionButtons}
                     <div class="flex items-start pr-24"> 
                         <div class="w-16 h-16 bg-islamic-50 text-islamic-600 rounded-2xl flex items-center justify-center text-3xl mr-5"><i class="fas fa-chalkboard"></i></div>
@@ -584,14 +620,11 @@
         function saveClass() {
             const n = document.getElementById('inputClassName').value;
             if(!n) return;
-            
             if(state.editingClassId) {
-                // EDIT EXISTING
                 const idx = db.classes.findIndex(x=>String(x.id)===String(state.editingClassId));
                 if(idx !== -1) db.classes[idx].name = n;
                 sendRequest({ action: "editClass", id: state.editingClassId, name: n });
             } else { 
-                // ADD NEW
                 const newId = generateId('CLS');
                 db.classes.push({id: newId, name: n}); 
                 sendRequest({ action: "addClass", id: newId, name: n });
@@ -624,7 +657,7 @@
         }
 
         // ==========================================
-        //  LOGIC SANTRI (FIX RACE CONDITION)
+        //  LOGIC SANTRI (TABEL DENGAN ANIMASI)
         // ==========================================
         function prepareAddStudent() { state.editingStudentId=null; document.getElementById('inputStudentName').value=''; openModal('studentModal'); }
         function editStudent(id) { state.editingStudentId = id; document.getElementById('inputStudentName').value = db.students.find(x => String(x.id) === String(id)).name; openModal('studentModal'); }
@@ -632,14 +665,11 @@
         function saveStudent() {
             const n = document.getElementById('inputStudentName').value;
             if(!n) return;
-            
             if(state.editingStudentId) {
-                // EDIT
                 const s = db.students.find(x=>String(x.id)===String(state.editingStudentId));
                 if(s) s.name = n;
                 sendRequest({ action: "editStudent", id: state.editingStudentId, name: n });
             } else { 
-                // ADD NEW
                 const newId = generateId('STU'); 
                 db.students.push({id: newId, classId: state.currentClassId, name: n, attendance:{}});
                 db.attendanceRecap[newId] = {H:0,I:0,S:0,A:0};
@@ -656,15 +686,18 @@
 
             if(students.length===0) { tb.innerHTML='<tr><td colspan="6" class="p-4 text-center text-gray-400">Kosong</td></tr>'; return; }
 
-            students.forEach(s => {
+            students.forEach((s, idx) => {
                 if(!db.attendanceRecap[s.id]) db.attendanceRecap[s.id]={H:0,I:0,S:0,A:0};
                 const st = s.attendance ? s.attendance[dt] : null;
                 const r = db.attendanceRecap[s.id];
                 const tot = r.H+r.I+r.S+r.A; 
                 const p = tot ? Math.round((r.H/tot)*100) : 0;
                 
+                const delay = `delay-${(idx % 5) + 1}`;
+
+                // Tabel Input Absensi
                 tb.innerHTML += `
-                <tr class="hover:bg-gray-50 border-b border-gray-50">
+                <tr class="hover:bg-gray-50 border-b border-gray-50 slide-right-fade ${delay}">
                     <td class="px-6 py-4 font-bold text-gray-800">${s.name}</td>
                     ${['H','I','S','A'].map(k=> {
                         let c = k==='H'?'green':(k==='I'?'blue':(k==='S'?'yellow':'red'));
@@ -675,17 +708,27 @@
                     <td class="text-center action-col"><button onclick="editStudent('${s.id}')" class="text-blue-500 mx-1"><i class="fas fa-pen"></i></button><button onclick="delSt('${s.id}')" class="text-red-500 mx-1"><i class="fas fa-trash"></i></button></td>
                 </tr>`;
 
+                // Tabel Rekap dengan Target ID untuk Animasi Angka
                 rb.innerHTML += `
-                <tr class="hover:bg-gray-50 border-b border-gray-50">
+                <tr class="hover:bg-gray-50 border-b border-gray-50 slide-right-fade ${delay}">
                     <td class="px-6 py-4 font-bold">${s.name}</td>
-                    <td class="text-center text-green-600 font-bold bg-green-50 rounded">${r.H}</td>
-                    <td class="text-center text-blue-600 font-bold bg-blue-50 rounded">${r.I}</td>
-                    <td class="text-center text-yellow-600 font-bold bg-yellow-50 rounded">${r.S}</td>
-                    <td class="text-center text-red-600 font-bold bg-red-50 rounded">${r.A}</td>
+                    <td class="text-center text-green-600 font-bold bg-green-50 rounded count-up" id="count-H-${s.id}">0</td>
+                    <td class="text-center text-blue-600 font-bold bg-blue-50 rounded count-up" id="count-I-${s.id}">0</td>
+                    <td class="text-center text-yellow-600 font-bold bg-yellow-50 rounded count-up" id="count-S-${s.id}">0</td>
+                    <td class="text-center text-red-600 font-bold bg-red-50 rounded count-up" id="count-A-${s.id}">0</td>
                     <td class="px-6 py-4 text-center"><span class="font-bold text-islamic-700">${p}%</span></td>
                 </tr>`;
+
+                // Jalankan Animasi Angka Berjalan (Counting)
+                setTimeout(() => {
+                    animateValue(document.getElementById(`count-H-${s.id}`), 0, r.H, 800);
+                    animateValue(document.getElementById(`count-I-${s.id}`), 0, r.I, 800);
+                    animateValue(document.getElementById(`count-S-${s.id}`), 0, r.S, 800);
+                    animateValue(document.getElementById(`count-A-${s.id}`), 0, r.A, 800);
+                }, 100);
             });
         }
+
         function updAtt(sid, val) {
             if (state.role !== 'ustadz') return;
             const dt = state.selectedDate;
@@ -707,19 +750,18 @@
         }
 
         // ==========================================
-        //  LOGIC HAFALAN
+        //  LOGIC HAFALAN & MATERI (SAMA SEPERTI ASLI)
         // ==========================================
         function renderHafalan() {
             const tb = document.getElementById('hafalanTableBody'); tb.innerHTML = '';
             const ids = db.students.filter(s => String(s.classId) === String(state.currentClassId)).map(s => String(s.id));
             const list = db.hafalan.filter(h => ids.includes(String(h.studentId)) && h.date === state.selectedDate);
-            
             document.getElementById('hafalanEmptyState').classList.toggle('hidden', list.length > 0);
-            
-            list.forEach(h => {
+            list.forEach((h, idx) => {
                 const sName = db.students.find(s => String(s.id) == String(h.studentId))?.name || 'Unknown';
+                const delay = `delay-${(idx % 5) + 1}`;
                 tb.innerHTML += `
-                <tr class="hover:bg-green-50/30 transition border-b border-green-50">
+                <tr class="hover:bg-green-50/30 transition border-b border-green-50 slide-right-fade ${delay}">
                     <td class="px-6 py-4 font-bold text-gray-800">${sName}</td>
                     <td class="px-6 py-4 text-islamic-800 font-semibold">${h.surah}</td>
                     <td class="px-6 py-4 text-gray-600 italic">${h.note}</td>
@@ -737,7 +779,6 @@
             const classStudents = db.students.filter(s => String(s.classId) === String(state.currentClassId));
             if(classStudents.length === 0) return alert("Tambahkan santri dulu.");
             classStudents.forEach(s => sel.innerHTML += `<option value="${s.id}">${s.name}</option>`);
-            
             document.getElementById('inputHafalanStudent').disabled = false;
             document.getElementById('inputHafalanSurah').value = ''; 
             document.getElementById('inputHafalanNote').value = ''; 
@@ -752,7 +793,6 @@
             const s = db.students.find(x => String(x.id) == String(h.studentId));
             sel.innerHTML = `<option value="${s.id}">${s.name}</option>`;
             sel.disabled = true;
-
             document.getElementById('inputHafalanSurah').value = h.surah;
             document.getElementById('inputHafalanNote').value = h.note;
             openModal('hafalanModal');
@@ -763,45 +803,30 @@
             const surah = document.getElementById('inputHafalanSurah').value;
             const note = document.getElementById('inputHafalanNote').value;
             if(!surah) return alert("Isi hafalan.");
-
             document.getElementById('inputHafalanStudent').disabled = false; 
-
             if (state.editingHafalanId) {
                 const idx = db.hafalan.findIndex(h => String(h.id) === String(state.editingHafalanId));
-                if(idx !== -1) {
-                    db.hafalan[idx].surah = surah;
-                    db.hafalan[idx].note = note;
-                }
+                if(idx !== -1) { db.hafalan[idx].surah = surah; db.hafalan[idx].note = note; }
                 sendRequest({ action: "editHafalan", id: state.editingHafalanId, surah: surah, note: note });
             } else {
                 const newId = generateId('HFL');
                 db.hafalan.push({ id: newId, studentId: sid, date: state.selectedDate, surah: surah, note: note });
                 sendRequest({ action: "addHafalan", id: newId, studentId: sid, date: state.selectedDate, surah: surah, note: note });
             }
-            renderHafalan();
-            closeModal('hafalanModal');
+            renderHafalan(); closeModal('hafalanModal');
         }
 
-        function delHaf(id) { 
-            if(confirm("Hapus data ini?")) { 
-                db.hafalan = db.hafalan.filter(h => String(h.id) !== String(id)); 
-                renderHafalan(); 
-                sendRequest({ action: "deleteHafalan", id: id });
-            }
-        }
+        function delHaf(id) { if(confirm("Hapus data ini?")) { db.hafalan = db.hafalan.filter(h => String(h.id) !== String(id)); renderHafalan(); sendRequest({ action: "deleteHafalan", id: id }); } }
 
-        // ==========================================
-        //  LOGIC MATERI
-        // ==========================================
         function renderMateri() {
             const c = document.getElementById('materiList'); c.innerHTML='';
             const list = db.materi.filter(m=>String(m.classId)===String(state.currentClassId) && m.date===state.selectedDate);
             if(list.length===0) { c.innerHTML='<div class="text-center p-8 text-gray-400">Belum ada materi.</div>'; return; }
-
-            list.forEach(m=>{
+            list.forEach((m, idx)=>{
                 const btn = state.role==='ustadz'? `<button onclick="delMat('${m.id}')" class="text-red-400 ml-4 hover:scale-110 transition"><i class="fas fa-trash"></i></button>` : '';
+                const delay = `delay-${(idx % 5) + 1}`;
                 c.innerHTML += `
-                <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex justify-between items-start">
+                <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex justify-between items-start slide-right-fade ${delay}">
                     <div class="pl-4 border-l-4 border-blue-500">
                         <h4 class="font-bold text-xl text-gray-800">${m.title}</h4>
                         <p class="text-sm text-gray-600 mt-1 whitespace-pre-wrap">${m.desc}</p>
@@ -815,20 +840,13 @@
             const t = document.getElementById('inputMateriTitle').value;
             const d = document.getElementById('inputMateriDesc').value;
             if(!t) return;
-            
             const newId = generateId('MAT');
             db.materi.push({id:newId, classId:state.currentClassId, date:state.selectedDate, title:t, desc:d});
             renderMateri();
             sendRequest({ action: "addMateri", id: newId, classId: state.currentClassId, date: state.selectedDate, title: t, desc: d });
             closeModal('materiModal');
         }
-        function delMat(id) { 
-            if(confirm("Hapus materi?")) { 
-                db.materi = db.materi.filter(x=>String(x.id)!==String(id)); 
-                renderMateri(); 
-                sendRequest({ action: "deleteMateri", id: id });
-            }
-        }
+        function delMat(id) { if(confirm("Hapus materi?")) { db.materi = db.materi.filter(x=>String(x.id)!==String(id)); renderMateri(); sendRequest({ action: "deleteMateri", id: id }); } }
 
         // ==========================================
         //  UI UTILS
@@ -840,6 +858,11 @@
             document.querySelectorAll('.tab-btn').forEach(e=>{ e.classList.remove('active-tab','bg-white','text-islamic-700','shadow-sm'); e.classList.add('text-gray-500','hover:text-gray-700','hover:bg-gray-50'); });
             document.getElementById('content-'+t).classList.remove('hidden');
             const b = document.getElementById('tab-'+t); b.classList.add('active-tab','bg-white','text-islamic-700','shadow-sm'); b.classList.remove('text-gray-500','hover:text-gray-700','hover:bg-gray-50');
+            
+            // Re-render saat pindah tab agar animasi terpicu lagi
+            if(t==='absensi') renderStudents();
+            if(t==='hafalan') renderHafalan();
+            if(t==='materi') renderMateri();
         }
     </script>
 </body>
